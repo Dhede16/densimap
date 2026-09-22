@@ -1,0 +1,12 @@
+Fitur yang menurut saya cukup:
+
+1. 🗺️ Peta Samarinda
+2. 🔍 Search kecamatan
+3. 🎨 Warna berdasarkan cluster
+4. 🖱️ Klik kecamatan → popup
+5. + / − zoom
+6. Legend
+
+untuk map gunakan Mapbox Light 2D + Leaflet GeoJSON
+database menggunakan supabase
+
