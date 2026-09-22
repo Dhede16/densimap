@@ -73,10 +73,22 @@
           <span>Data Tabel</span>
         </button>
 
-        <!-- Supabase Connection Indicator -->
-        <div class="data-source-badge" :class="dataSource === 'supabase' ? 'badge-live' : 'badge-local'">
-          <span class="status-dot"></span>
-          <span>{{ dataSource === 'supabase' ? 'Supabase Live' : 'Data Lokal (Offline)' }}</span>
+        <!-- Year Selector Dropdown -->
+        <div class="year-select-container" title="Pilih Tahun Data">
+          <svg class="year-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <select v-model="selectedYear" @change="onYearChange" class="year-select">
+            <option v-for="year in availableYears" :key="year" :value="year">
+              Tahun {{ year }}
+            </option>
+          </select>
+          <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
       </div>
     </header>
@@ -155,18 +167,58 @@
             <h2>Data Kepadatan 10 Kecamatan Kota Samarinda</h2>
             <p>Hasil pengelompokan menggunakan metode Hybrid Hierarchical Clustering & K-Means</p>
           </div>
-          <button class="close-modal-btn" @click="showTableModal = false">✕</button>
+          <div class="modal-header-actions">
+            <!-- Year Selector inside Modal -->
+            <div class="year-select-container modal-year-select" title="Pilih Tahun Data">
+              <svg class="year-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <select v-model="selectedYear" @change="onYearChange" class="year-select">
+                <option v-for="year in availableYears" :key="year" :value="year">
+                  Tahun {{ year }}
+                </option>
+              </select>
+              <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <button class="close-modal-btn" @click="showTableModal = false" title="Tutup">✕</button>
+          </div>
         </div>
 
         <div class="modal-body">
+          <!-- Mini summary stats for active year -->
+          <div class="modal-summary-bar">
+            <div class="summary-pill">
+              <span class="summary-label">Tahun</span>
+              <span class="summary-value highlight">{{ selectedYear }}</span>
+            </div>
+            <div class="summary-pill">
+              <span class="summary-label">Total Penduduk</span>
+              <span class="summary-value">{{ formatNumber(totalPenduduk) }} jiwa</span>
+            </div>
+            <div class="summary-pill">
+              <span class="summary-label">Total Rumah</span>
+              <span class="summary-value">{{ formatNumber(totalRumah) }} unit</span>
+            </div>
+            <div class="summary-pill">
+              <span class="summary-label">Rata-rata Kepadatan</span>
+              <span class="summary-value">{{ formatDecimal(avgKepadatan) }} jiwa/km²</span>
+            </div>
+          </div>
+
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Kecamatan</th>
+                  <th>Tahun</th>
                   <th>Klaster</th>
-                  <th class="text-right">Penduduk (2024)</th>
+                  <th class="text-right">Penduduk (jiwa)</th>
                   <th class="text-right">Luas (km²)</th>
                   <th class="text-right">Rumah (unit)</th>
                   <th class="text-right">Kepadatan (jiwa/km²)</th>
@@ -177,6 +229,7 @@
                 <tr v-for="(item, idx) in kecamatanList" :key="item.id">
                   <td>{{ idx + 1 }}</td>
                   <td class="font-bold">{{ item.nama }}</td>
+                  <td><span class="year-badge">{{ item.tahun || selectedYear }}</span></td>
                   <td>
                     <span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">
                       {{ item.cluster_label }}
@@ -207,6 +260,8 @@ import L from 'leaflet'
 import { getKecamatanData } from './services/supabase'
 
 // Reactive state
+const availableYears = [2020, 2021, 2022, 2023, 2024, 2025]
+const selectedYear = ref(2024)
 const searchQuery = ref('')
 const isSearchOpen = ref(false)
 const searchContainerRef = ref(null)
@@ -226,6 +281,21 @@ const layerMap = new Map()
 // Format helpers
 const formatNumber = (val) => new Intl.NumberFormat('id-ID').format(val)
 const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val)
+
+// Computed stats for selected year table view
+const totalPenduduk = computed(() => {
+  return kecamatanList.value.reduce((acc, item) => acc + (Number(item.jumlah_penduduk) || 0), 0)
+})
+
+const totalRumah = computed(() => {
+  return kecamatanList.value.reduce((acc, item) => acc + (Number(item.jumlah_rumah) || 0), 0)
+})
+
+const avgKepadatan = computed(() => {
+  if (!kecamatanList.value.length) return 0
+  const total = kecamatanList.value.reduce((acc, item) => acc + (Number(item.kepadatan_penduduk) || 0), 0)
+  return total / kecamatanList.value.length
+})
 
 // Color scheme based on cluster label
 const getClusterColor = (label) => {
@@ -378,10 +448,15 @@ const renderGeoJson = (geojson) => {
   map.fitBounds(defaultBounds, { padding: [30, 30] })
 }
 
+// Handle Year selection change
+const onYearChange = () => {
+  loadData(selectedYear.value)
+}
+
 // Load data and setup view
-const loadData = async () => {
+const loadData = async (year = selectedYear.value) => {
   try {
-    const result = await getKecamatanData()
+    const result = await getKecamatanData(year)
     dataSource.value = result.source
     const fc = result.featureCollection
 
@@ -659,32 +734,62 @@ onUnmounted(() => {
   color: #0F172A;
 }
 
-.data-source-badge {
+/* Year Selector Dropdown */
+.year-select-container {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-md);
+  padding: 0 10px;
+  height: 38px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.year-select-container:hover {
+  background: #FFFFFF;
+  border-color: #94A3B8;
+}
+
+.year-select-container:focus-within {
+  background: #FFFFFF;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.year-icon {
+  width: 16px;
+  height: 16px;
+  color: #2563EB;
+  margin-right: 6px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.year-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  border: none;
+  font-size: 13px;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
+  color: #0F172A;
+  font-family: inherit;
+  cursor: pointer;
+  padding-right: 18px;
+  outline: none;
 }
 
-.data-source-badge.badge-live {
-  background: #ECFDF5;
-  color: #059669;
-  border: 1px solid #A7F3D0;
-}
-.data-source-badge.badge-local {
-  background: #F1F5F9;
-  color: #475569;
-  border: 1px solid #E2E8F0;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
+.dropdown-arrow {
+  position: absolute;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  color: #64748B;
+  pointer-events: none;
 }
 
 /* Fullscreen Map */
@@ -988,8 +1093,66 @@ onUnmounted(() => {
   padding: 18px 24px;
   border-bottom: 1px solid #E2E8F0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-year-select {
+  height: 36px;
+  background: #FFFFFF;
+}
+
+.modal-summary-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-pill {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-label {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.summary-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.summary-value.highlight {
+  color: #2563EB;
+}
+
+.year-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #EFF6FF;
+  color: #2563EB;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #DBEAFE;
 }
 
 .modal-header h2 {
