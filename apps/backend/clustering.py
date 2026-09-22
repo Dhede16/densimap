@@ -30,7 +30,7 @@ def clean_kecamatan_name(val):
             return name
     return None
 
-def fetch_boundary(name, cache_file='data/samarinda_boundaries.json'):
+def fetch_boundary(name, cache_file=r'C:\Users\NITRO\code\densimap\data\samarinda_boundaries.json'):
     # Check cache first
     if os.path.exists(cache_file):
         with open(cache_file, 'r', encoding='utf-8') as f:
@@ -131,8 +131,8 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
 
 def run_pipeline():
     print("--- 1. Membaca Data Input ---")
-    df_penduduk = pd.read_excel('data/jumlah-penduduk-berdasarakan-kecamatan.xlsx')
-    df_rumah = pd.read_excel('data/jumlah-rumah-berdasarkan-kecamatan.xlsx')
+    df_penduduk = pd.read_excel(r'C:\Users\NITRO\code\densimap\data\jumlah-penduduk-berdasarakan-kecamatan.xlsx')
+    df_rumah = pd.read_excel(r'C:\Users\NITRO\code\densimap\data\jumlah-rumah-berdasarkan-kecamatan.xlsx')
 
     # Pre-fetch / cache boundaries for all 10 kecamatan
     boundaries_cache = {}
@@ -152,9 +152,9 @@ def run_pipeline():
         for idx, row in df_year.iterrows():
             feature = {
                 "type": "Feature",
-                "id": idx + 1,
+                "id": idx + 1, # type: ignore
                 "properties": {
-                    "id": idx + 1,
+                    "id": idx + 1, # type: ignore
                     "nama": row['nama'],
                     "tahun": row['tahun'],
                     "jumlah_penduduk": row['jumlah_penduduk'],
@@ -189,7 +189,7 @@ def run_pipeline():
     for y in YEARS:
         output_geojson[str(y)] = by_year_geojson[str(y)]
 
-    json_path = 'apps/web/public/data/samarinda_kecamatan.json'
+    json_path = r'C:\Users\NITRO\code\densimap\data\samarinda_boundaries.json'
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(output_geojson, f, indent=2, ensure_ascii=False)
     print(f"GeoJSON tersimpan di {json_path}")
