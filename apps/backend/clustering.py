@@ -64,34 +64,31 @@ def fetch_boundary(name, cache_file='data/samarinda_boundaries.json'):
 
     return None
 
-def run_pipeline():
-    print("--- 1. Membaca Data Input ---")
-    df_penduduk = pd.read_excel('data/jumlah-penduduk-berdasarakan-kecamatan.xlsx')
-    df_rumah = pd.read_excel('data/jumlah-rumah-berdasarkan-kecamatan.xlsx')
+YEARS = [2020, 2021, 2022, 2023, 2024, 2025]
 
+def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
     records = []
-    # Identify kecamatan rows in df_penduduk
     penduduk_map = {}
     for _, row in df_penduduk.iterrows():
         name = clean_kecamatan_name(row.iloc[1])
         if name and name in LUAS_WILAYAH:
-            # Menggunakan data kependudukan 2024
-            penduduk_map[name] = int(row[2024])
+            penduduk_map[name] = int(row[year])
 
     rumah_map = {}
     for _, row in df_rumah.iterrows():
         name = clean_kecamatan_name(row.iloc[1])
         if name and name in LUAS_WILAYAH:
-            rumah_map[name] = int(row[2024])
+            rumah_map[name] = int(row[year])
 
     for name in LUAS_WILAYAH.keys():
         luas = LUAS_WILAYAH[name]
         penduduk = penduduk_map[name]
         rumah = rumah_map[name]
         kepadatan = round(penduduk / luas, 2)
-        geom = fetch_boundary(name)
+        geom = boundaries_cache.get(name) or fetch_boundary(name)
         records.append({
             'nama': name,
+            'tahun': year,
             'jumlah_penduduk': penduduk,
             'luas_km2': luas,
             'jumlah_rumah': rumah,
@@ -100,35 +97,27 @@ def run_pipeline():
         })
 
     df = pd.DataFrame(records)
-    print(f"Total kecamatan diproses: {len(df)}")
-    print(df[['nama', 'jumlah_penduduk', 'luas_km2', 'jumlah_rumah', 'kepadatan_penduduk']])
 
-    # ponytail: PRD Section 18 mitigation for small n=10 sample - using kepadatan_penduduk & luas_km2 yields Silhouette > 0.60
-    # instead of collinear raw population/houses which dilutes density clustering
+    # ponytail: PRD Section 18 mitigation for small n=10 sample - using kepadatan_penduduk & luas_km2 yields Silhouette > 0.58
     features = ['kepadatan_penduduk', 'luas_km2']
     X = df[features].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    # 1. Hierarchical Clustering (Ward)
+    # Hierarchical Clustering (Ward)
     hierarchical = AgglomerativeClustering(n_clusters=3, metric='euclidean', linkage='ward')
     h_labels = hierarchical.fit_predict(X_scaled)
     h_silhouette = silhouette_score(X_scaled, h_labels)
-    print(f"Hierarchical Clustering Silhouette Score: {h_silhouette:.4f}")
 
-    # 2. K-Means Final Clustering (k=3)
+    # K-Means Clustering (k=3)
     kmeans = KMeans(n_clusters=3, random_state=42, n_init=20)
     km_labels = kmeans.fit_predict(X_scaled)
     km_silhouette = silhouette_score(X_scaled, km_labels)
     km_db = davies_bouldin_score(X_scaled, km_labels)
-    print(f"K-Means Silhouette Score: {km_silhouette:.4f}")
-    print(f"Davies-Bouldin Index: {km_db:.4f}")
 
-    # 3. Labeling Cluster berdasarkan Urutan Rata-rata Kepadatan Penduduk
+    # Labeling Cluster berdasarkan Urutan Rata-rata Kepadatan Penduduk
     df['raw_cluster'] = km_labels
     cluster_densities = df.groupby('raw_cluster')['kepadatan_penduduk'].mean().sort_values()
-    
-    # Mapping raw cluster ke 'Rendah', 'Sedang', 'Tinggi'
     cluster_order = list(cluster_densities.index)
     label_map = {
         cluster_order[0]: 'Rendah',
@@ -137,41 +126,72 @@ def run_pipeline():
     }
     df['cluster_label'] = df['raw_cluster'].map(label_map)
 
-    print("\n--- Hasil Klasterisasi Final ---")
-    print(df[['nama', 'kepadatan_penduduk', 'cluster_label']])
+    print(f"Tahun {year}: K-Means Silhouette = {km_silhouette:.4f}, DB Index = {km_db:.4f}")
+    return df, km_silhouette
 
-    # --- 3. Export Output ---
-    print("\n--- 3. Menyimpan File Output ---")
+def run_pipeline():
+    print("--- 1. Membaca Data Input ---")
+    df_penduduk = pd.read_excel('data/jumlah-penduduk-berdasarakan-kecamatan.xlsx')
+    df_rumah = pd.read_excel('data/jumlah-rumah-berdasarkan-kecamatan.xlsx')
+
+    # Pre-fetch / cache boundaries for all 10 kecamatan
+    boundaries_cache = {}
+    for name in LUAS_WILAYAH.keys():
+        boundaries_cache[name] = fetch_boundary(name)
+
+    all_dfs = {}
+    all_silhouettes = {}
+    by_year_geojson = {}
+
+    for year in YEARS:
+        df_year, sil = process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache)
+        all_dfs[year] = df_year
+        all_silhouettes[year] = sil
+
+        features_geojson = []
+        for idx, row in df_year.iterrows():
+            feature = {
+                "type": "Feature",
+                "id": idx + 1,
+                "properties": {
+                    "id": idx + 1,
+                    "nama": row['nama'],
+                    "tahun": row['tahun'],
+                    "jumlah_penduduk": row['jumlah_penduduk'],
+                    "luas_km2": row['luas_km2'],
+                    "jumlah_rumah": row['jumlah_rumah'],
+                    "kepadatan_penduduk": row['kepadatan_penduduk'],
+                    "cluster_label": row['cluster_label']
+                },
+                "geometry": row['geometry']
+            }
+            features_geojson.append(feature)
+
+        by_year_geojson[str(year)] = {
+            "type": "FeatureCollection",
+            "features": features_geojson
+        }
+
+    # --- Menyimpan File Output ---
+    print("\n--- 2. Menyimpan File Output ---")
     os.makedirs('database', exist_ok=True)
     os.makedirs('apps/web/public/data', exist_ok=True)
 
-    # A. GeoJSON FeatureCollection untuk Web
-    features_geojson = []
-    for idx, row in df.iterrows():
-        feature = {
-            "type": "Feature",
-            "id": idx + 1,
-            "properties": {
-                "id": idx + 1,
-                "nama": row['nama'],
-                "jumlah_penduduk": row['jumlah_penduduk'],
-                "luas_km2": row['luas_km2'],
-                "jumlah_rumah": row['jumlah_rumah'],
-                "kepadatan_penduduk": row['kepadatan_penduduk'],
-                "cluster_label": row['cluster_label']
-            },
-            "geometry": row['geometry']
-        }
-        features_geojson.append(feature)
-
-    geojson_data = {
+    # A. Multi-year GeoJSON map data
+    output_geojson = {
+        "years": YEARS,
+        "default_year": 2024,
+        "features": by_year_geojson["2024"]["features"],
         "type": "FeatureCollection",
-        "features": features_geojson
+        "by_year": by_year_geojson
     }
+    # Also add direct string keys for easy access: geojson["2020"]
+    for y in YEARS:
+        output_geojson[str(y)] = by_year_geojson[str(y)]
 
     json_path = 'apps/web/public/data/samarinda_kecamatan.json'
     with open(json_path, 'w', encoding='utf-8') as f:
-        json.dump(geojson_data, f, indent=2, ensure_ascii=False)
+        json.dump(output_geojson, f, indent=2, ensure_ascii=False)
     print(f"GeoJSON tersimpan di {json_path}")
 
     # B. Schema SQL Supabase
@@ -180,14 +200,16 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 
 CREATE TABLE IF NOT EXISTS public.kecamatan (
     id SERIAL PRIMARY KEY,
-    nama VARCHAR(100) NOT NULL UNIQUE,
+    nama VARCHAR(100) NOT NULL,
+    tahun INTEGER NOT NULL DEFAULT 2024,
     jumlah_penduduk INTEGER NOT NULL,
     luas_km2 NUMERIC(8, 2) NOT NULL,
     jumlah_rumah INTEGER NOT NULL,
     kepadatan_penduduk NUMERIC(10, 2) NOT NULL,
     geometry JSONB NOT NULL,
     cluster_label VARCHAR(20) NOT NULL,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(nama, tahun)
 );
 
 -- Row Level Security (RLS)
@@ -205,19 +227,23 @@ USING (true);
     print("Skema SQL tersimpan di database/schema.sql")
 
     # C. Seed SQL Supabase
-    seed_lines = ["-- Data Awal Kecamatan Samarinda dengan Hasil Klasterisasi\nTRUNCATE TABLE public.kecamatan;\n"]
-    for idx, row in df.iterrows():
-        geom_json_str = json.dumps(row['geometry']).replace("'", "''")
-        line = f"""INSERT INTO public.kecamatan (id, nama, jumlah_penduduk, luas_km2, jumlah_rumah, kepadatan_penduduk, geometry, cluster_label)
-VALUES ({idx + 1}, '{row['nama']}', {row['jumlah_penduduk']}, {row['luas_km2']}, {row['jumlah_rumah']}, {row['kepadatan_penduduk']}, '{geom_json_str}'::jsonb, '{row['cluster_label']}');"""
-        seed_lines.append(line)
+    seed_lines = ["-- Data Kecamatan Samarinda (2020-2025) dengan Hasil Klasterisasi\nTRUNCATE TABLE public.kecamatan;\n"]
+    row_id = 1
+    for year in YEARS:
+        df_year = all_dfs[year]
+        for _, row in df_year.iterrows():
+            geom_json_str = json.dumps(row['geometry']).replace("'", "''")
+            line = f"""INSERT INTO public.kecamatan (id, nama, tahun, jumlah_penduduk, luas_km2, jumlah_rumah, kepadatan_penduduk, geometry, cluster_label)
+VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {row['luas_km2']}, {row['jumlah_rumah']}, {row['kepadatan_penduduk']}, '{geom_json_str}'::jsonb, '{row['cluster_label']}');"""
+            seed_lines.append(line)
+            row_id += 1
 
     with open('database/seed.sql', 'w', encoding='utf-8') as f:
         f.write('\n'.join(seed_lines))
     print("Seed SQL tersimpan di database/seed.sql")
 
-    print("\nProses clustering dan pembuatan output selesai dengan sukses!")
-    return df, km_silhouette
+    print("\nProses clustering multi-tahun selesai dengan sukses!")
+    return all_dfs[2024], all_silhouettes[2024], all_dfs, all_silhouettes
 
 if __name__ == '__main__':
     run_pipeline()
