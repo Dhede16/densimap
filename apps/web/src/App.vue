@@ -153,10 +153,6 @@
       <div v-if="selectedClusterFilter" class="filter-reset-hint" @click="toggleClusterFilter(null)">
         <span>Tampilkan Semua Klaster ✕</span>
       </div>
-
-      <div class="legend-footer">
-        <span>Basemap: {{ mapboxActive ? 'Mapbox Light 2D' : 'CartoDB Positron 2D' }}</span>
-      </div>
     </aside>
 
     <!-- Table Modal View -->
@@ -261,7 +257,7 @@ import { getKecamatanData } from './services/supabase'
 
 // Reactive state
 const availableYears = [2020, 2021, 2022, 2023, 2024, 2025]
-const selectedYear = ref(2024)
+const selectedYear = ref(2025)
 const searchQuery = ref('')
 const isSearchOpen = ref(false)
 const searchContainerRef = ref(null)
@@ -401,6 +397,8 @@ const renderGeoJson = (geojson) => {
           geoJsonLayer.resetStyle(e.target)
         },
         click: (e) => {
+          e.target.closeTooltip()
+          //geoJsonLayer.resetStyle(e.target) //layer hitam
           map.fitBounds(e.target.getBounds(), { maxZoom: 13, padding: [60, 60] })
         },
       })
@@ -982,13 +980,15 @@ onUnmounted(() => {
   border-bottom: 1px solid #F1F5F9;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 :deep(.popup-title) {
   font-size: 15px;
   font-weight: 800;
   color: #0F172A;
+  min-width: 0;
 }
 
 :deep(.popup-badge) {
