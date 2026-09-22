@@ -832,7 +832,7 @@ onUnmounted(() => {
 .legend-panel {
   position: absolute;
   bottom: 24px;
-  right: 20px;
+  left: 20px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
