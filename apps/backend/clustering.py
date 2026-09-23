@@ -1,6 +1,7 @@
 import os
 import json
 import time
+from datetime import datetime, timezone
 import urllib.request
 import urllib.parse
 import pandas as pd
@@ -66,6 +67,67 @@ def fetch_boundary(name, cache_file=r'C:\Users\NITRO\code\densimap\data\samarind
 
 YEARS = [2020, 2021, 2022, 2023, 2024, 2025]
 
+def load_backend_env():
+    env_paths = [
+        os.path.join(os.path.dirname(__file__), '.env'),
+        os.path.join(os.path.dirname(__file__), '..', '..', '.env'),
+    ]
+    for env_path in env_paths:
+        if not os.path.exists(env_path):
+            continue
+        with open(env_path, 'r', encoding='utf-8') as env_file:
+            for line in env_file:
+                line = line.strip()
+                if not line or line.startswith('#') or '=' not in line:
+                    continue
+                key, value = line.split('=', 1)
+                os.environ.setdefault(key.strip(), value.strip().strip('"\''))
+
+def sync_to_supabase(all_dfs):
+    load_backend_env()
+    supabase_url = os.environ.get('SUPABASE_URL')
+    access_token = os.environ.get('SUPABASE_SERVICE_ROLE_KEY') or os.environ.get('SUPABASE_ACCESS_TOKEN')
+    if not supabase_url or not access_token:
+        print('Supabase sync dilewati: SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY belum dikonfigurasi.')
+        return False
+
+    rows = []
+    updated_at = datetime.now(timezone.utc).isoformat()
+    for year in YEARS:
+        for _, row in all_dfs[year].iterrows():
+            rows.append({
+                'nama': str(row['nama']),
+                'tahun': int(row['tahun']),
+                'jumlah_penduduk': int(row['jumlah_penduduk']),
+                'luas_km2': float(row['luas_km2']),
+                'jumlah_rumah': int(row['jumlah_rumah']),
+                'kepadatan_penduduk': float(row['kepadatan_penduduk']),
+                'geometry': row['geometry'],
+                'cluster_label': str(row['cluster_label']),
+                'updated_at': updated_at,
+            })
+
+    url = supabase_url.rstrip('/') + '/rest/v1/kecamatan?on_conflict=nama,tahun'
+    request = urllib.request.Request(
+        url,
+        data=json.dumps(rows, ensure_ascii=False).encode('utf-8'),
+        method='POST',
+        headers={
+            'apikey': access_token,
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates,return=minimal',
+        },
+    )
+    try:
+        with urllib.request.urlopen(request) as response:
+            if response.status not in (200, 201, 204):
+                raise RuntimeError(f'HTTP {response.status}')
+        print(f'Supabase berhasil diperbarui: {len(rows)} baris di-upsert.')
+        return True
+    except Exception as error:
+        raise RuntimeError(f'Gagal memperbarui Supabase: {error}') from error
+
 def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
     records = []
     penduduk_map = {}
@@ -126,8 +188,8 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
     }
     df['cluster_label'] = df['raw_cluster'].map(label_map)
 
-    print(f"Tahun {year}: K-Means Silhouette = {km_silhouette:.4f}, DB Index = {km_db:.4f}")
-    return df, km_silhouette
+    print(f"Tahun {year}: Hierarchical Silhouette = {h_silhouette:.4f}, K-Means Silhouette = {km_silhouette:.4f}, Delta = {abs(h_silhouette - km_silhouette):.4f}, DB Index = {km_db:.4f}")
+    return df, km_silhouette, h_silhouette
 
 def run_pipeline():
     print("--- 1. Membaca Data Input ---")
@@ -144,7 +206,7 @@ def run_pipeline():
     by_year_geojson = {}
 
     for year in YEARS:
-        df_year, sil = process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache)
+        df_year, sil, h_sil = process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache)
         all_dfs[year] = df_year
         all_silhouettes[year] = sil
 
@@ -241,6 +303,8 @@ VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {ro
     with open('database/seed.sql', 'w', encoding='utf-8') as f:
         f.write('\n'.join(seed_lines))
     print("Seed SQL tersimpan di database/seed.sql")
+
+    sync_to_supabase(all_dfs)
 
     print("\nProses clustering multi-tahun selesai dengan sukses!")
     return all_dfs[2024], all_silhouettes[2024], all_dfs, all_silhouettes

@@ -4,11 +4,7 @@
     <header class="top-header">
       <div class="brand-section">
         <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-            <line x1="8" y1="2" x2="8" y2="18"></line>
-            <line x1="16" y1="6" x2="16" y2="22"></line>
-          </svg>
+          <img src="/assets/logo.jpg" alt="DensiMap Logo" class="logo-img" />
         </div>
         <div class="brand-text">
           <h1>DensiMap Samarinda</h1>
@@ -321,7 +317,7 @@ const initMap = () => {
     center: [-0.502, 117.153],
     zoom: 11,
     zoomControl: false,
-    attributionControl: true,
+    attributionControl: false,
   })
 
   // Leaflet Zoom Control (+ / -) di kanan bawah
@@ -330,7 +326,7 @@ const initMap = () => {
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN
   if (mapboxToken) {
     mapboxActive.value = true
-    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=${mapboxToken}`, {
+    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/{z}/{x}/{y}?access_token=${mapboxToken}`, {
       tileSize: 512,
       zoomOffset: -1,
       maxZoom: 18,
@@ -575,17 +571,14 @@ onUnmounted(() => {
   width: 38px;
   height: 38px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #2563EB, #1D4ED8);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
 }
 
-.logo-icon svg {
-  width: 20px;
-  height: 20px;
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .brand-text h1 {
@@ -931,6 +924,28 @@ onUnmounted(() => {
 }
 .filter-reset-hint:hover {
   background: #EFF6FF;
+}
+
+.map-attribution {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #F1F5F9;
+  font-size: 9px;
+  color: #94A3B8;
+  text-align: center;
+  line-height: 1.4;
+}
+.map-attribution a {
+  color: #64748B;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.map-attribution a:hover {
+  color: #2563EB;
+  text-decoration: underline;
+}
+.map-attribution span {
+  margin: 0 4px;
 }
 
 .legend-footer {

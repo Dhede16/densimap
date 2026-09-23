@@ -127,6 +127,10 @@ python apps/backend/clustering.py
 
 Pipeline membaca data Excel dari folder `data`, memproses tahun 2020-2025, lalu menghasilkan data GeoJSON serta file SQL.
 
+Setelah proses clustering selesai, pipeline juga otomatis melakukan upsert 60 baris hasil (10 kecamatan x 6 tahun) ke Supabase. Buat file `apps/backend/.env` berdasarkan `apps/backend/.env.example` dan isi `SUPABASE_URL` serta `SUPABASE_SERVICE_ROLE_KEY`. Jangan gunakan atau commit service role key di frontend.
+
+Schema tabel tetap perlu dijalankan satu kali di Supabase SQL Editor menggunakan `database/schema.sql`. Setelah itu, `seed.sql` tidak perlu dijalankan manual lagi. File tersebut tetap dibuat sebagai backup SQL.
+
 Pengujian pipeline:
 
 ```bash
