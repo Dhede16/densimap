@@ -7,7 +7,7 @@
     2024,
     2025
   ],
-  "default_year": 2024,
+  "default_year": 2025,
   "features": [
     {
       "type": "Feature",
@@ -15,11 +15,11 @@
       "properties": {
         "id": 1,
         "nama": "Palaran",
-        "tahun": 2024,
-        "jumlah_penduduk": 67609,
+        "tahun": 2025,
+        "jumlah_penduduk": 70050,
         "luas_km2": 221.29,
         "jumlah_rumah": 19129,
-        "kepadatan_penduduk": 305.52,
+        "kepadatan_penduduk": 316.55,
         "cluster_label": "Rendah"
       },
       "geometry": {
@@ -2664,11 +2664,11 @@
       "properties": {
         "id": 2,
         "nama": "Samarinda Seberang",
-        "tahun": 2024,
-        "jumlah_penduduk": 66081,
+        "tahun": 2025,
+        "jumlah_penduduk": 117660,
         "luas_km2": 12.49,
         "jumlah_rumah": 13238,
-        "kepadatan_penduduk": 5290.71,
+        "kepadatan_penduduk": 9420.34,
         "cluster_label": "Tinggi"
       },
       "geometry": {
@@ -3685,12 +3685,12 @@
       "properties": {
         "id": 3,
         "nama": "Samarinda Ulu",
-        "tahun": 2024,
-        "jumlah_penduduk": 133954,
+        "tahun": 2025,
+        "jumlah_penduduk": 113605,
         "luas_km2": 22.12,
         "jumlah_rumah": 28017,
-        "kepadatan_penduduk": 6055.79,
-        "cluster_label": "Tinggi"
+        "kepadatan_penduduk": 5135.85,
+        "cluster_label": "Sedang"
       },
       "geometry": {
         "type": "Polygon",
@@ -6046,11 +6046,11 @@
       "properties": {
         "id": 4,
         "nama": "Samarinda Ilir",
-        "tahun": 2024,
-        "jumlah_penduduk": 69701,
+        "tahun": 2025,
+        "jumlah_penduduk": 67075,
         "luas_km2": 17.18,
         "jumlah_rumah": 14978,
-        "kepadatan_penduduk": 4057.1,
+        "kepadatan_penduduk": 3904.25,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -6975,11 +6975,11 @@
       "properties": {
         "id": 5,
         "nama": "Samarinda Utara",
-        "tahun": 2024,
-        "jumlah_penduduk": 113491,
+        "tahun": 2025,
+        "jumlah_penduduk": 31855,
         "luas_km2": 229.52,
         "jumlah_rumah": 32952,
-        "kepadatan_penduduk": 494.47,
+        "kepadatan_penduduk": 138.79,
         "cluster_label": "Rendah"
       },
       "geometry": {
@@ -13140,11 +13140,11 @@
       "properties": {
         "id": 6,
         "nama": "Sungai Kunjang",
-        "tahun": 2024,
-        "jumlah_penduduk": 140620,
+        "tahun": 2025,
+        "jumlah_penduduk": 65151,
         "luas_km2": 43.04,
         "jumlah_rumah": 33321,
-        "kepadatan_penduduk": 3267.19,
+        "kepadatan_penduduk": 1513.73,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -14969,12 +14969,12 @@
       "properties": {
         "id": 7,
         "nama": "Sambutan",
-        "tahun": 2024,
-        "jumlah_penduduk": 63123,
+        "tahun": 2025,
+        "jumlah_penduduk": 70096,
         "luas_km2": 100.95,
         "jumlah_rumah": 18761,
-        "kepadatan_penduduk": 625.29,
-        "cluster_label": "Rendah"
+        "kepadatan_penduduk": 694.36,
+        "cluster_label": "Sedang"
       },
       "geometry": {
         "type": "Polygon",
@@ -17410,11 +17410,11 @@
       "properties": {
         "id": 8,
         "nama": "Sungai Pinang",
-        "tahun": 2024,
-        "jumlah_penduduk": 111428,
+        "tahun": 2025,
+        "jumlah_penduduk": 72008,
         "luas_km2": 34.16,
         "jumlah_rumah": 30252,
-        "kepadatan_penduduk": 3261.94,
+        "kepadatan_penduduk": 2107.96,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -19395,12 +19395,12 @@
       "properties": {
         "id": 9,
         "nama": "Samarinda Kota",
-        "tahun": 2024,
-        "jumlah_penduduk": 32404,
+        "tahun": 2025,
+        "jumlah_penduduk": 135535,
         "luas_km2": 11.12,
         "jumlah_rumah": 7051,
-        "kepadatan_penduduk": 2914.03,
-        "cluster_label": "Sedang"
+        "kepadatan_penduduk": 12188.4,
+        "cluster_label": "Tinggi"
       },
       "geometry": {
         "type": "Polygon",
@@ -19860,11 +19860,11 @@
       "properties": {
         "id": 10,
         "nama": "Loa Janan Ilir",
-        "tahun": 2024,
-        "jumlah_penduduk": 70088,
+        "tahun": 2025,
+        "jumlah_penduduk": 145149,
         "luas_km2": 26.13,
         "jumlah_rumah": 17650,
-        "kepadatan_penduduk": 2682.28,
+        "kepadatan_penduduk": 5554.88,
         "cluster_label": "Sedang"
       },
       "geometry": {

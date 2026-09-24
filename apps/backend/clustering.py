@@ -160,7 +160,6 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
 
     df = pd.DataFrame(records)
 
-    # ponytail: PRD Section 18 mitigation for small n=10 sample - using kepadatan_penduduk & luas_km2 yields Silhouette > 0.58
     features = ['kepadatan_penduduk', 'luas_km2']
     X = df[features].values
     scaler = StandardScaler()
@@ -242,8 +241,8 @@ def run_pipeline():
     # A. Multi-year GeoJSON map data
     output_geojson = {
         "years": YEARS,
-        "default_year": 2024,
-        "features": by_year_geojson["2024"]["features"],
+        "default_year": 2025,
+        "features": by_year_geojson["2025"]["features"],
         "type": "FeatureCollection",
         "by_year": by_year_geojson
     }
@@ -307,7 +306,7 @@ VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {ro
     sync_to_supabase(all_dfs)
 
     print("\nProses clustering multi-tahun selesai dengan sukses!")
-    return all_dfs[2024], all_silhouettes[2024], all_dfs, all_silhouettes
+    return all_dfs[2025], all_silhouettes[2025], all_dfs, all_silhouettes
 
 if __name__ == '__main__':
     run_pipeline()
