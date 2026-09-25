@@ -133,8 +133,8 @@
               <div class="step-content">
                 <div class="step-header">
                   <h5>{{ step.title }}</h5>
-                  <span class="step-status" :class="{ completed: stepResults[step.id], active: activeStepId === step.id }">
-                    {{ stepResults[step.id] ? '✓ Selesai' : (activeStepId === step.id ? '▶ Sedang' : '⏳ Belum') }}
+                  <span class="step-status" :class="{ completed: isStepCompleted(step.id), active: activeStepId === step.id }">
+                    {{ isStepCompleted(step.id) ? '✓ Selesai' : (activeStepId === step.id ? '▶ Sedang' : '⏳ Belum') }}
                   </span>
                 </div>
                 <p class="step-desc">{{ step.desc }}</p>
@@ -144,9 +144,9 @@
                 <button
                   class="step-run-btn"
                   @click="runStep(step.id)"
-                  :disabled="activeStepId === step.id"
+                  :disabled="activeStepId === step.id || isStepCompleted(step.id) || !canRunStep(step.id)"
                 >
-                  {{ activeStepId === step.id ? 'Menjalankan...' : (stepResults[step.id] ? 'Jalankan Ulang' : 'Jalankan Tahap Ini') }}
+                  {{ activeStepId === step.id ? 'Menjalankan...' : (isStepCompleted(step.id) ? 'Selesai' : 'Jalankan Tahap Ini') }}
                 </button>
 
                 <!-- Step Result Display -->
@@ -590,20 +590,36 @@ const pipelineSteps = [
     shortDesc: 'Basemap Mapbox/CartoDB + 10 polygons'
   }
 ]
-
+ 
 // Active step state
 const activeStepId = ref(null)
 const stepResults = ref({})
+const completedSteps = ref([])
+const visualizationDone = ref(false)
+
+const stepOrder = ['raw-data', 'feature-engineering', 'preprocessing', 'hierarchical', 'kmeans', 'evaluation', 'visualization']
+
+const canRunStep = (stepId) => {
+  const stepIndex = stepOrder.indexOf(stepId)
+  if (stepIndex === 0) return true
+  return stepOrder.slice(0, stepIndex).every(s => completedSteps.value.includes(s))
+}
+
+const isStepCompleted = (stepId) => completedSteps.value.includes(stepId)
 
 // Panel year change handler
 const onPanelYearChange = async () => {
   await loadData(panelYear.value)
   activeStepId.value = null
   stepResults.value = {}
+  completedSteps.value = []
+  visualizationDone.value = false
 }
 
 // Run a specific pipeline step with real data
 const runStep = async (stepId) => {
+  if (!canRunStep(stepId)) return
+
   activeStepId.value = stepId
   const list = kecamatanList.value
   if (!list.length) return
@@ -621,20 +637,25 @@ const runStep = async (stepId) => {
       result = computePreprocessing(list)
       break
     case 'hierarchical':
-      result = computeHierarchical(list)
+      result = computeHierarchical()
       break
     case 'kmeans':
-      result = computeKMeans(list)
+      result = computeKMeans()
       break
     case 'evaluation':
-      result = computeEvaluation(list)
+      result = computeEvaluation()
       break
     case 'visualization':
       result = computeVisualization(list)
+      visualizationDone.value = true
       break
   }
 
   stepResults.value[stepId] = result
+  if (!completedSteps.value.includes(stepId)) {
+    completedSteps.value.push(stepId)
+  }
+  activeStepId.value = null
 }
 
 // Step computation functions using real data
@@ -893,6 +914,18 @@ const initMap = () => {
 const polygonStyle = (feature) => {
   const cluster = feature.properties.cluster_label
   const isMatchFilter = !selectedClusterFilter.value || selectedClusterFilter.value === cluster
+
+  if (!visualizationDone.value) {
+    // Show only boundaries before visualization step
+    return {
+      fillColor: '#E2E8F0',
+      fillOpacity: 0.1,
+      weight: 1.5,
+      opacity: 0.6,
+      color: '#94A3B8',
+      dashArray: '5, 5',
+    }
+  }
 
   return {
     fillColor: getClusterColor(cluster),
