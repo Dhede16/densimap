@@ -948,9 +948,11 @@ const renderGeoJson = (geojson) => {
       const props = feature.properties
       layerMap.set(props.id, layer)
 
-      // Hover Tooltip
+      // Hover Tooltip - conditional content based on visualization state
       layer.bindTooltip(
-        `<strong>${props.nama}</strong><br><span style="font-size:11px; opacity:0.9;">${formatDecimal(props.kepadatan_penduduk)} jiwa/km²</span>`,
+        () => visualizationDone.value
+          ? `<strong>${props.nama}</strong><br><span style="font-size:11px; opacity:0.9;">${formatDecimal(props.kepadatan_penduduk)} jiwa/km²</span>`
+          : `<strong>${props.nama}</strong>`,
         { className: 'densimap-tooltip', sticky: true, direction: 'top' }
       )
 
