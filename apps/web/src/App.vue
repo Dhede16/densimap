@@ -112,12 +112,73 @@
     >
       <div class="left-panel-content">
         <div class="left-panel-header">
-          <h3>Panel Informasi</h3>
-          <p class="panel-subtitle">Konten panel di sini</p>
+          <h3>Alur Penerapan Model</h3>
+          <p class="panel-subtitle">Tahun: <strong>{{ panelYear }}</strong></p>
         </div>
         <div class="left-panel-body">
-          <p>Panel ini menutupi setengah halaman saat terbuka.</p>
-          <p>Tekan tombol panah untuk menutup.</p>
+          <!-- Year Selector in Panel -->
+          <div class="panel-year-selector">
+            <label>Pilih Tahun Data:</label>
+            <select v-model="panelYear" @change="onPanelYearChange" class="panel-year-select">
+              <option v-for="year in availableYears" :key="year" :value="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Model Pipeline Flow -->
+          <div class="pipeline-flow">
+            <div class="pipeline-step" v-for="(step, idx) in pipelineSteps" :key="idx">
+              <div class="step-number">{{ idx + 1 }}</div>
+              <div class="step-content">
+                <h5>{{ step.title }}</h5>
+                <p>{{ step.desc }}</p>
+                <div v-if="step.detail && panelData" class="step-detail">
+                  {{ step.detail(panelData) }}
+                </div>
+              </div>
+              <div class="step-arrow" v-if="idx < pipelineSteps.length - 1">→</div>
+            </div>
+          </div>
+
+          <!-- Year Data Summary -->
+          <div v-if="panelData" class="year-data-summary">
+            <h4>Data Tahun {{ panelYear }}</h4>
+            <div class="data-stats-grid">
+              <div class="data-stat-card">
+                <span class="data-stat-label">Total Penduduk</span>
+                <span class="data-stat-value">{{ formatNumber(panelData.totalPenduduk) }} jiwa</span>
+              </div>
+              <div class="data-stat-card">
+                <span class="data-stat-label">Total Rumah</span>
+                <span class="data-stat-value">{{ formatNumber(panelData.totalRumah) }} unit</span>
+              </div>
+              <div class="data-stat-card">
+                <span class="data-stat-label">Rata-rata Kepadatan</span>
+                <span class="data-stat-value">{{ formatDecimal(panelData.avgKepadatan) }} jiwa/km²</span>
+              </div>
+              <div class="data-stat-card">
+                <span class="data-stat-label">Jumlah Kecamatan</span>
+                <span class="data-stat-value">{{ panelData.kecamatanCount }}</span>
+              </div>
+            </div>
+
+            <div class="cluster-breakdown">
+              <h5>Distribusi Cluster</h5>
+              <div class="cluster-breakdown-list">
+                <div
+                  v-for="label in ['Rendah', 'Sedang', 'Tinggi']"
+                  :key="label"
+                  class="cluster-breakdown-item"
+                  :class="'breakdown-' + label.toLowerCase()"
+                >
+                  <span class="breakdown-color" :class="label.toLowerCase()"></span>
+                  <span class="breakdown-label">{{ label }}</span>
+                  <span class="breakdown-count">{{ panelData.clusterCounts[label] || 0 }} kec</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -178,6 +239,64 @@
 
       <div v-if="selectedClusterFilter" class="filter-reset-hint" @click="toggleClusterFilter(null)">
         <span>Tampilkan Semua Klaster ✕</span>
+      </div>
+
+      <!-- Clustering Evaluation Metrics -->
+      <div v-if="clusteringMetrics" class="metrics-section">
+        <div class="metrics-header">
+          <h4>Evaluasi Klasterisasi</h4>
+          <span class="metrics-badge">K-Means</span>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Silhouette Score</span>
+            <span class="metric-value">{{ clusteringMetrics.kmeans.silhouette.toFixed(3) }}</span>
+            <span class="metric-desc" v-if="clusteringMetrics.kmeans.silhouette >= 0.5">Baik</span>
+            <span class="metric-desc" v-else-if="clusteringMetrics.kmeans.silhouette >= 0.25">Sedang</span>
+            <span class="metric-desc" v-else>Rendah</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Davies-Bouldin</span>
+            <span class="metric-value">{{ clusteringMetrics.kmeans.davies_bouldin.toFixed(3) }}</span>
+            <span class="metric-desc">Lebih rendah = lebih baik</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Inertia</span>
+            <span class="metric-value">{{ clusteringMetrics.kmeans.inertia.toFixed(1) }}</span>
+            <span class="metric-desc">Within-cluster variance</span>
+          </div>
+        </div>
+
+        <div v-if="clusterStats" class="cluster-stats">
+          <h5>Karakteristik Cluster</h5>
+          <div class="cluster-stats-grid">
+            <div
+              v-for="label in ['Rendah', 'Sedang', 'Tinggi']"
+              :key="label"
+              class="cluster-stat-card"
+              :class="'stat-' + label.toLowerCase()"
+            >
+              <div class="stat-header">
+                <span class="stat-label">{{ label }}</span>
+                <span class="stat-count">{{ clusterStats[label]?.count || 0 }} kec</span>
+              </div>
+              <div class="stat-metrics">
+                <div class="stat-row">
+                  <span class="stat-name">Kep. Penduduk</span>
+                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_kepadatan_penduduk || 0) }} jiwa/km²</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name">Kep. Rumah</span>
+                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_kepadatan_rumah || 0) }} rumah/km²</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name">Rata² Penghuni</span>
+                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_rata_rata_penghuni || 0) }} orang/rumah</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
 
@@ -292,6 +411,10 @@ const mapboxActive = ref(false)
 const showTableModal = ref(false)
 const selectedClusterFilter = ref(null)
 const isLeftPanelOpen = ref(false)
+const clusteringMetrics = ref(null)
+const clusterStats = ref(null)
+const clusterTransitions = ref({})
+const panelYear = ref(2025)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -304,6 +427,70 @@ const layerMap = new Map()
 // Format helpers
 const formatNumber = (val) => new Intl.NumberFormat('id-ID').format(val)
 const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val)
+
+// Pipeline steps definition
+const pipelineSteps = [
+  {
+    title: '1. Data Mentah (BPS)',
+    desc: 'Jumlah Penduduk, Luas Wilayah (km²), Jumlah Rumah per Kecamatan',
+    detail: (d) => `Sumber: BPS Kota Samarinda · ${d.kecamatanCount} kecamatan`
+  },
+  {
+    title: '2. Feature Engineering',
+    desc: 'Menghitung fitur turunan untuk karakteristik kepadatan',
+    detail: () => `Kepadatan Penduduk = Penduduk / Luas · Kepadatan Rumah = Rumah / Luas · Rata² Penghuni = Penduduk / Rumah`
+  },
+  {
+    title: '3. Preprocessing & Standardisasi',
+    desc: 'Validasi data, cek missing value, standarisasi (Z-score) agar skala fitur seragam',
+    detail: () => `StandardScaler diterapkan pada 3 fitur: kepadatan_penduduk, kepadatan_rumah, rata_rata_penghuni`
+  },
+  {
+    title: '4. Hierarchical Clustering (Ward)',
+    desc: 'Analisis struktur kemiripan antar kecamatan via dendrogram, validasi k optimal',
+    detail: (d) => `Linkage: Ward · Metric: Euclidean · Silhouette: ${d.metrics?.hierarchical?.silhouette?.toFixed(3) || '-'} · k optimal: ${d.metrics?.hierarchical?.optimal_k_suggestion || 3}`
+  },
+  {
+    title: '5. K-Means Clustering',
+    desc: 'Pengelompokan final ke 3 cluster (Rendah, Sedang, Tinggi) berdasarkan rata-rata kepadatan',
+    detail: (d) => `n_clusters=3 · random_state=42 · n_init=20 · Silhouette: ${d.metrics?.kmeans?.silhouette?.toFixed(3) || '-'} · DB Index: ${d.metrics?.kmeans?.davies_bouldin?.toFixed(3) || '-'}`
+  },
+  {
+    title: '6. Evaluasi & Interpretasi',
+    desc: 'Silhouette Score & Davies-Bouldin untuk kualitas, labeling cluster by density mean',
+    detail: () => `Cluster ditandai Rendah/Sedang/Tinggi berdasarkan urutan rata-rata kepadatan_penduduk`
+  },
+  {
+    title: '7. Visualisasi Peta (GIS)',
+    desc: 'Menampilkan kecamatan di peta Leaflet dengan warna per cluster, popup interaktif',
+    detail: () => `Basemap: Mapbox Outdoors / CartoDB Positron · GeoJSON 10 polygons · Tooltip & Popup custom`
+  }
+]
+
+// Panel year change handler
+const onPanelYearChange = async () => {
+  // Trigger data reload for the panel year
+  await loadData(panelYear.value)
+}
+
+// Computed data for panel year
+const panelData = computed(() => {
+  if (!kecamatanList.value.length) return null
+  const list = kecamatanList.value
+  const totalPenduduk = list.reduce((acc, item) => acc + (Number(item.jumlah_penduduk) || 0), 0)
+  const totalRumah = list.reduce((acc, item) => acc + (Number(item.jumlah_rumah) || 0), 0)
+  const avgKepadatan = list.reduce((acc, item) => acc + (Number(item.kepadatan_penduduk) || 0), 0) / list.length
+  const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
+  list.forEach(item => { if (counts[item.cluster_label] !== undefined) counts[item.cluster_label]++ })
+  return {
+    kecamatanCount: list.length,
+    totalPenduduk,
+    totalRumah,
+    avgKepadatan,
+    clusterCounts: counts,
+    metrics: clusteringMetrics.value
+  }
+})
 
 // Computed stats for selected year table view
 const totalPenduduk = computed(() => {
@@ -475,6 +662,7 @@ const renderGeoJson = (geojson) => {
 
 // Handle Year selection change
 const onYearChange = () => {
+  panelYear.value = selectedYear.value
   loadData(selectedYear.value)
 }
 
@@ -496,6 +684,11 @@ const loadData = async (year = selectedYear.value) => {
       }
     })
     clusterCounts.value = counts
+
+    // Capture metrics and stats
+    clusteringMetrics.value = result.metrics || null
+    clusterStats.value = result.clusterStats || null
+    clusterTransitions.value = result.transitions || {}
 
     renderGeoJson(fc)
   } catch (err) {
@@ -1001,6 +1194,148 @@ onUnmounted(() => {
   background: #EFF6FF;
 }
 
+/* Metrics Section in Legend Panel */
+.metrics-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.metrics-header h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metrics-badge {
+  font-size: 9px;
+  font-weight: 700;
+  background: #EFF6FF;
+  color: #2563EB;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.metric-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.metric-label {
+  display: block;
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 2px;
+}
+
+.metric-desc {
+  display: block;
+  font-size: 9px;
+  color: #64748B;
+}
+
+.cluster-stats h5 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cluster-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.cluster-stat-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+}
+
+.cluster-stat-card.stat-rendah { border-left: 3px solid #10B981; }
+.cluster-stat-card.stat-sedang { border-left: 3px solid #F59E0B; }
+.cluster-stat-card.stat-tinggi { border-left: 3px solid #EF4444; }
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.stat-count {
+  font-size: 10px;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.stat-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+}
+
+.stat-name {
+  color: #64748B;
+}
+
+.stat-val {
+  font-weight: 700;
+  color: #0F172A;
+}
+
 .map-attribution {
   margin-top: 10px;
   padding-top: 8px;
@@ -1089,11 +1424,242 @@ onUnmounted(() => {
   flex: 1;
   color: #334155;
   line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .left-panel-body p {
   margin: 0 0 12px 0;
   font-size: 14px;
+}
+
+/* Panel Year Selector */
+.panel-year-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+}
+
+.panel-year-selector label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.panel-year-select {
+  padding: 8px 12px;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.panel-year-select:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Pipeline Flow */
+.pipeline-flow {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pipeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  position: relative;
+  transition: all 0.2s ease;
+}
+.pipeline-step:hover {
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-subtle);
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 2px;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.step-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-content h5 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.step-content p {
+  font-size: 11px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.step-detail {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  color: #475569;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.step-arrow {
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+  color: #94A3B8;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* Year Data Summary */
+.year-data-summary {
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.year-data-summary h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 12px 0;
+}
+
+.data-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.data-stat-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.data-stat-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-subtle);
+}
+
+.data-stat-label {
+  display: block;
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.data-stat-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.cluster-breakdown h5 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cluster-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cluster-breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+.cluster-breakdown-item:hover {
+  border-color: #CBD5E1;
+}
+
+.cluster-breakdown-item.breakdown-rendah { border-left: 3px solid #10B981; }
+.cluster-breakdown-item.breakdown-sedang { border-left: 3px solid #F59E0B; }
+.cluster-breakdown-item.breakdown-tinggi { border-left: 3px solid #EF4444; }
+
+.breakdown-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.breakdown-color.rendah { background: #10B981; }
+.breakdown-color.sedang { background: #F59E0B; }
+.breakdown-color.tinggi { background: #EF4444; }
+
+.breakdown-label {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.breakdown-count {
+  font-size: 11px;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
 }
 
 /* Cluster Pills */

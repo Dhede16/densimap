@@ -27,7 +27,6 @@ export async function getKecamatanData(year = 2024) {
         .order('id', { ascending: true })
 
       if (!error && data && data.length > 0) {
-        // Format PostGIS geometry / jsonb ke standard GeoJSON FeatureCollection
         const features = data.map((item) => {
           let geom = item.geometry
           if (typeof geom === 'string') {
@@ -48,6 +47,8 @@ export async function getKecamatanData(year = 2024) {
               luas_km2: Number(item.luas_km2),
               jumlah_rumah: item.jumlah_rumah,
               kepadatan_penduduk: Number(item.kepadatan_penduduk),
+              kepadatan_rumah: Number(item.kepadatan_rumah),
+              rata_rata_penghuni: Number(item.rata_rata_penghuni),
               cluster_label: item.cluster_label,
             },
             geometry: geom,
@@ -69,7 +70,6 @@ export async function getKecamatanData(year = 2024) {
     }
   }
 
-  // Fallback ke file lokal public/data/samarinda_kecamatan.json
   if (!cachedLocalData) {
     const res = await fetch('/data/samarinda_kecamatan.json')
     if (!res.ok) {
@@ -87,6 +87,9 @@ export async function getKecamatanData(year = 2024) {
     source: 'local',
     year: targetYear,
     featureCollection: fc,
+    metrics: cachedLocalData.metrics?.[String(targetYear)],
+    clusterStats: cachedLocalData.cluster_stats?.[String(targetYear)],
+    transitions: cachedLocalData.transitions,
   }
 }
 

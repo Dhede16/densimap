@@ -7,7 +7,7 @@
     2024,
     2025
   ],
-  "default_year": 2024,
+  "default_year": 2025,
   "features": [
     {
       "type": "Feature",
@@ -15,11 +15,13 @@
       "properties": {
         "id": 1,
         "nama": "Palaran",
-        "tahun": 2024,
-        "jumlah_penduduk": 67609,
+        "tahun": 2025,
+        "jumlah_penduduk": 70050,
         "luas_km2": 221.29,
         "jumlah_rumah": 19129,
-        "kepadatan_penduduk": 305.52,
+        "kepadatan_penduduk": 316.55,
+        "kepadatan_rumah": 86.44,
+        "rata_rata_penghuni": 3.66,
         "cluster_label": "Rendah"
       },
       "geometry": {
@@ -2664,12 +2666,14 @@
       "properties": {
         "id": 2,
         "nama": "Samarinda Seberang",
-        "tahun": 2024,
-        "jumlah_penduduk": 66081,
+        "tahun": 2025,
+        "jumlah_penduduk": 117660,
         "luas_km2": 12.49,
         "jumlah_rumah": 13238,
-        "kepadatan_penduduk": 5290.71,
-        "cluster_label": "Tinggi"
+        "kepadatan_penduduk": 9420.34,
+        "kepadatan_rumah": 1059.89,
+        "rata_rata_penghuni": 8.89,
+        "cluster_label": "Sedang"
       },
       "geometry": {
         "type": "Polygon",
@@ -3685,12 +3689,14 @@
       "properties": {
         "id": 3,
         "nama": "Samarinda Ulu",
-        "tahun": 2024,
-        "jumlah_penduduk": 133954,
+        "tahun": 2025,
+        "jumlah_penduduk": 113605,
         "luas_km2": 22.12,
         "jumlah_rumah": 28017,
-        "kepadatan_penduduk": 6055.79,
-        "cluster_label": "Tinggi"
+        "kepadatan_penduduk": 5135.85,
+        "kepadatan_rumah": 1266.59,
+        "rata_rata_penghuni": 4.05,
+        "cluster_label": "Sedang"
       },
       "geometry": {
         "type": "Polygon",
@@ -6046,11 +6052,13 @@
       "properties": {
         "id": 4,
         "nama": "Samarinda Ilir",
-        "tahun": 2024,
-        "jumlah_penduduk": 69701,
+        "tahun": 2025,
+        "jumlah_penduduk": 67075,
         "luas_km2": 17.18,
         "jumlah_rumah": 14978,
-        "kepadatan_penduduk": 4057.1,
+        "kepadatan_penduduk": 3904.25,
+        "kepadatan_rumah": 871.83,
+        "rata_rata_penghuni": 4.48,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -6975,11 +6983,13 @@
       "properties": {
         "id": 5,
         "nama": "Samarinda Utara",
-        "tahun": 2024,
-        "jumlah_penduduk": 113491,
+        "tahun": 2025,
+        "jumlah_penduduk": 31855,
         "luas_km2": 229.52,
         "jumlah_rumah": 32952,
-        "kepadatan_penduduk": 494.47,
+        "kepadatan_penduduk": 138.79,
+        "kepadatan_rumah": 143.57,
+        "rata_rata_penghuni": 0.97,
         "cluster_label": "Rendah"
       },
       "geometry": {
@@ -13140,11 +13150,13 @@
       "properties": {
         "id": 6,
         "nama": "Sungai Kunjang",
-        "tahun": 2024,
-        "jumlah_penduduk": 140620,
+        "tahun": 2025,
+        "jumlah_penduduk": 65151,
         "luas_km2": 43.04,
         "jumlah_rumah": 33321,
-        "kepadatan_penduduk": 3267.19,
+        "kepadatan_penduduk": 1513.73,
+        "kepadatan_rumah": 774.19,
+        "rata_rata_penghuni": 1.96,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -14969,11 +14981,13 @@
       "properties": {
         "id": 7,
         "nama": "Sambutan",
-        "tahun": 2024,
-        "jumlah_penduduk": 63123,
+        "tahun": 2025,
+        "jumlah_penduduk": 70096,
         "luas_km2": 100.95,
         "jumlah_rumah": 18761,
-        "kepadatan_penduduk": 625.29,
+        "kepadatan_penduduk": 694.36,
+        "kepadatan_rumah": 185.84,
+        "rata_rata_penghuni": 3.74,
         "cluster_label": "Rendah"
       },
       "geometry": {
@@ -17410,11 +17424,13 @@
       "properties": {
         "id": 8,
         "nama": "Sungai Pinang",
-        "tahun": 2024,
-        "jumlah_penduduk": 111428,
+        "tahun": 2025,
+        "jumlah_penduduk": 72008,
         "luas_km2": 34.16,
         "jumlah_rumah": 30252,
-        "kepadatan_penduduk": 3261.94,
+        "kepadatan_penduduk": 2107.96,
+        "kepadatan_rumah": 885.6,
+        "rata_rata_penghuni": 2.38,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -19395,12 +19411,14 @@
       "properties": {
         "id": 9,
         "nama": "Samarinda Kota",
-        "tahun": 2024,
-        "jumlah_penduduk": 32404,
+        "tahun": 2025,
+        "jumlah_penduduk": 135535,
         "luas_km2": 11.12,
         "jumlah_rumah": 7051,
-        "kepadatan_penduduk": 2914.03,
-        "cluster_label": "Sedang"
+        "kepadatan_penduduk": 12188.4,
+        "kepadatan_rumah": 634.08,
+        "rata_rata_penghuni": 19.22,
+        "cluster_label": "Tinggi"
       },
       "geometry": {
         "type": "Polygon",
@@ -19860,11 +19878,13 @@
       "properties": {
         "id": 10,
         "nama": "Loa Janan Ilir",
-        "tahun": 2024,
-        "jumlah_penduduk": 70088,
+        "tahun": 2025,
+        "jumlah_penduduk": 145149,
         "luas_km2": 26.13,
         "jumlah_rumah": 17650,
-        "kepadatan_penduduk": 2682.28,
+        "kepadatan_penduduk": 5554.88,
+        "kepadatan_rumah": 675.47,
+        "rata_rata_penghuni": 8.22,
         "cluster_label": "Sedang"
       },
       "geometry": {
@@ -21824,6 +21844,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 12876,
             "kepadatan_penduduk": 278.37,
+            "kepadatan_rumah": 58.19,
+            "rata_rata_penghuni": 4.78,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -24473,6 +24495,8 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 6731,
             "kepadatan_penduduk": 5093.03,
+            "kepadatan_rumah": 538.91,
+            "rata_rata_penghuni": 9.45,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -25494,7 +25518,9 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 24450,
             "kepadatan_penduduk": 5920.3,
-            "cluster_label": "Tinggi"
+            "kepadatan_rumah": 1105.33,
+            "rata_rata_penghuni": 5.36,
+            "cluster_label": "Sedang"
           },
           "geometry": {
             "type": "Polygon",
@@ -27855,6 +27881,8 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 12664,
             "kepadatan_penduduk": 4071.71,
+            "kepadatan_rumah": 737.14,
+            "rata_rata_penghuni": 5.52,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -28784,6 +28812,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 12531,
             "kepadatan_penduduk": 445.54,
+            "kepadatan_rumah": 54.6,
+            "rata_rata_penghuni": 8.16,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -34949,6 +34979,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 25712,
             "kepadatan_penduduk": 3016.45,
+            "kepadatan_rumah": 597.4,
+            "rata_rata_penghuni": 5.05,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -36778,6 +36810,8 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 9255,
             "kepadatan_penduduk": 554.98,
+            "kepadatan_rumah": 91.68,
+            "rata_rata_penghuni": 6.05,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -39219,6 +39253,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 19852,
             "kepadatan_penduduk": 3076.43,
+            "kepadatan_rumah": 581.15,
+            "rata_rata_penghuni": 5.29,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -41204,6 +41240,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 8254,
             "kepadatan_penduduk": 2983.54,
+            "kepadatan_rumah": 742.27,
+            "rata_rata_penghuni": 4.02,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -41669,7 +41707,9 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 9718,
             "kepadatan_penduduk": 2478.07,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 371.91,
+            "rata_rata_penghuni": 6.66,
+            "cluster_label": "Rendah"
           },
           "geometry": {
             "type": "Polygon",
@@ -43627,6 +43667,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 12876,
             "kepadatan_penduduk": 281.77,
+            "kepadatan_rumah": 58.19,
+            "rata_rata_penghuni": 4.84,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -46276,6 +46318,8 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 6731,
             "kepadatan_penduduk": 5127.3,
+            "kepadatan_rumah": 538.91,
+            "rata_rata_penghuni": 9.51,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -47297,7 +47341,9 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 24450,
             "kepadatan_penduduk": 5938.16,
-            "cluster_label": "Tinggi"
+            "kepadatan_rumah": 1105.33,
+            "rata_rata_penghuni": 5.37,
+            "cluster_label": "Sedang"
           },
           "geometry": {
             "type": "Polygon",
@@ -49658,6 +49704,8 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 12664,
             "kepadatan_penduduk": 4073.81,
+            "kepadatan_rumah": 737.14,
+            "rata_rata_penghuni": 5.53,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -50587,6 +50635,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 12531,
             "kepadatan_penduduk": 453.06,
+            "kepadatan_rumah": 54.6,
+            "rata_rata_penghuni": 8.3,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -56752,6 +56802,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 25712,
             "kepadatan_penduduk": 3061.83,
+            "kepadatan_rumah": 597.4,
+            "rata_rata_penghuni": 5.13,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -58581,6 +58633,8 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 9255,
             "kepadatan_penduduk": 564.14,
+            "kepadatan_rumah": 91.68,
+            "rata_rata_penghuni": 6.15,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -61022,6 +61076,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 19852,
             "kepadatan_penduduk": 3115.08,
+            "kepadatan_rumah": 581.15,
+            "rata_rata_penghuni": 5.36,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -63007,6 +63063,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 8254,
             "kepadatan_penduduk": 2977.7,
+            "kepadatan_rumah": 742.27,
+            "rata_rata_penghuni": 4.01,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -63472,7 +63530,9 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 9718,
             "kepadatan_penduduk": 2507.5,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 371.91,
+            "rata_rata_penghuni": 6.74,
+            "cluster_label": "Rendah"
           },
           "geometry": {
             "type": "Polygon",
@@ -65430,6 +65490,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 12876,
             "kepadatan_penduduk": 294.63,
+            "kepadatan_rumah": 58.19,
+            "rata_rata_penghuni": 5.06,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -68079,6 +68141,8 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 6731,
             "kepadatan_penduduk": 5228.98,
+            "kepadatan_rumah": 538.91,
+            "rata_rata_penghuni": 9.7,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -69100,7 +69164,9 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 24450,
             "kepadatan_penduduk": 6017.68,
-            "cluster_label": "Tinggi"
+            "kepadatan_rumah": 1105.33,
+            "rata_rata_penghuni": 5.44,
+            "cluster_label": "Sedang"
           },
           "geometry": {
             "type": "Polygon",
@@ -71461,6 +71527,8 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 12664,
             "kepadatan_penduduk": 4084.87,
+            "kepadatan_rumah": 737.14,
+            "rata_rata_penghuni": 5.54,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -72390,6 +72458,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 12531,
             "kepadatan_penduduk": 475.08,
+            "kepadatan_rumah": 54.6,
+            "rata_rata_penghuni": 8.7,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -78555,6 +78625,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 25712,
             "kepadatan_penduduk": 3167.29,
+            "kepadatan_rumah": 597.4,
+            "rata_rata_penghuni": 5.3,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -80384,6 +80456,8 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 9255,
             "kepadatan_penduduk": 598.39,
+            "kepadatan_rumah": 91.68,
+            "rata_rata_penghuni": 6.53,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -82825,6 +82899,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 19852,
             "kepadatan_penduduk": 3199.94,
+            "kepadatan_rumah": 581.15,
+            "rata_rata_penghuni": 5.51,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -84810,6 +84886,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 8254,
             "kepadatan_penduduk": 2951.26,
+            "kepadatan_rumah": 742.27,
+            "rata_rata_penghuni": 3.98,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -85275,7 +85353,9 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 9718,
             "kepadatan_penduduk": 2603.29,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 371.91,
+            "rata_rata_penghuni": 7.0,
+            "cluster_label": "Rendah"
           },
           "geometry": {
             "type": "Polygon",
@@ -87233,6 +87313,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 19129,
             "kepadatan_penduduk": 302.37,
+            "kepadatan_rumah": 86.44,
+            "rata_rata_penghuni": 3.5,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -89882,7 +89964,9 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 13238,
             "kepadatan_penduduk": 8973.26,
-            "cluster_label": "Tinggi"
+            "kepadatan_rumah": 1059.89,
+            "rata_rata_penghuni": 8.47,
+            "cluster_label": "Sedang"
           },
           "geometry": {
             "type": "Polygon",
@@ -90903,6 +90987,8 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 28017,
             "kepadatan_penduduk": 4994.26,
+            "kepadatan_rumah": 1266.59,
+            "rata_rata_penghuni": 3.94,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -93264,6 +93350,8 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 14978,
             "kepadatan_penduduk": 3829.8,
+            "kepadatan_rumah": 871.83,
+            "rata_rata_penghuni": 4.39,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -94193,6 +94281,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 32952,
             "kepadatan_penduduk": 141.07,
+            "kepadatan_rumah": 143.57,
+            "rata_rata_penghuni": 0.98,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -100358,6 +100448,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 33321,
             "kepadatan_penduduk": 1450.49,
+            "kepadatan_rumah": 774.19,
+            "rata_rata_penghuni": 1.87,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -102187,7 +102279,9 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 18761,
             "kepadatan_penduduk": 691.09,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 185.84,
+            "rata_rata_penghuni": 3.72,
+            "cluster_label": "Rendah"
           },
           "geometry": {
             "type": "Polygon",
@@ -104628,6 +104722,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 30252,
             "kepadatan_penduduk": 2031.5,
+            "kepadatan_rumah": 885.6,
+            "rata_rata_penghuni": 2.29,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -106613,6 +106709,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 7051,
             "kepadatan_penduduk": 11990.2,
+            "kepadatan_rumah": 634.08,
+            "rata_rata_penghuni": 18.91,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -107078,6 +107176,8 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 17650,
             "kepadatan_penduduk": 5331.8,
+            "kepadatan_rumah": 675.47,
+            "rata_rata_penghuni": 7.89,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -109036,6 +109136,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 19129,
             "kepadatan_penduduk": 305.52,
+            "kepadatan_rumah": 86.44,
+            "rata_rata_penghuni": 3.53,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -111685,6 +111787,8 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 13238,
             "kepadatan_penduduk": 5290.71,
+            "kepadatan_rumah": 1059.89,
+            "rata_rata_penghuni": 4.99,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -112706,6 +112810,8 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 28017,
             "kepadatan_penduduk": 6055.79,
+            "kepadatan_rumah": 1266.59,
+            "rata_rata_penghuni": 4.78,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -115067,7 +115173,9 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 14978,
             "kepadatan_penduduk": 4057.1,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 871.83,
+            "rata_rata_penghuni": 4.65,
+            "cluster_label": "Tinggi"
           },
           "geometry": {
             "type": "Polygon",
@@ -115996,6 +116104,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 32952,
             "kepadatan_penduduk": 494.47,
+            "kepadatan_rumah": 143.57,
+            "rata_rata_penghuni": 3.44,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -122161,6 +122271,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 33321,
             "kepadatan_penduduk": 3267.19,
+            "kepadatan_rumah": 774.19,
+            "rata_rata_penghuni": 4.22,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -123990,6 +124102,8 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 18761,
             "kepadatan_penduduk": 625.29,
+            "kepadatan_rumah": 185.84,
+            "rata_rata_penghuni": 3.36,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -126431,6 +126545,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 30252,
             "kepadatan_penduduk": 3261.94,
+            "kepadatan_rumah": 885.6,
+            "rata_rata_penghuni": 3.68,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -128416,6 +128532,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 7051,
             "kepadatan_penduduk": 2914.03,
+            "kepadatan_rumah": 634.08,
+            "rata_rata_penghuni": 4.6,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -128881,6 +128999,8 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 17650,
             "kepadatan_penduduk": 2682.28,
+            "kepadatan_rumah": 675.47,
+            "rata_rata_penghuni": 3.97,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -130839,6 +130959,8 @@
             "luas_km2": 221.29,
             "jumlah_rumah": 19129,
             "kepadatan_penduduk": 316.55,
+            "kepadatan_rumah": 86.44,
+            "rata_rata_penghuni": 3.66,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -133488,7 +133610,9 @@
             "luas_km2": 12.49,
             "jumlah_rumah": 13238,
             "kepadatan_penduduk": 9420.34,
-            "cluster_label": "Tinggi"
+            "kepadatan_rumah": 1059.89,
+            "rata_rata_penghuni": 8.89,
+            "cluster_label": "Sedang"
           },
           "geometry": {
             "type": "Polygon",
@@ -134509,6 +134633,8 @@
             "luas_km2": 22.12,
             "jumlah_rumah": 28017,
             "kepadatan_penduduk": 5135.85,
+            "kepadatan_rumah": 1266.59,
+            "rata_rata_penghuni": 4.05,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -136870,6 +136996,8 @@
             "luas_km2": 17.18,
             "jumlah_rumah": 14978,
             "kepadatan_penduduk": 3904.25,
+            "kepadatan_rumah": 871.83,
+            "rata_rata_penghuni": 4.48,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -137799,6 +137927,8 @@
             "luas_km2": 229.52,
             "jumlah_rumah": 32952,
             "kepadatan_penduduk": 138.79,
+            "kepadatan_rumah": 143.57,
+            "rata_rata_penghuni": 0.97,
             "cluster_label": "Rendah"
           },
           "geometry": {
@@ -143964,6 +144094,8 @@
             "luas_km2": 43.04,
             "jumlah_rumah": 33321,
             "kepadatan_penduduk": 1513.73,
+            "kepadatan_rumah": 774.19,
+            "rata_rata_penghuni": 1.96,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -145793,7 +145925,9 @@
             "luas_km2": 100.95,
             "jumlah_rumah": 18761,
             "kepadatan_penduduk": 694.36,
-            "cluster_label": "Sedang"
+            "kepadatan_rumah": 185.84,
+            "rata_rata_penghuni": 3.74,
+            "cluster_label": "Rendah"
           },
           "geometry": {
             "type": "Polygon",
@@ -148234,6 +148368,8 @@
             "luas_km2": 34.16,
             "jumlah_rumah": 30252,
             "kepadatan_penduduk": 2107.96,
+            "kepadatan_rumah": 885.6,
+            "rata_rata_penghuni": 2.38,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -150219,6 +150355,8 @@
             "luas_km2": 11.12,
             "jumlah_rumah": 7051,
             "kepadatan_penduduk": 12188.4,
+            "kepadatan_rumah": 634.08,
+            "rata_rata_penghuni": 19.22,
             "cluster_label": "Tinggi"
           },
           "geometry": {
@@ -150684,6 +150822,8 @@
             "luas_km2": 26.13,
             "jumlah_rumah": 17650,
             "kepadatan_penduduk": 5554.88,
+            "kepadatan_rumah": 675.47,
+            "rata_rata_penghuni": 8.22,
             "cluster_label": "Sedang"
           },
           "geometry": {
@@ -152629,6 +152769,446 @@
       ]
     }
   },
+  "metrics": {
+    "2020": {
+      "hierarchical": {
+        "silhouette": 0.4049,
+        "davies_bouldin": 0.5496,
+        "optimal_k_suggestion": 3,
+        "silhouette_by_k": {
+          "2": 0.3702,
+          "3": 0.4049,
+          "4": 0.3557,
+          "5": 0.3235
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.4049,
+        "davies_bouldin": 0.5496,
+        "inertia": 8.1428
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    },
+    "2021": {
+      "hierarchical": {
+        "silhouette": 0.4047,
+        "davies_bouldin": 0.5494,
+        "optimal_k_suggestion": 3,
+        "silhouette_by_k": {
+          "2": 0.3713,
+          "3": 0.4047,
+          "4": 0.3556,
+          "5": 0.322
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.4047,
+        "davies_bouldin": 0.5494,
+        "inertia": 8.175
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    },
+    "2022": {
+      "hierarchical": {
+        "silhouette": 0.4056,
+        "davies_bouldin": 0.5455,
+        "optimal_k_suggestion": 3,
+        "silhouette_by_k": {
+          "2": 0.3755,
+          "3": 0.4056,
+          "4": 0.3588,
+          "5": 0.3136
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.4056,
+        "davies_bouldin": 0.5455,
+        "inertia": 8.242
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    },
+    "2023": {
+      "hierarchical": {
+        "silhouette": 0.4688,
+        "davies_bouldin": 0.4169,
+        "optimal_k_suggestion": 3,
+        "silhouette_by_k": {
+          "2": 0.419,
+          "3": 0.4688,
+          "4": 0.4282,
+          "5": 0.3908
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.4688,
+        "davies_bouldin": 0.4169,
+        "inertia": 5.9286
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    },
+    "2024": {
+      "hierarchical": {
+        "silhouette": 0.6008,
+        "davies_bouldin": 0.4451,
+        "optimal_k_suggestion": 2,
+        "silhouette_by_k": {
+          "2": 0.6104,
+          "3": 0.6008,
+          "4": 0.5276,
+          "5": 0.4573
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.5693,
+        "davies_bouldin": 0.5353,
+        "inertia": 3.0741
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    },
+    "2025": {
+      "hierarchical": {
+        "silhouette": 0.461,
+        "davies_bouldin": 0.4244,
+        "optimal_k_suggestion": 3,
+        "silhouette_by_k": {
+          "2": 0.4186,
+          "3": 0.461,
+          "4": 0.4358,
+          "5": 0.3955
+        }
+      },
+      "kmeans": {
+        "silhouette": 0.461,
+        "davies_bouldin": 0.4244,
+        "inertia": 6.1523
+      },
+      "features_used": [
+        "kepadatan_penduduk",
+        "kepadatan_rumah",
+        "rata_rata_penghuni"
+      ]
+    }
+  },
+  "cluster_stats": {
+    "2020": {
+      "Rendah": {
+        "count": 4,
+        "avg_kepadatan_penduduk": 939.24,
+        "avg_kepadatan_rumah": 144.09,
+        "avg_rata_rata_penghuni": 6.42,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Sedang": {
+        "count": 5,
+        "avg_kepadatan_penduduk": 3813.69,
+        "avg_kepadatan_rumah": 752.66,
+        "avg_rata_rata_penghuni": 5.05,
+        "kecamatan": [
+          "Samarinda Ulu",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 5093.03,
+        "avg_kepadatan_rumah": 538.91,
+        "avg_rata_rata_penghuni": 9.45,
+        "kecamatan": [
+          "Samarinda Seberang"
+        ]
+      }
+    },
+    "2021": {
+      "Rendah": {
+        "count": 4,
+        "avg_kepadatan_penduduk": 951.62,
+        "avg_kepadatan_rumah": 144.09,
+        "avg_rata_rata_penghuni": 6.51,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Sedang": {
+        "count": 5,
+        "avg_kepadatan_penduduk": 3833.31,
+        "avg_kepadatan_rumah": 752.66,
+        "avg_rata_rata_penghuni": 5.08,
+        "kecamatan": [
+          "Samarinda Ulu",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 5127.3,
+        "avg_kepadatan_rumah": 538.91,
+        "avg_rata_rata_penghuni": 9.51,
+        "kecamatan": [
+          "Samarinda Seberang"
+        ]
+      }
+    },
+    "2022": {
+      "Rendah": {
+        "count": 4,
+        "avg_kepadatan_penduduk": 992.85,
+        "avg_kepadatan_rumah": 144.09,
+        "avg_rata_rata_penghuni": 6.82,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Sedang": {
+        "count": 5,
+        "avg_kepadatan_penduduk": 3884.21,
+        "avg_kepadatan_rumah": 752.66,
+        "avg_rata_rata_penghuni": 5.15,
+        "kecamatan": [
+          "Samarinda Ulu",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 5228.98,
+        "avg_kepadatan_rumah": 538.91,
+        "avg_rata_rata_penghuni": 9.7,
+        "kecamatan": [
+          "Samarinda Seberang"
+        ]
+      }
+    },
+    "2023": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 378.18,
+        "avg_kepadatan_rumah": 138.62,
+        "avg_rata_rata_penghuni": 2.73,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 6,
+        "avg_kepadatan_penduduk": 4435.18,
+        "avg_kepadatan_rumah": 922.26,
+        "avg_rata_rata_penghuni": 4.81,
+        "kecamatan": [
+          "Samarinda Seberang",
+          "Samarinda Ulu",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 11990.2,
+        "avg_kepadatan_rumah": 634.08,
+        "avg_rata_rata_penghuni": 18.91,
+        "kecamatan": [
+          "Samarinda Kota"
+        ]
+      }
+    },
+    "2024": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 475.09,
+        "avg_kepadatan_rumah": 138.62,
+        "avg_rata_rata_penghuni": 3.45,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 4,
+        "avg_kepadatan_penduduk": 3031.36,
+        "avg_kepadatan_rumah": 742.33,
+        "avg_rata_rata_penghuni": 4.12,
+        "kecamatan": [
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 5134.53,
+        "avg_kepadatan_rumah": 1066.1,
+        "avg_rata_rata_penghuni": 4.81,
+        "kecamatan": [
+          "Samarinda Seberang",
+          "Samarinda Ulu",
+          "Samarinda Ilir"
+        ]
+      }
+    },
+    "2025": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 383.24,
+        "avg_kepadatan_rumah": 138.62,
+        "avg_rata_rata_penghuni": 2.79,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 6,
+        "avg_kepadatan_penduduk": 4606.17,
+        "avg_kepadatan_rumah": 922.26,
+        "avg_rata_rata_penghuni": 5.0,
+        "kecamatan": [
+          "Samarinda Seberang",
+          "Samarinda Ulu",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 12188.4,
+        "avg_kepadatan_rumah": 634.08,
+        "avg_rata_rata_penghuni": 19.22,
+        "kecamatan": [
+          "Samarinda Kota"
+        ]
+      }
+    }
+  },
+  "transitions": {
+    "Palaran": {
+      "2020": "Rendah",
+      "2021": "Rendah",
+      "2022": "Rendah",
+      "2023": "Rendah",
+      "2024": "Rendah",
+      "2025": "Rendah"
+    },
+    "Samarinda Seberang": {
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
+      "2023": "Sedang",
+      "2024": "Tinggi",
+      "2025": "Sedang"
+    },
+    "Samarinda Ulu": {
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
+      "2023": "Sedang",
+      "2024": "Tinggi",
+      "2025": "Sedang"
+    },
+    "Samarinda Ilir": {
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
+      "2023": "Sedang",
+      "2024": "Tinggi",
+      "2025": "Sedang"
+    },
+    "Samarinda Utara": {
+      "2020": "Rendah",
+      "2021": "Rendah",
+      "2022": "Rendah",
+      "2023": "Rendah",
+      "2024": "Rendah",
+      "2025": "Rendah"
+    },
+    "Sungai Kunjang": {
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
+      "2023": "Sedang",
+      "2024": "Sedang",
+      "2025": "Sedang"
+    },
+    "Sambutan": {
+      "2020": "Rendah",
+      "2021": "Rendah",
+      "2022": "Rendah",
+      "2023": "Rendah",
+      "2024": "Rendah",
+      "2025": "Rendah"
+    },
+    "Sungai Pinang": {
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
+      "2023": "Sedang",
+      "2024": "Sedang",
+      "2025": "Sedang"
+    },
+    "Samarinda Kota": {
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
+      "2023": "Tinggi",
+      "2024": "Sedang",
+      "2025": "Tinggi"
+    },
+    "Loa Janan Ilir": {
+      "2020": "Rendah",
+      "2021": "Rendah",
+      "2022": "Rendah",
+      "2023": "Sedang",
+      "2024": "Sedang",
+      "2025": "Sedang"
+    }
+  },
   "2020": {
     "type": "FeatureCollection",
     "features": [
@@ -152643,6 +153223,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 12876,
           "kepadatan_penduduk": 278.37,
+          "kepadatan_rumah": 58.19,
+          "rata_rata_penghuni": 4.78,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -155292,6 +155874,8 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 6731,
           "kepadatan_penduduk": 5093.03,
+          "kepadatan_rumah": 538.91,
+          "rata_rata_penghuni": 9.45,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -156313,7 +156897,9 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 24450,
           "kepadatan_penduduk": 5920.3,
-          "cluster_label": "Tinggi"
+          "kepadatan_rumah": 1105.33,
+          "rata_rata_penghuni": 5.36,
+          "cluster_label": "Sedang"
         },
         "geometry": {
           "type": "Polygon",
@@ -158674,6 +159260,8 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 12664,
           "kepadatan_penduduk": 4071.71,
+          "kepadatan_rumah": 737.14,
+          "rata_rata_penghuni": 5.52,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -159603,6 +160191,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 12531,
           "kepadatan_penduduk": 445.54,
+          "kepadatan_rumah": 54.6,
+          "rata_rata_penghuni": 8.16,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -165768,6 +166358,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 25712,
           "kepadatan_penduduk": 3016.45,
+          "kepadatan_rumah": 597.4,
+          "rata_rata_penghuni": 5.05,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -167597,6 +168189,8 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 9255,
           "kepadatan_penduduk": 554.98,
+          "kepadatan_rumah": 91.68,
+          "rata_rata_penghuni": 6.05,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -170038,6 +170632,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 19852,
           "kepadatan_penduduk": 3076.43,
+          "kepadatan_rumah": 581.15,
+          "rata_rata_penghuni": 5.29,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -172023,6 +172619,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 8254,
           "kepadatan_penduduk": 2983.54,
+          "kepadatan_rumah": 742.27,
+          "rata_rata_penghuni": 4.02,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -172488,7 +173086,9 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 9718,
           "kepadatan_penduduk": 2478.07,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 371.91,
+          "rata_rata_penghuni": 6.66,
+          "cluster_label": "Rendah"
         },
         "geometry": {
           "type": "Polygon",
@@ -174446,6 +175046,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 12876,
           "kepadatan_penduduk": 281.77,
+          "kepadatan_rumah": 58.19,
+          "rata_rata_penghuni": 4.84,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -177095,6 +177697,8 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 6731,
           "kepadatan_penduduk": 5127.3,
+          "kepadatan_rumah": 538.91,
+          "rata_rata_penghuni": 9.51,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -178116,7 +178720,9 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 24450,
           "kepadatan_penduduk": 5938.16,
-          "cluster_label": "Tinggi"
+          "kepadatan_rumah": 1105.33,
+          "rata_rata_penghuni": 5.37,
+          "cluster_label": "Sedang"
         },
         "geometry": {
           "type": "Polygon",
@@ -180477,6 +181083,8 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 12664,
           "kepadatan_penduduk": 4073.81,
+          "kepadatan_rumah": 737.14,
+          "rata_rata_penghuni": 5.53,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -181406,6 +182014,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 12531,
           "kepadatan_penduduk": 453.06,
+          "kepadatan_rumah": 54.6,
+          "rata_rata_penghuni": 8.3,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -187571,6 +188181,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 25712,
           "kepadatan_penduduk": 3061.83,
+          "kepadatan_rumah": 597.4,
+          "rata_rata_penghuni": 5.13,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -189400,6 +190012,8 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 9255,
           "kepadatan_penduduk": 564.14,
+          "kepadatan_rumah": 91.68,
+          "rata_rata_penghuni": 6.15,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -191841,6 +192455,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 19852,
           "kepadatan_penduduk": 3115.08,
+          "kepadatan_rumah": 581.15,
+          "rata_rata_penghuni": 5.36,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -193826,6 +194442,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 8254,
           "kepadatan_penduduk": 2977.7,
+          "kepadatan_rumah": 742.27,
+          "rata_rata_penghuni": 4.01,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -194291,7 +194909,9 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 9718,
           "kepadatan_penduduk": 2507.5,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 371.91,
+          "rata_rata_penghuni": 6.74,
+          "cluster_label": "Rendah"
         },
         "geometry": {
           "type": "Polygon",
@@ -196249,6 +196869,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 12876,
           "kepadatan_penduduk": 294.63,
+          "kepadatan_rumah": 58.19,
+          "rata_rata_penghuni": 5.06,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -198898,6 +199520,8 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 6731,
           "kepadatan_penduduk": 5228.98,
+          "kepadatan_rumah": 538.91,
+          "rata_rata_penghuni": 9.7,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -199919,7 +200543,9 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 24450,
           "kepadatan_penduduk": 6017.68,
-          "cluster_label": "Tinggi"
+          "kepadatan_rumah": 1105.33,
+          "rata_rata_penghuni": 5.44,
+          "cluster_label": "Sedang"
         },
         "geometry": {
           "type": "Polygon",
@@ -202280,6 +202906,8 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 12664,
           "kepadatan_penduduk": 4084.87,
+          "kepadatan_rumah": 737.14,
+          "rata_rata_penghuni": 5.54,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -203209,6 +203837,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 12531,
           "kepadatan_penduduk": 475.08,
+          "kepadatan_rumah": 54.6,
+          "rata_rata_penghuni": 8.7,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -209374,6 +210004,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 25712,
           "kepadatan_penduduk": 3167.29,
+          "kepadatan_rumah": 597.4,
+          "rata_rata_penghuni": 5.3,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -211203,6 +211835,8 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 9255,
           "kepadatan_penduduk": 598.39,
+          "kepadatan_rumah": 91.68,
+          "rata_rata_penghuni": 6.53,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -213644,6 +214278,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 19852,
           "kepadatan_penduduk": 3199.94,
+          "kepadatan_rumah": 581.15,
+          "rata_rata_penghuni": 5.51,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -215629,6 +216265,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 8254,
           "kepadatan_penduduk": 2951.26,
+          "kepadatan_rumah": 742.27,
+          "rata_rata_penghuni": 3.98,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -216094,7 +216732,9 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 9718,
           "kepadatan_penduduk": 2603.29,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 371.91,
+          "rata_rata_penghuni": 7.0,
+          "cluster_label": "Rendah"
         },
         "geometry": {
           "type": "Polygon",
@@ -218052,6 +218692,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 19129,
           "kepadatan_penduduk": 302.37,
+          "kepadatan_rumah": 86.44,
+          "rata_rata_penghuni": 3.5,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -220701,7 +221343,9 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 13238,
           "kepadatan_penduduk": 8973.26,
-          "cluster_label": "Tinggi"
+          "kepadatan_rumah": 1059.89,
+          "rata_rata_penghuni": 8.47,
+          "cluster_label": "Sedang"
         },
         "geometry": {
           "type": "Polygon",
@@ -221722,6 +222366,8 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 28017,
           "kepadatan_penduduk": 4994.26,
+          "kepadatan_rumah": 1266.59,
+          "rata_rata_penghuni": 3.94,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -224083,6 +224729,8 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 14978,
           "kepadatan_penduduk": 3829.8,
+          "kepadatan_rumah": 871.83,
+          "rata_rata_penghuni": 4.39,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -225012,6 +225660,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 32952,
           "kepadatan_penduduk": 141.07,
+          "kepadatan_rumah": 143.57,
+          "rata_rata_penghuni": 0.98,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -231177,6 +231827,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 33321,
           "kepadatan_penduduk": 1450.49,
+          "kepadatan_rumah": 774.19,
+          "rata_rata_penghuni": 1.87,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -233006,7 +233658,9 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 18761,
           "kepadatan_penduduk": 691.09,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 185.84,
+          "rata_rata_penghuni": 3.72,
+          "cluster_label": "Rendah"
         },
         "geometry": {
           "type": "Polygon",
@@ -235447,6 +236101,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 30252,
           "kepadatan_penduduk": 2031.5,
+          "kepadatan_rumah": 885.6,
+          "rata_rata_penghuni": 2.29,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -237432,6 +238088,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 7051,
           "kepadatan_penduduk": 11990.2,
+          "kepadatan_rumah": 634.08,
+          "rata_rata_penghuni": 18.91,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -237897,6 +238555,8 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 17650,
           "kepadatan_penduduk": 5331.8,
+          "kepadatan_rumah": 675.47,
+          "rata_rata_penghuni": 7.89,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -239855,6 +240515,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 19129,
           "kepadatan_penduduk": 305.52,
+          "kepadatan_rumah": 86.44,
+          "rata_rata_penghuni": 3.53,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -242504,6 +243166,8 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 13238,
           "kepadatan_penduduk": 5290.71,
+          "kepadatan_rumah": 1059.89,
+          "rata_rata_penghuni": 4.99,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -243525,6 +244189,8 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 28017,
           "kepadatan_penduduk": 6055.79,
+          "kepadatan_rumah": 1266.59,
+          "rata_rata_penghuni": 4.78,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -245886,7 +246552,9 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 14978,
           "kepadatan_penduduk": 4057.1,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 871.83,
+          "rata_rata_penghuni": 4.65,
+          "cluster_label": "Tinggi"
         },
         "geometry": {
           "type": "Polygon",
@@ -246815,6 +247483,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 32952,
           "kepadatan_penduduk": 494.47,
+          "kepadatan_rumah": 143.57,
+          "rata_rata_penghuni": 3.44,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -252980,6 +253650,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 33321,
           "kepadatan_penduduk": 3267.19,
+          "kepadatan_rumah": 774.19,
+          "rata_rata_penghuni": 4.22,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -254809,6 +255481,8 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 18761,
           "kepadatan_penduduk": 625.29,
+          "kepadatan_rumah": 185.84,
+          "rata_rata_penghuni": 3.36,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -257250,6 +257924,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 30252,
           "kepadatan_penduduk": 3261.94,
+          "kepadatan_rumah": 885.6,
+          "rata_rata_penghuni": 3.68,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -259235,6 +259911,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 7051,
           "kepadatan_penduduk": 2914.03,
+          "kepadatan_rumah": 634.08,
+          "rata_rata_penghuni": 4.6,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -259700,6 +260378,8 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 17650,
           "kepadatan_penduduk": 2682.28,
+          "kepadatan_rumah": 675.47,
+          "rata_rata_penghuni": 3.97,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -261658,6 +262338,8 @@
           "luas_km2": 221.29,
           "jumlah_rumah": 19129,
           "kepadatan_penduduk": 316.55,
+          "kepadatan_rumah": 86.44,
+          "rata_rata_penghuni": 3.66,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -264307,7 +264989,9 @@
           "luas_km2": 12.49,
           "jumlah_rumah": 13238,
           "kepadatan_penduduk": 9420.34,
-          "cluster_label": "Tinggi"
+          "kepadatan_rumah": 1059.89,
+          "rata_rata_penghuni": 8.89,
+          "cluster_label": "Sedang"
         },
         "geometry": {
           "type": "Polygon",
@@ -265328,6 +266012,8 @@
           "luas_km2": 22.12,
           "jumlah_rumah": 28017,
           "kepadatan_penduduk": 5135.85,
+          "kepadatan_rumah": 1266.59,
+          "rata_rata_penghuni": 4.05,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -267689,6 +268375,8 @@
           "luas_km2": 17.18,
           "jumlah_rumah": 14978,
           "kepadatan_penduduk": 3904.25,
+          "kepadatan_rumah": 871.83,
+          "rata_rata_penghuni": 4.48,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -268618,6 +269306,8 @@
           "luas_km2": 229.52,
           "jumlah_rumah": 32952,
           "kepadatan_penduduk": 138.79,
+          "kepadatan_rumah": 143.57,
+          "rata_rata_penghuni": 0.97,
           "cluster_label": "Rendah"
         },
         "geometry": {
@@ -274783,6 +275473,8 @@
           "luas_km2": 43.04,
           "jumlah_rumah": 33321,
           "kepadatan_penduduk": 1513.73,
+          "kepadatan_rumah": 774.19,
+          "rata_rata_penghuni": 1.96,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -276612,7 +277304,9 @@
           "luas_km2": 100.95,
           "jumlah_rumah": 18761,
           "kepadatan_penduduk": 694.36,
-          "cluster_label": "Sedang"
+          "kepadatan_rumah": 185.84,
+          "rata_rata_penghuni": 3.74,
+          "cluster_label": "Rendah"
         },
         "geometry": {
           "type": "Polygon",
@@ -279053,6 +279747,8 @@
           "luas_km2": 34.16,
           "jumlah_rumah": 30252,
           "kepadatan_penduduk": 2107.96,
+          "kepadatan_rumah": 885.6,
+          "rata_rata_penghuni": 2.38,
           "cluster_label": "Sedang"
         },
         "geometry": {
@@ -281038,6 +281734,8 @@
           "luas_km2": 11.12,
           "jumlah_rumah": 7051,
           "kepadatan_penduduk": 12188.4,
+          "kepadatan_rumah": 634.08,
+          "rata_rata_penghuni": 19.22,
           "cluster_label": "Tinggi"
         },
         "geometry": {
@@ -281503,6 +282201,8 @@
           "luas_km2": 26.13,
           "jumlah_rumah": 17650,
           "kepadatan_penduduk": 5554.88,
+          "kepadatan_rumah": 675.47,
+          "rata_rata_penghuni": 8.22,
           "cluster_label": "Sedang"
         },
         "geometry": {
