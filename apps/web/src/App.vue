@@ -1,5 +1,18 @@
 <template>
-  <div class="densimap-wrapper">
+  <div class="densimap-wrapper" :class="{ 'panel-open': isLeftPanelOpen }">
+    <!-- Left Panel Toggle Button (fixed on left edge) -->
+    <button
+      class="panel-toggle-btn"
+      @click="isLeftPanelOpen = !isLeftPanelOpen"
+      :title="isLeftPanelOpen ? 'Tutup Panel' : 'Buka Panel'"
+      :aria-label="isLeftPanelOpen ? 'Close panel' : 'Open panel'"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+        <path v-if="isLeftPanelOpen" d="M15 18l-6-6 6-6" />
+        <path v-else d="M9 18l6-6-6-6" />
+      </svg>
+    </button>
+
     <!-- Top Header Bar -->
     <header class="top-header">
       <div class="brand-section">
@@ -91,6 +104,23 @@
 
     <!-- Interactive Map Container -->
     <div id="map-view" class="map-view"></div>
+
+    <!-- Left Sliding Panel -->
+    <aside
+      class="left-panel"
+      :class="{ open: isLeftPanelOpen }"
+    >
+      <div class="left-panel-content">
+        <div class="left-panel-header">
+          <h3>Panel Informasi</h3>
+          <p class="panel-subtitle">Konten panel di sini</p>
+        </div>
+        <div class="left-panel-body">
+          <p>Panel ini menutupi setengah halaman saat terbuka.</p>
+          <p>Tekan tombol panah untuk menutup.</p>
+        </div>
+      </div>
+    </aside>
 
     <!-- Floating Reset View Button -->
     <button class="reset-view-btn" @click="resetMapBounds" title="Kembalikan Tampilan Peta Samarinda">
@@ -261,6 +291,7 @@ const dataSource = ref('local')
 const mapboxActive = ref(false)
 const showTableModal = ref(false)
 const selectedClusterFilter = ref(null)
+const isLeftPanelOpen = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -701,6 +732,50 @@ onUnmounted(() => {
   color: #64748B;
 }
 
+/* Panel Toggle Button - Vertical rectangle on left edge */
+.panel-toggle-btn {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1100;
+  width: 44px;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid #E2E8F0;
+  border-left: none;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-float);
+}
+.panel-toggle-btn:hover {
+  background: #FFFFFF;
+  box-shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.18), 0 6px 16px -4px rgba(15, 23, 42, 0.1);
+  width: 48px;
+}
+.panel-toggle-btn svg {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When panel is open, button moves to panel's right edge */
+.left-panel.open ~ .panel-toggle-btn,
+.panel-toggle-btn:has(+ .left-panel.open) {
+  left: 50vw;
+  max-width: 480px;
+  left: calc(min(50vw, 480px));
+}
+
+/* Since we can't use :has() reliably, use a class on body or wrapper */
+.densimap-wrapper.panel-open .panel-toggle-btn {
+  left: calc(min(50vw, 480px));
+}
+
 /* Buttons and Badges */
 .action-btn {
   display: flex;
@@ -955,6 +1030,70 @@ onUnmounted(() => {
   font-size: 10px;
   color: #94A3B8;
   text-align: right;
+}
+
+/* Left Sliding Panel */
+.left-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 50vw;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: var(--shadow-float);
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.left-panel.open {
+  transform: translateX(0);
+}
+
+.left-panel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.left-panel-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 20px;
+}
+
+.left-panel-header h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 4px 0;
+}
+
+.panel-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+  margin: 0;
+}
+
+.left-panel-body {
+  flex: 1;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.left-panel-body p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
 }
 
 /* Cluster Pills */
