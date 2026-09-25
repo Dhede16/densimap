@@ -240,6 +240,96 @@
                     </div>
                   </div>
 
+                  <!-- K-Means Scatter Plot Visualization -->
+                  <div v-if="stepResults[step.id].scatterData" class="result-chart">
+                    <h6>Visualisasi Scatter Plot K-Means:</h6>
+                    <div class="chart-tabs">
+                      <button
+                        v-for="tab in ['density_vs_house', 'density_vs_occupants', 'house_vs_occupants']"
+                        :key="tab"
+                        @click="scatterTab = tab"
+                        :class="{ active: scatterTab === tab }"
+                        class="chart-tab-btn"
+                      >
+                        {{ scatterTabLabels[tab] }}
+                      </button>
+                      <label class="scale-toggle">
+                        <input type="checkbox" v-model="scatterScaled" />
+                        <span>Data Terstandarisasi (Z-score)</span>
+                      </label>
+                    </div>
+                    <div class="chart-container">
+                      <div class="scatter-plot-wrapper">
+                        <svg class="scatter-plot" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                          <!-- Grid lines -->
+                          <g class="scatter-grid">
+                            <line v-for="i in 5" :key="i" :x1="marginLeft" :y1="marginTop + (i * plotHeight / 5)" :x2="marginLeft + plotWidth" :y2="marginTop + (i * plotHeight / 5)" stroke="#E2E8F0" stroke-width="0.5" />
+                            <line v-for="i in 5" :key="'v'+i" :x1="marginLeft + (i * plotWidth / 5)" :y1="marginTop" :x2="marginLeft + (i * plotWidth / 5)" :y2="marginTop + plotHeight" stroke="#E2E8F0" stroke-width="0.5" />
+                          </g>
+                          <!-- Axes -->
+                          <line class="scatter-axis" :x1="marginLeft" :y1="marginTop" :x2="marginLeft" :y2="marginTop + plotHeight" stroke="#94A3B8" stroke-width="1" />
+                          <line class="scatter-axis" :x1="marginLeft" :y1="marginTop + plotHeight" :x2="marginLeft + plotWidth" :y2="marginTop + plotHeight" stroke="#94A3B8" stroke-width="1" />
+                          <!-- Axis labels -->
+                          <text class="axis-label-x" :x="marginLeft + plotWidth / 2" :y="marginTop + plotHeight + 35" text-anchor="middle" font-size="11" fill="#475569">{{ currentScatterAxes.xLabel }}</text>
+                          <text class="axis-label-y" :x="15" :y="marginTop + plotHeight / 2" text-anchor="middle" font-size="11" fill="#475569" transform="rotate(-90, 15, {{ marginTop + plotHeight / 2 }})">{{ currentScatterAxes.yLabel }}</text>
+                          <!-- Axis ticks -->
+                          <g v-for="i in 5" :key="'xtick'+i">
+                            <line :x1="marginLeft + (i * plotWidth / 5)" :y1="marginTop + plotHeight" :x2="marginLeft + (i * plotWidth / 5)" :y2="marginTop + plotHeight + 4" stroke="#94A3B8" stroke-width="1" />
+                            <text :x="marginLeft + (i * plotWidth / 5)" :y="marginTop + plotHeight + 18" text-anchor="middle" font-size="8" fill="#94A3B8">{{ xTickLabels[i-1] }}</text>
+                          </g>
+                          <g v-for="i in 5" :key="'ytick'+i">
+                            <line :x1="marginLeft - 4" :y1="marginTop + (i * plotHeight / 5)" :x2="marginLeft" :y2="marginTop + (i * plotHeight / 5)" stroke="#94A3B8" stroke-width="1" />
+                            <text :x="marginLeft - 8" :y="marginTop + (i * plotHeight / 5) + 3" text-anchor="end" font-size="8" fill="#94A3B8">{{ yTickLabels[i-1] }}</text>
+                          </g>
+                          <!-- Cluster centroids -->
+                          <circle
+                            v-for="c in clusterCentroids"
+                            :key="c.label"
+                            :cx="scaleX(c.x)"
+                            :cy="scaleY(c.y)"
+                            r="8"
+                            :fill="c.color"
+                            fill-opacity="0.3"
+                            stroke-width="2"
+                            :stroke="c.color"
+                          />
+                          <!-- Data points -->
+                          <circle
+                            v-for="point in currentScatterData"
+                            :key="point.nama"
+                            :cx="scaleX(point.x)"
+                            :cy="scaleY(point.y)"
+                            r="5"
+                            :fill="point.color"
+                            stroke="#FFFFFF"
+                            stroke-width="1.5"
+                            class="scatter-point"
+                            @mouseover="hoveredPoint = point"
+                            @mouseout="hoveredPoint = null"
+                          />
+                          <!-- Hover tooltip -->
+                          <g v-if="hoveredPoint" class="scatter-tooltip">
+                            <rect :x="scaleX(hoveredPoint.x) + 10" :y="scaleY(hoveredPoint.y) - 50" width="140" height="55" rx="4" fill="#0F172A" fill-opacity="0.95" />
+                            <text :x="scaleX(hoveredPoint.x) + 15" :y="scaleY(hoveredPoint.y) - 35" font-size="10" fill="#FFFFFF" font-weight="600">{{ hoveredPoint.nama }}</text>
+                            <text :x="scaleX(hoveredPoint.x) + 15" :y="scaleY(hoveredPoint.y) - 22" font-size="9" fill="#94A3B8">Klaster: {{ hoveredPoint.cluster }}</text>
+                            <text :x="scaleX(hoveredPoint.x) + 15" :y="scaleY(hoveredPoint.y) - 9" font-size="9" fill="#94A3B8">X: {{ formatDecimal(hoveredPoint.x) }}</text>
+                            <text :x="scaleX(hoveredPoint.x) + 15" :y="scaleY(hoveredPoint.y) + 4" font-size="9" fill="#94A3B8">Y: {{ formatDecimal(hoveredPoint.y) }}</text>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="scatter-legend">
+                        <span v-for="c in ['Rendah', 'Sedang', 'Tinggi']" :key="c" class="legend-item">
+                          <span class="legend-color" :style="{ background: getClusterColor(c) }"></span>
+                          {{ c }}
+                        </span>
+                        <span v-if="clusterCentroids.length" class="legend-item centroid-legend">
+                          <span class="legend-color centroid-marker" :style="{ borderColor: '#334155' }"></span>
+                          Centroid
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
                   <!-- Metrics for kmeans -->
                   <div v-if="stepResults[step.id].metrics && !stepResults[step.id].clusters" class="result-metrics">
                     <h6>Metrik Evaluasi:</h6>
@@ -527,6 +617,7 @@ const clusteringMetrics = ref(null)
 const clusterStats = ref(null)
 const clusterTransitions = ref({})
 const panelYear = ref(2025)
+const chartTab = ref('counts')
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -539,6 +630,93 @@ const layerMap = new Map()
 // Format helpers
 const formatNumber = (val) => new Intl.NumberFormat('id-ID').format(val)
 const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val)
+
+// Scatter Plot helpers
+const scatterTabLabels = {
+  density_vs_house: 'Kepadatan Penduduk vs Kepadatan Rumah',
+  density_vs_occupants: 'Kepadatan Penduduk vs Rata² Penghuni',
+  house_vs_occupants: 'Kepadatan Rumah vs Rata² Penghuni'
+}
+
+const scatterTab = ref('density_vs_house')
+const scatterScaled = ref(false)
+const hoveredPoint = ref(null)
+
+// Scatter plot computed data
+const scatterData = computed(() => {
+  const kmeansResult = stepResults.value.kmeans
+  return kmeansResult?.scatterData || null
+})
+
+const currentScatterData = computed(() => {
+  if (!scatterData.value) return []
+  const data = scatterScaled.value ? scatterData.value.scaled : scatterData.value.raw
+  const tab = scatterTab.value
+  return data.map(p => ({
+    ...p,
+    x: tab === 'density_vs_house' ? p.x : tab === 'density_vs_occupants' ? p.x : p.y,
+    y: tab === 'density_vs_house' ? p.y : tab === 'density_vs_occupants' ? p.z : p.z
+  }))
+})
+
+const currentScatterAxes = computed(() => {
+  if (!scatterData.value) return { xLabel: '', yLabel: '' }
+  const axes = scatterScaled.value ? scatterData.value.axes.scaled : scatterData.value.axes.raw
+  const tab = scatterTab.value
+  return {
+    xLabel: tab === 'density_vs_house' ? axes.xLabel : tab === 'density_vs_occupants' ? axes.xLabel : axes.yLabel,
+    yLabel: tab === 'density_vs_house' ? axes.yLabel : axes.zLabel
+  }
+})
+
+// Scatter plot dimensions
+const marginLeft = 50
+const marginTop = 20
+const plotWidth = 330
+const plotHeight = 240
+
+const getExtent = (data, key) => {
+  if (!data.length) return [0, 1]
+  const values = data.map(d => d[key])
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const padding = (max - min) * 0.1 || 1
+  return [min - padding, max + padding]
+}
+
+const xExtent = computed(() => getExtent(currentScatterData.value, 'x'))
+const yExtent = computed(() => getExtent(currentScatterData.value, 'y'))
+
+const scaleX = (val) => marginLeft + ((val - xExtent.value[0]) / (xExtent.value[1] - xExtent.value[0])) * plotWidth
+const scaleY = (val) => marginTop + plotHeight - ((val - yExtent.value[0]) / (yExtent.value[1] - yExtent.value[0])) * plotHeight
+
+const xTickLabels = computed(() => {
+  const [min, max] = xExtent.value
+  return Array.from({ length: 5 }, (_, i) => formatDecimal(min + (max - min) * i / 4))
+})
+
+const yTickLabels = computed(() => {
+  const [min, max] = yExtent.value
+  return Array.from({ length: 5 }, (_, i) => formatDecimal(max - (max - min) * i / 4))
+})
+
+// Cluster centroids for scatter plot
+const clusterCentroids = computed(() => {
+  if (!scatterData.value) return []
+  const data = scatterScaled.value ? scatterData.value.scaled : scatterData.value.raw
+  const tab = scatterTab.value
+  const clusters = ['Rendah', 'Sedang', 'Tinggi']
+  return clusters.map(label => {
+    const points = data.filter(p => p.cluster === label)
+    if (!points.length) return { label, x: 0, y: 0, color: getClusterColor(label) }
+    const x = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.x, 0) / points.length :
+              tab === 'density_vs_occupants' ? points.reduce((a, b) => a + b.x, 0) / points.length :
+              points.reduce((a, b) => a + b.y, 0) / points.length
+    const y = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.y, 0) / points.length :
+              points.reduce((a, b) => a + b.z, 0) / points.length
+    return { label, x, y, color: getClusterColor(label) }
+  })
+})
 
 // Pipeline steps definition
 const pipelineSteps = [
@@ -764,7 +942,45 @@ const computeKMeans = () => {
   }
   const statsSource = Object.keys(computedStats).length > 0 ? computedStats : clusterStatsLocal
 
-  return {
+  const clustersData = ['Rendah', 'Sedang', 'Tinggi'].map(label => ({
+      label,
+      count: statsSource[label]?.count || 0,
+      avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
+      avg_house_density: statsSource[label]?.avg_kepadatan_rumah || 0,
+      avg_occupants: statsSource[label]?.avg_rata_rata_penghuni || 0,
+      kecamatan: statsSource[label]?.kecamatan || []
+    }))
+
+  // Scatter plot data - individual kecamatan points
+  const scatterData = list.map(item => ({
+    nama: item.nama,
+    cluster: item.cluster_label,
+    x: Number(item.kepadatan_penduduk), // Kepadatan Penduduk
+    y: Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)), // Kepadatan Rumah
+    z: Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah)), // Rata² Penghuni
+    color: getClusterColor(item.cluster_label)
+  }))
+
+  // For standardized scatter plot
+  const features = list.map(item => [
+    Number(item.kepadatan_penduduk),
+    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
+    Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+  ])
+  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+  const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
+
+  const scatterDataScaled = list.map((item, idx) => ({
+    nama: item.nama,
+    cluster: item.cluster_label,
+    x: scaled[idx][0], // Standardized Kepadatan Penduduk
+    y: scaled[idx][1], // Standardized Kepadatan Rumah
+    z: scaled[idx][2], // Standardized Rata² Penghuni
+    color: getClusterColor(item.cluster_label)
+  }))
+
+    return {
     title: 'K-Means Clustering - Tahun ' + panelYear.value,
     params: { n_clusters: 3, random_state: 42, n_init: 20 },
     metrics: {
@@ -772,12 +988,16 @@ const computeKMeans = () => {
       davies_bouldin: metrics.davies_bouldin || 0,
       inertia: metrics.inertia || 0
     },
-    clusters: ['Rendah', 'Sedang', 'Tinggi'].map(label => ({
-      label,
-      count: statsSource[label]?.count || 0,
-      avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
-      kecamatan: statsSource[label]?.kecamatan || []
-    })),
+    clusters: clustersData,
+    // Scatter plot data
+    scatterData: {
+      raw: scatterData,
+      scaled: scatterDataScaled,
+      axes: {
+        raw: { xLabel: 'Kepadatan Penduduk (jiwa/km²)', yLabel: 'Kepadatan Rumah (rumah/km²)', zLabel: 'Rata² Penghuni (org/rumah)' },
+        scaled: { xLabel: 'Kepadatan Penduduk (Z-score)', yLabel: 'Kepadatan Rumah (Z-score)', zLabel: 'Rata² Penghuni (Z-score)' }
+      }
+    },
     summary: `Silhouette: ${(metrics.silhouette || 0).toFixed(3)} · DB Index: ${(metrics.davies_bouldin || 0).toFixed(3)}`
   }
 }
@@ -2718,6 +2938,142 @@ onUnmounted(() => {
 .interpretation-item.interp-rendah { border-left: 3px solid #10B981; }
 .interpretation-item.interp-sedang { border-left: 3px solid #F59E0B; }
 .interpretation-item.interp-tinggi { border-left: 3px solid #EF4444; }
+
+/* K-Means Scatter Plot Visualization */
+.result-chart {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.chart-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  flex-wrap: wrap;
+}
+
+.chart-tab-btn {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748B;
+  background: #F1F5F9;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.chart-tab-btn:hover {
+  background: #E2E8F0;
+  color: #334155;
+}
+
+.chart-tab-btn.active {
+  background: #2563EB;
+  color: #FFFFFF;
+}
+
+.scale-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #475569;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.scale-toggle input {
+  width: 14px;
+  height: 14px;
+  accent-color: #2563EB;
+}
+
+.chart-container {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.scatter-plot-wrapper {
+  overflow: visible;
+}
+
+.scatter-plot {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+}
+
+.scatter-grid line {
+  stroke-dasharray: 2 2;
+}
+
+.scatter-axis {
+  stroke-linecap: square;
+}
+
+.axis-label-x,
+.axis-label-y {
+  font-family: inherit;
+}
+
+.scatter-point {
+  cursor: pointer;
+  transition: r 0.15s ease, stroke-width 0.15s ease;
+}
+
+.scatter-point:hover {
+  r: 7;
+  stroke-width: 2.5;
+  stroke: #0F172A;
+}
+
+.scatter-tooltip text {
+  font-family: inherit;
+  pointer-events: none;
+}
+
+.scatter-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #F1F5F9;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.centroid-legend .legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid;
+  border-color: inherit;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
