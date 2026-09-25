@@ -94,6 +94,19 @@
           </svg>
           <span>Mulai</span>
         </button>
+
+        <!-- GOD MODE Button -->
+        <button
+          class="god-mode-btn"
+          @click="toggleGodMode"
+          :class="{ active: isGodModeActive }"
+          :title="isGodModeActive ? 'Matikan GOD MODE' : 'Aktifkan GOD MODE'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+          <span>GOD MODE</span>
+        </button>
       </div>
     </header>
 
@@ -618,6 +631,7 @@ const clusterStats = ref(null)
 const clusterTransitions = ref({})
 const panelYear = ref(2025)
 const chartTab = ref('counts')
+const isGodModeActive = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -779,6 +793,11 @@ const canRunStep = (stepId) => {
 }
 
 const isStepCompleted = (stepId) => completedSteps.value.includes(stepId)
+
+// GOD MODE toggle
+const toggleGodMode = () => {
+  isGodModeActive.value = !isGodModeActive.value
+}
 
 // Panel year change handler
 const onPanelYearChange = async () => {
