@@ -724,6 +724,27 @@ const computeHierarchical = () => {
 const computeKMeans = () => {
   const metrics = clusteringMetrics.value?.kmeans || {}
   const clusterStatsLocal = clusterStats.value || {}
+  const list = kecamatanList.value
+
+  // Fallback: compute cluster stats from raw data if backend stats not available
+  const computedStats = {}
+  if (list.length && Object.keys(clusterStatsLocal).length === 0) {
+    const clusters = ['Rendah', 'Sedang', 'Tinggi']
+    clusters.forEach(label => {
+      const items = list.filter(item => item.cluster_label === label)
+      if (items.length > 0) {
+        computedStats[label] = {
+          count: items.length,
+          avg_kepadatan_penduduk: items.reduce((a, b) => a + Number(b.kepadatan_penduduk), 0) / items.length,
+          avg_kepadatan_rumah: items.reduce((a, b) => a + Number(b.kepadatan_rumah || (b.jumlah_rumah / b.luas_km2)), 0) / items.length,
+          avg_rata_rata_penghuni: items.reduce((a, b) => a + Number(b.rata_rata_penghuni || (b.jumlah_penduduk / b.jumlah_rumah)), 0) / items.length,
+          kecamatan: items.map(i => i.nama)
+        }
+      }
+    })
+  }
+  const statsSource = Object.keys(computedStats).length > 0 ? computedStats : clusterStatsLocal
+
   return {
     title: 'K-Means Clustering - Tahun ' + panelYear.value,
     params: { n_clusters: 3, random_state: 42, n_init: 20 },
@@ -734,9 +755,9 @@ const computeKMeans = () => {
     },
     clusters: ['Rendah', 'Sedang', 'Tinggi'].map(label => ({
       label,
-      count: clusterStatsLocal[label]?.count || 0,
-      avg_density: clusterStatsLocal[label]?.avg_kepadatan_penduduk || 0,
-      kecamatan: clusterStatsLocal[label]?.kecamatan || []
+      count: statsSource[label]?.count || 0,
+      avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
+      kecamatan: statsSource[label]?.kecamatan || []
     })),
     summary: `Silhouette: ${(metrics.silhouette || 0).toFixed(3)} · DB Index: ${(metrics.davies_bouldin || 0).toFixed(3)}`
   }
@@ -744,23 +765,43 @@ const computeKMeans = () => {
 
 const computeEvaluation = () => {
   const clusterStatsLocal = clusterStats.value || {}
+  const list = kecamatanList.value
   const order = ['Rendah', 'Sedang', 'Tinggi']
+
+  // Fallback: compute from raw data
+  const computedStats = {}
+  if (list.length && Object.keys(clusterStatsLocal).length === 0) {
+    order.forEach(label => {
+      const items = list.filter(item => item.cluster_label === label)
+      if (items.length > 0) {
+        computedStats[label] = {
+          count: items.length,
+          avg_kepadatan_penduduk: items.reduce((a, b) => a + Number(b.kepadatan_penduduk), 0) / items.length,
+          avg_kepadatan_rumah: items.reduce((a, b) => a + Number(b.kepadatan_rumah || (b.jumlah_rumah / b.luas_km2)), 0) / items.length,
+          avg_rata_rata_penghuni: items.reduce((a, b) => a + Number(b.rata_rata_penghuni || (b.jumlah_penduduk / b.jumlah_rumah)), 0) / items.length,
+          kecamatan: items.map(i => i.nama)
+        }
+      }
+    })
+  }
+  const statsSource = Object.keys(computedStats).length > 0 ? computedStats : clusterStatsLocal
+
   return {
     title: 'Evaluasi & Interpretasi - Tahun ' + panelYear.value,
     clusters: order.map(label => ({
       label,
-      count: clusterStatsLocal[label]?.count || 0,
-      avg_density: clusterStatsLocal[label]?.avg_kepadatan_penduduk || 0,
-      avg_house_density: clusterStatsLocal[label]?.avg_kepadatan_rumah || 0,
-      avg_occupants: clusterStatsLocal[label]?.avg_rata_rata_penghuni || 0,
-      kecamatan: clusterStatsLocal[label]?.kecamatan || []
+      count: statsSource[label]?.count || 0,
+      avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
+      avg_house_density: statsSource[label]?.avg_kepadatan_rumah || 0,
+      avg_occupants: statsSource[label]?.avg_rata_rata_penghuni || 0,
+      kecamatan: statsSource[label]?.kecamatan || []
     })),
     interpretation: {
       Rendah: 'Kepadatan < 1.000 jiwa/km² — Wilayah perbukitan/perkebunan',
       Sedang: 'Kepadatan 1.000–5.000 jiwa/km² — Wilayah transisi/perkotaan',
       Tinggi: 'Kepadatan > 5.000 jiwa/km² — Pusat kota/permukiman padat'
     },
-    summary: `${order.map(l => `${l}: ${clusterStatsLocal[l]?.count || 0} kec`).join(' · ')}`
+    summary: `${order.map(l => `${l}: ${statsSource[l]?.count || 0} kec`).join(' · ')}`
   }
 }
 
