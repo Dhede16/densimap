@@ -100,7 +100,8 @@
           class="god-mode-btn"
           @click="toggleGodMode"
           :class="{ active: isGodModeActive }"
-          :title="isGodModeActive ? 'Matikan GOD MODE' : 'Aktifkan GOD MODE'"
+          :disabled="isRightPanelOpen"
+          :title="isRightPanelOpen ? 'Panel GOD MODE sudah terbuka' : 'Aktifkan GOD MODE'"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -398,6 +399,27 @@
       </div>
     </aside>
 
+    <!-- Right Sliding Panel (GOD MODE) -->
+    <aside
+      class="right-panel"
+      :class="{ open: isRightPanelOpen }"
+    >
+      <div class="right-panel-content">
+        <div class="right-panel-header">
+          <h3>GOD MODE Panel</h3>
+          <p class="panel-subtitle">Panel kosong untuk keperluan khusus</p>
+          <button class="panel-close-btn" @click="closeRightPanel" title="Tutup Panel">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="right-panel-body">
+          <!-- Empty content as requested -->
+        </div>
+      </div>
+    </aside>
+
     <!-- Floating Reset View Button -->
     <button class="reset-view-btn" @click="resetMapBounds" title="Kembalikan Tampilan Peta Samarinda">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
@@ -632,6 +654,7 @@ const clusterTransitions = ref({})
 const panelYear = ref(2025)
 const chartTab = ref('counts')
 const isGodModeActive = ref(false)
+const isRightPanelOpen = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -796,7 +819,16 @@ const isStepCompleted = (stepId) => completedSteps.value.includes(stepId)
 
 // GOD MODE toggle
 const toggleGodMode = () => {
-  isGodModeActive.value = !isGodModeActive.value
+  if (!isRightPanelOpen.value) {
+    isRightPanelOpen.value = true
+    isGodModeActive.value = true
+  }
+}
+
+// Close right panel (can be called from outside)
+const closeRightPanel = () => {
+  isRightPanelOpen.value = false
+  isGodModeActive.value = false
 }
 
 // Panel year change handler
@@ -2017,6 +2049,90 @@ onUnmounted(() => {
 }
 
 .left-panel-body p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+}
+
+/* Right Sliding Panel (GOD MODE) */
+.right-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50vw;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: var(--shadow-float);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-panel.open {
+  transform: translateX(0);
+}
+
+.right-panel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.right-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.right-panel-header h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 4px 0;
+}
+
+.panel-close-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: #F1F5F9;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.panel-close-btn:hover {
+  background: #E2E8F0;
+  color: #EF4444;
+}
+
+.right-panel-body {
+  flex: 1;
+  color: #334155;
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-panel-body p {
   margin: 0 0 12px 0;
   font-size: 14px;
 }
