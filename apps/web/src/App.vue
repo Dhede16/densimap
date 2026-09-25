@@ -82,23 +82,18 @@
           <span>Data Tabel</span>
         </button>
 
-        <!-- Year Selector Dropdown -->
-        <div class="year-select-container" title="Pilih Tahun Data">
-          <svg class="year-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
+        <!-- Start Button - Opens Left Panel -->
+        <button
+          class="start-btn"
+          @click="isLeftPanelOpen = true"
+          :disabled="isLeftPanelOpen"
+          :title="isLeftPanelOpen ? 'Panel sudah terbuka' : 'Mulai / Buka Panel'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
           </svg>
-          <select v-model="selectedYear" @change="onYearChange" class="year-select">
-            <option v-for="year in availableYears" :key="year" :value="year">
-              Tahun {{ year }}
-            </option>
-          </select>
-          <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </div>
+          <span>Mulai</span>
+        </button>
       </div>
     </header>
 
@@ -1355,62 +1350,45 @@ onUnmounted(() => {
   color: #0F172A;
 }
 
-/* Year Selector Dropdown */
-.year-select-container {
-  position: relative;
+/* Start Button - Opens Left Panel */
+.start-btn {
   display: flex;
   align-items: center;
-  background: #F8FAFC;
-  border: 1px solid #CBD5E1;
-  border-radius: var(--radius-md);
-  padding: 0 10px;
-  height: 38px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.year-select-container:hover {
-  background: #FFFFFF;
-  border-color: #94A3B8;
-}
-
-.year-select-container:focus-within {
-  background: #FFFFFF;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.year-icon {
-  width: 16px;
-  height: 16px;
-  color: #2563EB;
-  margin-right: 6px;
-  flex-shrink: 0;
-  pointer-events: none;
-}
-
-.year-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: transparent;
+  gap: 8px;
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
   border: none;
+  color: #FFFFFF;
   font-size: 13px;
-  font-weight: 600;
-  color: #0F172A;
-  font-family: inherit;
+  font-weight: 700;
+  padding: 0 16px;
+  height: 38px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  padding-right: 18px;
-  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
-.dropdown-arrow {
-  position: absolute;
-  right: 8px;
-  width: 14px;
-  height: 14px;
-  color: #64748B;
-  pointer-events: none;
+.start-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+
+.start-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.start-btn:disabled {
+  background: #94A3B8;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.start-btn svg {
+  flex-shrink: 0;
 }
 
 /* Fullscreen Map */
