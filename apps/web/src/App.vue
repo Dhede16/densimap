@@ -1033,6 +1033,9 @@ const loadData = async (year = selectedYear.value) => {
     dataSource.value = result.source
     const fc = result.featureCollection
 
+    // Reset visualization state when year changes
+    visualizationDone.value = false
+
     // Extract list
     kecamatanList.value = fc.features.map((f) => f.properties)
 
