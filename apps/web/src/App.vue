@@ -112,8 +112,8 @@
     >
       <div class="left-panel-content">
         <div class="left-panel-header">
-          <h3>Alur Penerapan Model</h3>
-          <p class="panel-subtitle">Tahun: <strong>{{ panelYear }}</strong></p>
+          <h3>Alur Penerapan Model (Step-by-Step)</h3>
+          <p class="panel-subtitle">Tahun: <strong>{{ panelYear }}</strong> · Klik "Jalankan" pada setiap tahap</p>
         </div>
         <div class="left-panel-body">
           <!-- Year Selector in Panel -->
@@ -126,57 +126,174 @@
             </select>
           </div>
 
-          <!-- Model Pipeline Flow -->
+          <!-- Model Pipeline Flow - Interactive Steps -->
           <div class="pipeline-flow">
-            <div class="pipeline-step" v-for="(step, idx) in pipelineSteps" :key="idx">
+            <div class="pipeline-step" v-for="(step, idx) in pipelineSteps" :key="step.id">
               <div class="step-number">{{ idx + 1 }}</div>
               <div class="step-content">
-                <h5>{{ step.title }}</h5>
-                <p>{{ step.desc }}</p>
-                <div v-if="step.detail && panelData" class="step-detail">
-                  {{ step.detail(panelData) }}
+                <div class="step-header">
+                  <h5>{{ step.title }}</h5>
+                  <span class="step-status" :class="{ completed: stepResults[step.id], active: activeStepId === step.id }">
+                    {{ stepResults[step.id] ? '✓ Selesai' : (activeStepId === step.id ? '▶ Sedang' : '⏳ Belum') }}
+                  </span>
+                </div>
+                <p class="step-desc">{{ step.desc }}</p>
+                <p class="step-short">{{ step.shortDesc }}</p>
+
+                <!-- Run Button -->
+                <button
+                  class="step-run-btn"
+                  @click="runStep(step.id)"
+                  :disabled="activeStepId === step.id"
+                >
+                  {{ activeStepId === step.id ? 'Menjalankan...' : (stepResults[step.id] ? 'Jalankan Ulang' : 'Jalankan Tahap Ini') }}
+                </button>
+
+                <!-- Step Result Display -->
+                <div v-if="stepResults[step.id]" class="step-result" :key="step.id">
+                  <div class="result-header">
+                    <h6>{{ stepResults[step.id].title }}</h6>
+                    <span class="result-summary">{{ stepResults[step.id].summary }}</span>
+                  </div>
+
+                  <!-- Data Table for steps with rows -->
+                  <div v-if="stepResults[step.id].columns && stepResults[step.id].rows" class="result-table-container">
+                    <table class="result-table">
+                      <thead>
+                        <tr>
+                          <th v-for="(col, ci) in stepResults[step.id].columns" :key="ci">{{ col }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(row, ri) in stepResults[step.id].rows" :key="ri">
+                          <td v-for="(cell, cj) in row" :key="cj">{{ cell }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- Formulas for feature engineering -->
+                  <div v-if="stepResults[step.id].formulas" class="result-formulas">
+                    <h6>Rumus yang Digunakan:</h6>
+                    <ul>
+                      <li v-for="(f, fi) in stepResults[step.id].formulas" :key="fi">{{ f }}</li>
+                    </ul>
+                  </div>
+
+                  <!-- Stats for preprocessing -->
+                  <div v-if="stepResults[step.id].stats" class="result-stats">
+                    <h6>Statistik Standardisasi:</h6>
+                    <div class="stats-grid">
+                      <div class="stat-item">
+                        <span class="stat-label">Mean</span>
+                        <span class="stat-value">[{{ stepResults[step.id].stats.mean.join(', ') }}]</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-label">Std Dev</span>
+                        <span class="stat-value">[{{ stepResults[step.id].stats.std.join(', ') }}]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Silhouette by K for hierarchical -->
+                  <div v-if="stepResults[step.id].silhouetteByK" class="result-silhouette">
+                    <h6>Silhouette Score per k:</h6>
+                    <div class="silhouette-bars">
+                      <div v-for="s in stepResults[step.id].silhouetteByK" :key="s.k" class="silhouette-bar">
+                        <span class="k-label">k={{ s.k }}</span>
+                        <div class="bar-container">
+                          <div class="bar-fill" :style="{ width: (s.score * 100) + '%' }"></div>
+                        </div>
+                        <span class="score-value">{{ s.score.toFixed(3) }}</span>
+                      </div>
+                    </div>
+                    <p class="silhouette-note">Linkage: {{ stepResults[step.id].linkage }} · Metric: {{ stepResults[step.id].metric }}</p>
+                  </div>
+
+                  <!-- Clusters for kmeans/evaluation -->
+                  <div v-if="stepResults[step.id].clusters" class="result-clusters">
+                    <h6>Hasil Cluster:</h6>
+                    <div class="clusters-grid">
+                      <div
+                        v-for="c in stepResults[step.id].clusters"
+                        :key="c.label"
+                        class="cluster-detail-card"
+                        :class="'cluster-' + c.label.toLowerCase()"
+                      >
+                        <div class="cluster-detail-header">
+                          <span class="cluster-detail-label">{{ c.label }}</span>
+                          <span class="cluster-detail-count">{{ c.count }} kecamatan</span>
+                        </div>
+                        <div v-if="c.avg_density !== undefined" class="cluster-metrics">
+                          <div class="metric-row">
+                            <span>Rata² Kepadatan Penduduk:</span>
+                            <span>{{ formatDecimal(c.avg_density) }} jiwa/km²</span>
+                          </div>
+                          <div v-if="c.avg_house_density !== undefined" class="metric-row">
+                            <span>Rata² Kepadatan Rumah:</span>
+                            <span>{{ formatDecimal(c.avg_house_density) }} rumah/km²</span>
+                          </div>
+                          <div v-if="c.avg_occupants !== undefined" class="metric-row">
+                            <span>Rata² Penghuni/Rumah:</span>
+                            <span>{{ formatDecimal(c.avg_occupants) }} orang</span>
+                          </div>
+                        </div>
+                        <div class="cluster-kecamatan">
+                          <strong>Kecamatan:</strong> {{ c.kecamatan.join(', ') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Metrics for kmeans -->
+                  <div v-if="stepResults[step.id].metrics && !stepResults[step.id].clusters" class="result-metrics">
+                    <h6>Metrik Evaluasi:</h6>
+                    <div class="metrics-grid-small">
+                      <div v-for="(val, key) in stepResults[step.id].metrics" :key="key" class="metric-small">
+                        <span class="metric-key">{{ key.replace(/_/g, ' ').toUpperCase() }}</span>
+                        <span class="metric-val">{{ typeof val === 'number' ? val.toFixed(3) : val }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Visualization info -->
+                  <div v-if="stepResults[step.id].color_scheme" class="result-visualization">
+                    <h6>Skema Warna Cluster:</h6>
+                    <div class="color-legend">
+                      <div v-for="(color, label) in stepResults[step.id].color_scheme" :key="label" class="color-item">
+                        <span class="color-swatch" :style="{ background: color.split(' ')[0] }"></span>
+                        <span>{{ label }}: {{ color }}</span>
+                      </div>
+                    </div>
+                    <h6>Interaktivitas:</h6>
+                    <ul>
+                      <li v-for="(item, i) in stepResults[step.id].interactivity" :key="i">{{ item }}</li>
+                    </ul>
+                  </div>
+
+                  <!-- Interpretation for evaluation -->
+                  <div v-if="stepResults[step.id].interpretation" class="result-interpretation">
+                    <h6>Interpretasi Cluster:</h6>
+                    <div class="interpretation-list">
+                      <div v-for="(desc, label) in stepResults[step.id].interpretation" :key="label" class="interpretation-item" :class="'interp-' + label.toLowerCase()">
+                        <strong>{{ label }}:</strong> {{ desc }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Params for kmeans -->
+                  <div v-if="stepResults[step.id].params" class="result-params">
+                    <h6>Parameter K-Means:</h6>
+                    <div class="params-grid">
+                      <div v-for="(val, key) in stepResults[step.id].params" :key="key" class="param-item">
+                        <span class="param-key">{{ key.replace(/_/g, ' ') }}</span>
+                        <span class="param-val">{{ val }}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="step-arrow" v-if="idx < pipelineSteps.length - 1">→</div>
-            </div>
-          </div>
-
-          <!-- Year Data Summary -->
-          <div v-if="panelData" class="year-data-summary">
-            <h4>Data Tahun {{ panelYear }}</h4>
-            <div class="data-stats-grid">
-              <div class="data-stat-card">
-                <span class="data-stat-label">Total Penduduk</span>
-                <span class="data-stat-value">{{ formatNumber(panelData.totalPenduduk) }} jiwa</span>
-              </div>
-              <div class="data-stat-card">
-                <span class="data-stat-label">Total Rumah</span>
-                <span class="data-stat-value">{{ formatNumber(panelData.totalRumah) }} unit</span>
-              </div>
-              <div class="data-stat-card">
-                <span class="data-stat-label">Rata-rata Kepadatan</span>
-                <span class="data-stat-value">{{ formatDecimal(panelData.avgKepadatan) }} jiwa/km²</span>
-              </div>
-              <div class="data-stat-card">
-                <span class="data-stat-label">Jumlah Kecamatan</span>
-                <span class="data-stat-value">{{ panelData.kecamatanCount }}</span>
-              </div>
-            </div>
-
-            <div class="cluster-breakdown">
-              <h5>Distribusi Cluster</h5>
-              <div class="cluster-breakdown-list">
-                <div
-                  v-for="label in ['Rendah', 'Sedang', 'Tinggi']"
-                  :key="label"
-                  class="cluster-breakdown-item"
-                  :class="'breakdown-' + label.toLowerCase()"
-                >
-                  <span class="breakdown-color" :class="label.toLowerCase()"></span>
-                  <span class="breakdown-label">{{ label }}</span>
-                  <span class="breakdown-count">{{ panelData.clusterCounts[label] || 0 }} kec</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -431,66 +548,237 @@ const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionD
 // Pipeline steps definition
 const pipelineSteps = [
   {
+    id: 'raw-data',
     title: '1. Data Mentah (BPS)',
     desc: 'Jumlah Penduduk, Luas Wilayah (km²), Jumlah Rumah per Kecamatan',
-    detail: (d) => `Sumber: BPS Kota Samarinda · ${d.kecamatanCount} kecamatan`
+    shortDesc: 'Data asli dari BPS Kota Samarinda'
   },
   {
+    id: 'feature-engineering',
     title: '2. Feature Engineering',
-    desc: 'Menghitung fitur turunan untuk karakteristik kepadatan',
-    detail: () => `Kepadatan Penduduk = Penduduk / Luas · Kepadatan Rumah = Rumah / Luas · Rata² Penghuni = Penduduk / Rumah`
+    desc: 'Menghitung fitur turunan: Kepadatan Penduduk, Kepadatan Rumah, Rata² Penghuni',
+    shortDesc: 'Rumus: Penduduk/Luas, Rumah/Luas, Penduduk/Rumah'
   },
   {
+    id: 'preprocessing',
     title: '3. Preprocessing & Standardisasi',
-    desc: 'Validasi data, cek missing value, standarisasi (Z-score) agar skala fitur seragam',
-    detail: () => `StandardScaler diterapkan pada 3 fitur: kepadatan_penduduk, kepadatan_rumah, rata_rata_penghuni`
+    desc: 'Validasi data, cek missing value, standarisasi Z-score (mean=0, std=1)',
+    shortDesc: 'StandardScaler pada 3 fitur numerik'
   },
   {
+    id: 'hierarchical',
     title: '4. Hierarchical Clustering (Ward)',
-    desc: 'Analisis struktur kemiripan antar kecamatan via dendrogram, validasi k optimal',
-    detail: (d) => `Linkage: Ward · Metric: Euclidean · Silhouette: ${d.metrics?.hierarchical?.silhouette?.toFixed(3) || '-'} · k optimal: ${d.metrics?.hierarchical?.optimal_k_suggestion || 3}`
+    desc: 'Agglomerative clustering dengan linkage Ward, validasi k optimal via silhouette',
+    shortDesc: 'Dendrogram & silhouette per k=2..5'
   },
   {
+    id: 'kmeans',
     title: '5. K-Means Clustering',
-    desc: 'Pengelompokan final ke 3 cluster (Rendah, Sedang, Tinggi) berdasarkan rata-rata kepadatan',
-    detail: (d) => `n_clusters=3 · random_state=42 · n_init=20 · Silhouette: ${d.metrics?.kmeans?.silhouette?.toFixed(3) || '-'} · DB Index: ${d.metrics?.kmeans?.davies_bouldin?.toFixed(3) || '-'}`
+    desc: 'Pengelompokan final ke 3 cluster, inisialisasi k-means++',
+    shortDesc: 'n_clusters=3, random_state=42, n_init=20'
   },
   {
+    id: 'evaluation',
     title: '6. Evaluasi & Interpretasi',
-    desc: 'Silhouette Score & Davies-Bouldin untuk kualitas, labeling cluster by density mean',
-    detail: () => `Cluster ditandai Rendah/Sedang/Tinggi berdasarkan urutan rata-rata kepadatan_penduduk`
+    desc: 'Silhouette Score, Davies-Bouldin, labeling cluster by density mean',
+    shortDesc: 'Kualitas cluster & penamaan Rendah/Sedang/Tinggi'
   },
   {
+    id: 'visualization',
     title: '7. Visualisasi Peta (GIS)',
-    desc: 'Menampilkan kecamatan di peta Leaflet dengan warna per cluster, popup interaktif',
-    detail: () => `Basemap: Mapbox Outdoors / CartoDB Positron · GeoJSON 10 polygons · Tooltip & Popup custom`
+    desc: 'Render GeoJSON ke Leaflet, warna per cluster, tooltip & popup',
+    shortDesc: 'Basemap Mapbox/CartoDB + 10 polygons'
   }
 ]
 
+// Active step state
+const activeStepId = ref(null)
+const stepResults = ref({})
+
 // Panel year change handler
 const onPanelYearChange = async () => {
-  // Trigger data reload for the panel year
   await loadData(panelYear.value)
+  activeStepId.value = null
+  stepResults.value = {}
 }
 
-// Computed data for panel year
-const panelData = computed(() => {
-  if (!kecamatanList.value.length) return null
+// Run a specific pipeline step with real data
+const runStep = async (stepId) => {
+  activeStepId.value = stepId
   const list = kecamatanList.value
-  const totalPenduduk = list.reduce((acc, item) => acc + (Number(item.jumlah_penduduk) || 0), 0)
-  const totalRumah = list.reduce((acc, item) => acc + (Number(item.jumlah_rumah) || 0), 0)
-  const avgKepadatan = list.reduce((acc, item) => acc + (Number(item.kepadatan_penduduk) || 0), 0) / list.length
-  const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
-  list.forEach(item => { if (counts[item.cluster_label] !== undefined) counts[item.cluster_label]++ })
-  return {
-    kecamatanCount: list.length,
-    totalPenduduk,
-    totalRumah,
-    avgKepadatan,
-    clusterCounts: counts,
-    metrics: clusteringMetrics.value
+  if (!list.length) return
+
+  let result = null
+
+  switch (stepId) {
+    case 'raw-data':
+      result = computeRawData(list)
+      break
+    case 'feature-engineering':
+      result = computeFeatureEngineering(list)
+      break
+    case 'preprocessing':
+      result = computePreprocessing(list)
+      break
+    case 'hierarchical':
+      result = computeHierarchical(list)
+      break
+    case 'kmeans':
+      result = computeKMeans(list)
+      break
+    case 'evaluation':
+      result = computeEvaluation(list)
+      break
+    case 'visualization':
+      result = computeVisualization(list)
+      break
   }
-})
+
+  stepResults.value[stepId] = result
+}
+
+// Step computation functions using real data
+const computeRawData = (list) => {
+  return {
+    title: 'Data Mentah (BPS) - Tahun ' + panelYear.value,
+    columns: ['Kecamatan', 'Penduduk (jiwa)', 'Luas (km²)', 'Rumah (unit)'],
+    rows: list.map(item => [
+      item.nama,
+      formatNumber(item.jumlah_penduduk),
+      formatDecimal(item.luas_km2),
+      formatNumber(item.jumlah_rumah)
+    ]),
+    summary: `Total: ${list.length} kecamatan · ${formatNumber(list.reduce((a,b)=>a+Number(b.jumlah_penduduk),0))} jiwa · ${formatDecimal(list.reduce((a,b)=>a+Number(b.luas_km2),0))} km²`
+  }
+}
+
+const computeFeatureEngineering = (list) => {
+  return {
+    title: 'Feature Engineering - Tahun ' + panelYear.value,
+    columns: ['Kecamatan', 'Kepadatan Penduduk (jiwa/km²)', 'Kepadatan Rumah (rumah/km²)', 'Rata² Penghuni (org/rumah)'],
+    rows: list.map(item => [
+      item.nama,
+      formatDecimal(item.kepadatan_penduduk),
+      formatDecimal(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
+      formatDecimal(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+    ]),
+    formulas: [
+      'Kepadatan Penduduk = Jumlah Penduduk / Luas Wilayah',
+      'Kepadatan Rumah = Jumlah Rumah / Luas Wilayah',
+      'Rata-rata Penghuni = Jumlah Penduduk / Jumlah Rumah'
+    ],
+    summary: `Rata² kepadatan: ${formatDecimal(list.reduce((a,b)=>a+Number(b.kepadatan_penduduk),0)/list.length)} jiwa/km²`
+  }
+}
+
+const computePreprocessing = (list) => {
+  // Compute z-scores manually for display
+  const features = list.map(item => [
+    Number(item.kepadatan_penduduk),
+    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
+    Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+  ])
+
+  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+
+  const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
+
+  return {
+    title: 'Preprocessing & Standardisasi (Z-Score) - Tahun ' + panelYear.value,
+    columns: ['Kecamatan', 'Kep. Penduduk (asli)', 'Kep. Penduduk (z-score)', 'Kep. Rumah (asli)', 'Kep. Rumah (z-score)', 'Rata² Penghuni (asli)', 'Rata² Penghuni (z-score)'],
+    rows: list.map((item, idx) => [
+      item.nama,
+      formatDecimal(features[idx][0]),
+      formatDecimal(scaled[idx][0]),
+      formatDecimal(features[idx][1]),
+      formatDecimal(scaled[idx][1]),
+      formatDecimal(features[idx][2]),
+      formatDecimal(scaled[idx][2])
+    ]),
+    stats: {
+      mean: means.map(m => formatDecimal(m)),
+      std: stds.map(s => formatDecimal(s))
+    },
+    summary: `Mean: [${means.map(m=>formatDecimal(m)).join(', ')}] · Std: [${stds.map(s=>formatDecimal(s)).join(', ')}]`
+  }
+}
+
+const computeHierarchical = () => {
+  const metrics = clusteringMetrics.value?.hierarchical || {}
+  const byK = metrics.silhouette_by_k || {}
+  return {
+    title: 'Hierarchical Clustering (Ward) - Tahun ' + panelYear.value,
+    metrics: {
+      optimal_k: metrics.optimal_k_suggestion || 3,
+      silhouette: metrics.silhouette || 0,
+      davies_bouldin: metrics.davies_bouldin || 0
+    },
+    silhouetteByK: Object.entries(byK).map(([k, v]) => ({ k: Number(k), score: v })),
+    linkage: 'Ward',
+    metric: 'Euclidean',
+    summary: `Optimal k: ${metrics.optimal_k_suggestion || 3} (Silhouette: ${(metrics.silhouette || 0).toFixed(3)})`
+  }
+}
+
+const computeKMeans = () => {
+  const metrics = clusteringMetrics.value?.kmeans || {}
+  const clusterStatsLocal = clusterStats.value || {}
+  return {
+    title: 'K-Means Clustering - Tahun ' + panelYear.value,
+    params: { n_clusters: 3, random_state: 42, n_init: 20 },
+    metrics: {
+      silhouette: metrics.silhouette || 0,
+      davies_bouldin: metrics.davies_bouldin || 0,
+      inertia: metrics.inertia || 0
+    },
+    clusters: ['Rendah', 'Sedang', 'Tinggi'].map(label => ({
+      label,
+      count: clusterStatsLocal[label]?.count || 0,
+      avg_density: clusterStatsLocal[label]?.avg_kepadatan_penduduk || 0,
+      kecamatan: clusterStatsLocal[label]?.kecamatan || []
+    })),
+    summary: `Silhouette: ${(metrics.silhouette || 0).toFixed(3)} · DB Index: ${(metrics.davies_bouldin || 0).toFixed(3)}`
+  }
+}
+
+const computeEvaluation = () => {
+  const clusterStatsLocal = clusterStats.value || {}
+  const order = ['Rendah', 'Sedang', 'Tinggi']
+  return {
+    title: 'Evaluasi & Interpretasi - Tahun ' + panelYear.value,
+    clusters: order.map(label => ({
+      label,
+      count: clusterStatsLocal[label]?.count || 0,
+      avg_density: clusterStatsLocal[label]?.avg_kepadatan_penduduk || 0,
+      avg_house_density: clusterStatsLocal[label]?.avg_kepadatan_rumah || 0,
+      avg_occupants: clusterStatsLocal[label]?.avg_rata_rata_penghuni || 0,
+      kecamatan: clusterStatsLocal[label]?.kecamatan || []
+    })),
+    interpretation: {
+      Rendah: 'Kepadatan < 1.000 jiwa/km² — Wilayah perbukitan/perkebunan',
+      Sedang: 'Kepadatan 1.000–5.000 jiwa/km² — Wilayah transisi/perkotaan',
+      Tinggi: 'Kepadatan > 5.000 jiwa/km² — Pusat kota/permukiman padat'
+    },
+    summary: `${order.map(l => `${l}: ${clusterStatsLocal[l]?.count || 0} kec`).join(' · ')}`
+  }
+}
+
+const computeVisualization = (list) => {
+  return {
+    title: 'Visualisasi Peta (GIS) - Tahun ' + panelYear.value,
+    basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
+    features: list.length,
+    geometry_type: 'Polygon / MultiPolygon',
+    color_scheme: {
+      Rendah: '#10B981 (Hijau)',
+      Sedang: '#F59E0B (Amber)',
+      Tinggi: '#EF4444 (Merah)'
+    },
+    interactivity: ['Tooltip on hover', 'Popup on click', 'Cluster filter', 'Reset view'],
+    summary: `${list.length} polygon kecamatan siap dirender`
+  }
+}
 
 // Computed stats for selected year table view
 const totalPenduduk = computed(() => {
@@ -1966,6 +2254,410 @@ onUnmounted(() => {
   background: #2563EB;
   color: #FFFFFF;
 }
+
+/* Pipeline Step Interactive Styles */
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #F1F5F9;
+  color: #64748B;
+}
+.step-status.completed {
+  background: #D1FAE5;
+  color: #059669;
+}
+.step-status.active {
+  background: #EFF6FF;
+  color: #2563EB;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.step-desc {
+  font-size: 11px;
+  color: #475569;
+  margin: 0 0 4px 0;
+}
+
+.step-short {
+  font-size: 10px;
+  color: #94A3B8;
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+.step-run-btn {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+.step-run-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1D4ED8, #2563EB);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
+.step-run-btn:disabled {
+  background: #94A3B8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Step Result Styles */
+.step-result {
+  margin-top: 12px;
+  padding: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.result-header h6 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.result-summary {
+  font-size: 10px;
+  color: #64748B;
+  background: #FFFFFF;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #E2E8F0;
+}
+
+/* Result Table */
+.result-table-container {
+  overflow-x: auto;
+  margin-bottom: 10px;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+
+.result-table th {
+  background: #F1F5F9;
+  padding: 6px 8px;
+  font-weight: 700;
+  color: #334155;
+  border-bottom: 1px solid #E2E8F0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.result-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+}
+
+.result-table tr:last-child td {
+  border-bottom: none;
+}
+
+.result-table tr:hover td {
+  background: #F1F5F9;
+}
+
+/* Formulas */
+.result-formulas h6,
+.result-stats h6,
+.result-silhouette h6,
+.result-clusters h6,
+.result-metrics h6,
+.result-visualization h6,
+.result-interpretation h6,
+.result-params h6 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 10px 0 6px 0;
+}
+
+.result-formulas ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 10px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.stat-item {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 8px;
+}
+
+.stat-item .stat-label {
+  display: block;
+  font-size: 9px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.stat-item .stat-value {
+  display: block;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #0F172A;
+  font-weight: 600;
+}
+
+/* Silhouette Bars */
+.silhouette-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.silhouette-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.silhouette-bar .k-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #334155;
+  min-width: 36px;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #34D399);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.score-value {
+  font-size: 10px;
+  font-weight: 700;
+  color: #0F172A;
+  min-width: 40px;
+  text-align: right;
+}
+
+.silhouette-note {
+  font-size: 9px;
+  color: #94A3B8;
+  margin: 6px 0 0 0 !important;
+}
+
+/* Cluster Detail Cards */
+.clusters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cluster-detail-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+.cluster-detail-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-subtle);
+}
+
+.cluster-detail-card.cluster-rendah { border-left: 3px solid #10B981; }
+.cluster-detail-card.cluster-sedang { border-left: 3px solid #F59E0B; }
+.cluster-detail-card.cluster-tinggi { border-left: 3px solid #EF4444; }
+
+.cluster-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.cluster-detail-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.cluster-detail-count {
+  font-size: 10px;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.cluster-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+.metric-row span:first-child { color: #64748B; }
+.metric-row span:last-child { color: #0F172A; font-weight: 600; }
+
+.cluster-kecamatan {
+  font-size: 10px;
+  color: #475569;
+}
+.cluster-kecamatan strong { color: #334155; }
+
+/* Metrics Grid Small */
+.metrics-grid-small,
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.metric-small,
+.param-item {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  text-align: center;
+}
+
+.metric-key,
+.param-key {
+  display: block;
+  font-size: 9px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.metric-val,
+.param-val {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+/* Visualization */
+.color-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.color-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #334155;
+}
+
+.color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.result-visualization ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 10px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Interpretation */
+.interpretation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.interpretation-item {
+  padding: 8px 10px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.interpretation-item.interp-rendah { border-left: 3px solid #10B981; }
+.interpretation-item.interp-sedang { border-left: 3px solid #F59E0B; }
+.interpretation-item.interp-tinggi { border-left: 3px solid #EF4444; }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
