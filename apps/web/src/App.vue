@@ -643,6 +643,9 @@ const runStep = async (stepId) => {
     case 'visualization':
       result = computeVisualization(list)
       visualizationDone.value = true
+      if (geoJsonLayer) {
+        geoJsonLayer.setStyle(polygonStyle)
+      }
       break
   }
 
