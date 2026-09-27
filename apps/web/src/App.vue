@@ -866,7 +866,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import L from 'leaflet'
-import { getKecamatanData } from './services/supabase'
+import { getKecamatanData } from './services/geojson'
 
 // Reactive state
 const availableYears = [2020, 2021, 2022, 2023, 2024, 2025]

@@ -1,7 +1,6 @@
 import os
 import json
 import time
-from datetime import datetime, timezone
 import urllib.request
 import urllib.parse
 import pandas as pd
@@ -80,69 +79,6 @@ def fetch_boundary(name, cache_file=BOUNDARIES_CACHE_FILE):
         print(f"Error fetching {name}: {e}")
 
     return None
-
-
-def load_backend_env():
-    env_paths = [
-        os.path.join(os.path.dirname(__file__), '.env'),
-        os.path.join(os.path.dirname(__file__), '..', '..', '.env'),
-    ]
-    for env_path in env_paths:
-        if not os.path.exists(env_path):
-            continue
-        with open(env_path, 'r', encoding='utf-8') as env_file:
-            for line in env_file:
-                line = line.strip()
-                if not line or line.startswith('#') or '=' not in line:
-                    continue
-                key, value = line.split('=', 1)
-                os.environ.setdefault(key.strip(), value.strip().strip('"\''))
-
-
-def sync_to_supabase(all_dfs):
-    load_backend_env()
-    supabase_url = os.environ.get('SUPABASE_URL')
-    access_token = os.environ.get('SUPABASE_SERVICE_ROLE_KEY') or os.environ.get('SUPABASE_ACCESS_TOKEN')
-    if not supabase_url or not access_token:
-        print('Supabase sync skipped: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY not configured.')
-        return False
-
-    rows = []
-    updated_at = datetime.now(timezone.utc).isoformat()
-    for year in YEARS:
-        for _, row in all_dfs[year].iterrows():
-            rows.append({
-                'nama': str(row['nama']),
-                'tahun': int(row['tahun']),
-                'jumlah_penduduk': int(row['jumlah_penduduk']),
-                'luas_km2': float(row['luas_km2']),
-                'jumlah_rumah': int(row['jumlah_rumah']),
-                'kepadatan_penduduk': float(row['kepadatan_penduduk']),
-                'geometry': row['geometry'],
-                'cluster_label': str(row['cluster_label']),
-                'updated_at': updated_at,
-            })
-
-    url = supabase_url.rstrip('/') + '/rest/v1/kecamatan?on_conflict=nama,tahun'
-    request = urllib.request.Request(
-        url,
-        data=json.dumps(rows, ensure_ascii=False).encode('utf-8'),
-        method='POST',
-        headers={
-            'apikey': access_token,
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=merge-duplicates,return=minimal',
-        },
-    )
-    try:
-        with urllib.request.urlopen(request) as response:
-            if response.status not in (200, 201, 204):
-                raise RuntimeError(f'HTTP {response.status}')
-        print(f'Supabase updated: {len(rows)} rows upserted.')
-        return True
-    except Exception as error:
-        raise RuntimeError(f'Failed to update Supabase: {error}') from error
 
 
 def engineer_features(df):
@@ -395,8 +331,6 @@ VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {ro
     with open(SEED_SQL, 'w', encoding='utf-8') as f:
         f.write('\n'.join(seed_lines))
     print(f"Seed SQL saved to {SEED_SQL}")
-
-    sync_to_supabase(all_dfs)
 
     print("\n[OK] Multi-year clustering pipeline completed successfully!")
     return all_dfs[2025], all_metrics['2025'], all_dfs, all_metrics
