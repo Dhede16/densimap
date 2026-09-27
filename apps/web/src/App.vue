@@ -965,6 +965,9 @@ const applySimulationToMap = async () => {
 
     const result = await res.json()
     if (result.success && result.clusters) {
+      // Enable visualization mode so map shows cluster colors
+      visualizationDone.value = true
+
       // Update main data with new cluster labels and calculated densities
       result.clusters.forEach(c => {
         const idx = kecamatanList.value.findIndex(k => k.id === c.id)
@@ -985,6 +988,38 @@ const applySimulationToMap = async () => {
           layer.feature.properties.jumlah_rumah = Math.round(c.kepadatan_rumah * (layer.feature.properties.luas_km2 || 1))
         }
       })
+
+      // Recalculate clusterCounts for legend panel
+      const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
+      result.clusters.forEach(c => {
+        if (counts[c.cluster_label] !== undefined) counts[c.cluster_label]++
+      })
+      clusterCounts.value = counts
+
+      // Update clusteringMetrics from backend response
+      if (result.metrics) {
+        clusteringMetrics.value = result.metrics
+      }
+
+      // Compute clusterStats for legend panel metrics section
+      const stats = {}
+      result.clusters.forEach(c => {
+        if (!stats[c.cluster_label]) stats[c.cluster_label] = { count: 0, densities: [], houseDensities: [], occupants: [] }
+        stats[c.cluster_label].count++
+        stats[c.cluster_label].densities.push(c.kepadatan_penduduk)
+        stats[c.cluster_label].houseDensities.push(c.kepadatan_rumah)
+        stats[c.cluster_label].occupants.push(c.rata_rata_penghuni)
+      })
+      clusterStats.value = {}
+      Object.entries(stats).forEach(([label, data]) => {
+        clusterStats.value[label] = {
+          count: data.count,
+          avg_kepadatan_penduduk: data.densities.reduce((a, b) => a + b, 0) / data.count,
+          avg_kepadatan_rumah: data.houseDensities.reduce((a, b) => a + b, 0) / data.count,
+          avg_rata_rata_penghuni: data.occupants.reduce((a, b) => a + b, 0) / data.count,
+        }
+      })
+
       // Re-render map with new clusters
       if (geoJsonLayer) {
         geoJsonLayer.setStyle(polygonStyle)
