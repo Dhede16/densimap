@@ -259,7 +259,7 @@
                     <h6>Visualisasi Scatter Plot K-Means:</h6>
                     <div class="chart-tabs">
                       <button
-                        v-for="tab in ['density_vs_house', 'density_vs_occupants', 'house_vs_occupants']"
+                        v-for="tab in ['density_vs_house']"
                         :key="tab"
                         @click="scatterTab = tab"
                         :class="{ active: scatterTab === tab }"
@@ -435,7 +435,6 @@
                   <th class="text-right">Rumah (unit)</th>
                   <th class="text-right">Kepadatan Penduduk</th>
                   <th class="text-right">Kepadatan Rumah</th>
-                  <th class="text-right">Rata² Penghuni</th>
                   <th v-if="simulationApplied">Klaster (Hasil Clustering)</th>
                 </tr>
               </thead>
@@ -448,7 +447,6 @@
                   <td><input type="number" step="1" min="0" v-model.number="item.jumlah_rumah" @change="onInputChange(item)" class="sim-input" /></td>
                   <td class="text-right derived">{{ formatDecimal(item.kepadatan_penduduk) }}</td>
                   <td class="text-right derived">{{ formatDecimal(item.kepadatan_rumah) }}</td>
-                  <td class="text-right derived">{{ formatDecimal(item.rata_rata_penghuni) }}</td>
                   <td v-if="simulationApplied"><span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">{{ item.cluster_label }}</span></td>
                 </tr>
               </tbody>
@@ -591,7 +589,7 @@
                       <h6>Visualisasi Scatter Plot K-Means Simulasi:</h6>
                       <div class="chart-tabs">
                         <button
-                          v-for="tab in ['density_vs_house', 'density_vs_occupants', 'house_vs_occupants']"
+                          v-for="tab in ['density_vs_house']"
                           :key="tab"
                           @click="rightScatterTab = tab"
                           :class="{ active: rightScatterTab === tab }"
@@ -877,6 +875,8 @@ const editedRows = ref(new Set())
 const isApplying = ref(false)
 const simulationApplied = ref(false)
 const hasAppliedSimulation = ref(false)
+// Cache for simulation clustering result from backend
+const simulationClusteringResult = ref(null)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -892,9 +892,7 @@ const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionD
 
 // Scatter Plot helpers
 const scatterTabLabels = {
-  density_vs_house: 'Kepadatan Penduduk vs Kepadatan Rumah',
-  density_vs_occupants: 'Kepadatan Penduduk vs Rata² Penghuni',
-  house_vs_occupants: 'Kepadatan Rumah vs Rata² Penghuni'
+  density_vs_house: 'Kepadatan Penduduk vs Kepadatan Rumah'
 }
 
 const scatterTab = ref('density_vs_house')
@@ -910,21 +908,20 @@ const scatterData = computed(() => {
 const currentScatterData = computed(() => {
   if (!scatterData.value) return []
   const data = scatterScaled.value ? scatterData.value.scaled : scatterData.value.raw
-  const tab = scatterTab.value
+  // Only one tab now: density_vs_house (x=kepadatan_penduduk, y=kepadatan_rumah)
   return data.map(p => ({
     ...p,
-    x: tab === 'density_vs_house' ? p.x : tab === 'density_vs_occupants' ? p.x : p.y,
-    y: tab === 'density_vs_house' ? p.y : tab === 'density_vs_occupants' ? p.z : p.z
+    x: p.x,
+    y: p.y
   }))
 })
 
 const currentScatterAxes = computed(() => {
   if (!scatterData.value) return { xLabel: '', yLabel: '' }
   const axes = scatterScaled.value ? scatterData.value.axes.scaled : scatterData.value.axes.raw
-  const tab = scatterTab.value
   return {
-    xLabel: tab === 'density_vs_house' ? axes.xLabel : tab === 'density_vs_occupants' ? axes.xLabel : axes.yLabel,
-    yLabel: tab === 'density_vs_house' ? axes.yLabel : axes.zLabel
+    xLabel: axes.xLabel,
+    yLabel: axes.yLabel
   }
 })
 
@@ -963,16 +960,12 @@ const yTickLabels = computed(() => {
 const clusterCentroids = computed(() => {
   if (!scatterData.value) return []
   const data = scatterScaled.value ? scatterData.value.scaled : scatterData.value.raw
-  const tab = scatterTab.value
   const clusters = ['Rendah', 'Sedang', 'Tinggi']
   return clusters.map(label => {
     const points = data.filter(p => p.cluster === label)
     if (!points.length) return { label, x: 0, y: 0, color: getClusterColor(label) }
-    const x = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.x, 0) / points.length :
-              tab === 'density_vs_occupants' ? points.reduce((a, b) => a + b.x, 0) / points.length :
-              points.reduce((a, b) => a + b.y, 0) / points.length
-    const y = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.y, 0) / points.length :
-              points.reduce((a, b) => a + b.z, 0) / points.length
+    const x = points.reduce((a, b) => a + b.x, 0) / points.length
+    const y = points.reduce((a, b) => a + b.y, 0) / points.length
     return { label, x, y, color: getClusterColor(label) }
   })
 })
@@ -991,21 +984,19 @@ const rightScatterData = computed(() => {
 const rightCurrentScatterData = computed(() => {
   if (!rightScatterData.value) return []
   const data = rightScatterScaled.value ? rightScatterData.value.scaled : rightScatterData.value.raw
-  const tab = rightScatterTab.value
   return data.map(p => ({
     ...p,
-    x: tab === 'density_vs_house' ? p.x : tab === 'density_vs_occupants' ? p.x : p.y,
-    y: tab === 'density_vs_house' ? p.y : tab === 'density_vs_occupants' ? p.z : p.z
+    x: p.x,
+    y: p.y
   }))
 })
 
 const rightCurrentScatterAxes = computed(() => {
   if (!rightScatterData.value) return { xLabel: '', yLabel: '' }
   const axes = rightScatterScaled.value ? rightScatterData.value.axes.scaled : rightScatterData.value.axes.raw
-  const tab = rightScatterTab.value
   return {
-    xLabel: tab === 'density_vs_house' ? axes.xLabel : tab === 'density_vs_occupants' ? axes.xLabel : axes.yLabel,
-    yLabel: tab === 'density_vs_house' ? axes.yLabel : axes.zLabel
+    xLabel: axes.xLabel,
+    yLabel: axes.yLabel
   }
 })
 
@@ -1029,16 +1020,12 @@ const rightYTickLabels = computed(() => {
 const rightClusterCentroids = computed(() => {
   if (!rightScatterData.value) return []
   const data = rightScatterScaled.value ? rightScatterData.value.scaled : rightScatterData.value.raw
-  const tab = rightScatterTab.value
   const clusters = ['Rendah', 'Sedang', 'Tinggi']
   return clusters.map(label => {
     const points = data.filter(p => p.cluster === label)
     if (!points.length) return { label, x: 0, y: 0, color: getClusterColor(label) }
-    const x = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.x, 0) / points.length :
-              tab === 'density_vs_occupants' ? points.reduce((a, b) => a + b.x, 0) / points.length :
-              points.reduce((a, b) => a + b.y, 0) / points.length
-    const y = tab === 'density_vs_house' ? points.reduce((a, b) => a + b.y, 0) / points.length :
-              points.reduce((a, b) => a + b.z, 0) / points.length
+    const x = points.reduce((a, b) => a + b.x, 0) / points.length
+    const y = points.reduce((a, b) => a + b.y, 0) / points.length
     return { label, x, y, color: getClusterColor(label) }
   })
 })
@@ -1225,6 +1212,7 @@ const onInputChange = (item) => {
 const resetSimulationData = () => {
   initSimulationData()
   simulationApplied.value = false
+  simulationClusteringResult.value = null
 }
 
 // Apply simulation to backend for re-clustering
@@ -1333,6 +1321,179 @@ const applySimulationToMap = async () => {
   }
 }
 
+// Call backend /api/recluster for simulation data
+const callSimulationClusteringAPI = async () => {
+  if (simulationClusteringResult.value) {
+    return simulationClusteringResult.value
+  }
+  
+  isApplying.value = true
+  try {
+    const payload = simulationData.value.map(item => ({
+      id: item.id,
+      nama: item.nama,
+      tahun: simulationYear.value,
+      jumlah_penduduk: Math.round(item.jumlah_penduduk),
+      luas_km2: Number(item.luas_km2.toFixed(2)),
+      jumlah_rumah: Math.round(item.jumlah_rumah),
+    }))
+
+    const res = await fetch('/api/recluster', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year: simulationYear.value, data: payload })
+    })
+
+    const result = await res.json()
+    if (result.success && result.clusters && result.metrics) {
+      simulationClusteringResult.value = result
+      return result
+    } else {
+      throw new Error(result.error || 'Unknown error')
+    }
+  } catch (err) {
+    console.error('Simulation clustering failed:', err)
+    throw err
+  } finally {
+    isApplying.value = false
+  }
+}
+
+// Extract hierarchical step result from backend response
+const extractHierarchicalResult = (backendResult) => {
+  const metrics = backendResult.metrics?.hierarchical || {}
+  const byK = metrics.silhouette_by_k || {}
+  const silhouetteByK = Object.entries(byK).map(([k, v]) => ({ k: Number(k), score: v }))
+  const optimalK = metrics.optimal_k_suggestion || 3
+  const silhouetteScore = metrics.silhouette || 0
+  const daviesBouldin = metrics.davies_bouldin || 0
+
+  return {
+    title: 'Hierarchical Clustering Simulasi (Ward) - Tahun ' + simulationYear.value,
+    metrics: {
+      optimal_k: optimalK,
+      silhouette: silhouetteScore,
+      davies_bouldin: daviesBouldin
+    },
+    silhouetteByK,
+    linkage: 'Ward',
+    metric: 'Euclidean',
+    summary: `Optimal k: ${optimalK} (Silhouette: ${silhouetteScore.toFixed(3)})`
+  }
+}
+
+// Extract K-Means step result from backend response
+const extractKMeansResult = (backendResult) => {
+  const metrics = backendResult.metrics?.kmeans || {}
+  const clusters = backendResult.clusters || []
+  
+  // Build clusters data with kecamatan names
+  const clustersData = ['Rendah', 'Sedang', 'Tinggi'].map(label => {
+    const clusterItems = clusters.filter(c => c.cluster_label === label)
+    return {
+      label,
+      count: clusterItems.length,
+      avg_density: clusterItems.length > 0 ? clusterItems.reduce((a, b) => a + b.kepadatan_penduduk, 0) / clusterItems.length : 0,
+      avg_house_density: clusterItems.length > 0 ? clusterItems.reduce((a, b) => a + b.kepadatan_rumah, 0) / clusterItems.length : 0,
+      avg_occupants: clusterItems.length > 0 ? clusterItems.reduce((a, b) => a + b.rata_rata_penghuni, 0) / clusterItems.length : 0,
+      kecamatan: clusterItems.map(c => c.nama)
+    }
+  })
+
+  // Scatter plot data
+  const list = simulationData.value
+  const scatterData = list.map(item => {
+    const clusterInfo = clusters.find(c => c.id === item.id)
+    return {
+      nama: item.nama,
+      cluster: clusterInfo?.cluster_label || item.cluster_label,
+      x: Number(item.kepadatan_penduduk),
+      y: Number(item.kepadatan_rumah),
+      z: Number(item.rata_rata_penghuni),
+      color: getClusterColor(clusterInfo?.cluster_label || item.cluster_label)
+    }
+  })
+
+  const features = list.map(item => [
+    Number(item.kepadatan_penduduk),
+    Number(item.kepadatan_rumah),
+    Number(item.rata_rata_penghuni)
+  ])
+  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+  const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
+
+  const scatterDataScaled = list.map((item, idx) => {
+    const clusterInfo = clusters.find(c => c.id === item.id)
+    return {
+      nama: item.nama,
+      cluster: clusterInfo?.cluster_label || item.cluster_label,
+      x: scaled[idx][0],
+      y: scaled[idx][1],
+      z: scaled[idx][2],
+      color: getClusterColor(clusterInfo?.cluster_label || item.cluster_label)
+    }
+  })
+
+  return {
+    title: 'K-Means Clustering Simulasi - Tahun ' + simulationYear.value,
+    params: { n_clusters: 3, random_state: 42, n_init: 20 },
+    metrics: {
+      silhouette: metrics.silhouette || 0,
+      davies_bouldin: metrics.davies_bouldin || 0,
+      inertia: metrics.inertia || 0
+    },
+    clusters: clustersData,
+    scatterData: {
+      raw: scatterData,
+      scaled: scatterDataScaled,
+      axes: {
+        raw: { xLabel: 'Kepadatan Penduduk (jiwa/km²)', yLabel: 'Kepadatan Rumah (rumah/km²)', zLabel: 'Rata² Penghuni (org/rumah)' },
+        scaled: { xLabel: 'Kepadatan Penduduk (Z-score)', yLabel: 'Kepadatan Rumah (Z-score)', zLabel: 'Rata² Penghuni (Z-score)' }
+      }
+    },
+    summary: `Silhouette: ${(metrics.silhouette || 0).toFixed(3)} · DB Index: ${(metrics.davies_bouldin || 0).toFixed(3)}`
+  }
+}
+
+// Extract evaluation step result from backend response
+const extractEvaluationResult = (backendResult) => {
+  const clusters = backendResult.clusters || []
+  const order = ['Rendah', 'Sedang', 'Tinggi']
+  
+  const computedStats = {}
+  order.forEach(label => {
+    const clusterItems = clusters.filter(c => c.cluster_label === label)
+    if (clusterItems.length > 0) {
+      computedStats[label] = {
+        count: clusterItems.length,
+        avg_kepadatan_penduduk: clusterItems.reduce((a, b) => a + b.kepadatan_penduduk, 0) / clusterItems.length,
+        avg_kepadatan_rumah: clusterItems.reduce((a, b) => a + b.kepadatan_rumah, 0) / clusterItems.length,
+        avg_rata_rata_penghuni: clusterItems.reduce((a, b) => a + b.rata_rata_penghuni, 0) / clusterItems.length,
+        kecamatan: clusterItems.map(c => c.nama)
+      }
+    }
+  })
+
+  return {
+    title: 'Evaluasi & Interpretasi Simulasi - Tahun ' + simulationYear.value,
+    clusters: order.map(label => ({
+      label,
+      count: computedStats[label]?.count || 0,
+      avg_density: computedStats[label]?.avg_kepadatan_penduduk || 0,
+      avg_house_density: computedStats[label]?.avg_kepadatan_rumah || 0,
+      avg_occupants: computedStats[label]?.avg_rata_rata_penghuni || 0,
+      kecamatan: computedStats[label]?.kecamatan || []
+    })),
+    interpretation: {
+      Rendah: 'Kepadatan < 1.000 jiwa/km² — Wilayah perbukitan/perkebunan',
+      Sedang: 'Kepadatan 1.000–5.000 jiwa/km² — Wilayah transisi/perkotaan',
+      Tinggi: 'Kepadatan > 5.000 jiwa/km² — Pusat kota/permukiman padat'
+    },
+    summary: `${order.map(l => `${l}: ${computedStats[l]?.count || 0} kec`).join(' · ')}`
+  }
+}
+
 // Toggle left panel with mutual exclusion (right panel closes)
 const toggleLeftPanel = () => {
   if (!isLeftPanelOpen.value) {
@@ -1352,6 +1513,7 @@ const onPanelYearChange = async () => {
   stepResults.value = {}
   completedSteps.value = []
   visualizationDone.value = false
+  simulationClusteringResult.value = null
 }
 
 // Run a specific pipeline step with real data
@@ -1420,13 +1582,29 @@ const runRightStep = async (stepId) => {
       result = computeSimPreprocessing(list)
       break
     case 'sim-hierarchical':
-      result = computeSimHierarchical()
-      break
     case 'sim-kmeans':
-      result = computeSimKMeans()
-      break
     case 'sim-evaluation':
-      result = computeSimEvaluation()
+      // Call backend once for all clustering steps, cache result
+      try {
+        const backendResult = await callSimulationClusteringAPI()
+        if (stepId === 'sim-hierarchical') {
+          result = extractHierarchicalResult(backendResult)
+        } else if (stepId === 'sim-kmeans') {
+          result = extractKMeansResult(backendResult)
+        } else if (stepId === 'sim-evaluation') {
+          result = extractEvaluationResult(backendResult)
+        }
+      } catch (err) {
+        // Fallback to mock if backend fails
+        console.warn('Backend clustering failed, using fallback:', err)
+        if (stepId === 'sim-hierarchical') {
+          result = computeSimHierarchical()
+        } else if (stepId === 'sim-kmeans') {
+          result = computeSimKMeans()
+        } else if (stepId === 'sim-evaluation') {
+          result = computeSimEvaluation()
+        }
+      }
       break
     case 'sim-visualization':
       await applySimulationToMap()
@@ -1459,17 +1637,15 @@ const computeRawData = (list) => {
 const computeFeatureEngineering = (list) => {
   return {
     title: 'Feature Engineering - Tahun ' + panelYear.value,
-    columns: ['Kecamatan', 'Kepadatan Penduduk (jiwa/km²)', 'Kepadatan Rumah (rumah/km²)', 'Rata² Penghuni (org/rumah)'],
+    columns: ['Kecamatan', 'Kepadatan Penduduk (jiwa/km²)', 'Kepadatan Rumah (rumah/km²)'],
     rows: list.map(item => [
       item.nama,
       formatDecimal(item.kepadatan_penduduk),
-      formatDecimal(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
-      formatDecimal(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+      formatDecimal(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2))
     ]),
     formulas: [
       'Kepadatan Penduduk = Jumlah Penduduk / Luas Wilayah',
-      'Kepadatan Rumah = Jumlah Rumah / Luas Wilayah',
-      'Rata-rata Penghuni = Jumlah Penduduk / Jumlah Rumah'
+      'Kepadatan Rumah = Jumlah Rumah / Luas Wilayah'
     ],
     summary: `Rata² kepadatan: ${formatDecimal(list.reduce((a,b)=>a+Number(b.kepadatan_penduduk),0)/list.length)} jiwa/km²`
   }
@@ -1479,26 +1655,23 @@ const computePreprocessing = (list) => {
   // Compute z-scores manually for display
   const features = list.map(item => [
     Number(item.kepadatan_penduduk),
-    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
-    Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2))
   ])
 
-  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
-  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+  const means = [0, 1].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
 
   const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
 
   return {
     title: 'Preprocessing & Standardisasi (Z-Score) - Tahun ' + panelYear.value,
-    columns: ['Kecamatan', 'Kep. Penduduk (asli)', 'Kep. Penduduk (z-score)', 'Kep. Rumah (asli)', 'Kep. Rumah (z-score)', 'Rata² Penghuni (asli)', 'Rata² Penghuni (z-score)'],
+    columns: ['Kecamatan', 'Kep. Penduduk (asli)', 'Kep. Penduduk (z-score)', 'Kep. Rumah (asli)', 'Kep. Rumah (z-score)'],
     rows: list.map((item, idx) => [
       item.nama,
       formatDecimal(features[idx][0]),
       formatDecimal(scaled[idx][0]),
       formatDecimal(features[idx][1]),
-      formatDecimal(scaled[idx][1]),
-      formatDecimal(features[idx][2]),
-      formatDecimal(scaled[idx][2])
+      formatDecimal(scaled[idx][1])
     ]),
     stats: {
       mean: means.map(m => formatDecimal(m)),
@@ -1555,7 +1728,6 @@ const computeKMeans = () => {
           count: items.length,
           avg_kepadatan_penduduk: items.reduce((a, b) => a + Number(b.kepadatan_penduduk), 0) / items.length,
           avg_kepadatan_rumah: items.reduce((a, b) => a + Number(b.kepadatan_rumah || (b.jumlah_rumah / b.luas_km2)), 0) / items.length,
-          avg_rata_rata_penghuni: items.reduce((a, b) => a + Number(b.rata_rata_penghuni || (b.jumlah_penduduk / b.jumlah_rumah)), 0) / items.length,
           kecamatan: items.map(i => i.nama)
         }
       }
@@ -1568,28 +1740,25 @@ const computeKMeans = () => {
       count: statsSource[label]?.count || 0,
       avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
       avg_house_density: statsSource[label]?.avg_kepadatan_rumah || 0,
-      avg_occupants: statsSource[label]?.avg_rata_rata_penghuni || 0,
       kecamatan: statsSource[label]?.kecamatan || []
     }))
 
-  // Scatter plot data - individual kecamatan points
+  // Scatter plot data - individual kecamatan points (2 features only)
   const scatterData = list.map(item => ({
     nama: item.nama,
     cluster: item.cluster_label,
     x: Number(item.kepadatan_penduduk), // Kepadatan Penduduk
     y: Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)), // Kepadatan Rumah
-    z: Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah)), // Rata² Penghuni
     color: getClusterColor(item.cluster_label)
   }))
 
-  // For standardized scatter plot
+  // For standardized scatter plot (2 features)
   const features = list.map(item => [
     Number(item.kepadatan_penduduk),
-    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2)),
-    Number(item.rata_rata_penghuni || (item.jumlah_penduduk / item.jumlah_rumah))
+    Number(item.kepadatan_rumah || (item.jumlah_rumah / item.luas_km2))
   ])
-  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
-  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+  const means = [0, 1].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
   const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
 
   const scatterDataScaled = list.map((item, idx) => ({
@@ -1597,7 +1766,6 @@ const computeKMeans = () => {
     cluster: item.cluster_label,
     x: scaled[idx][0], // Standardized Kepadatan Penduduk
     y: scaled[idx][1], // Standardized Kepadatan Rumah
-    z: scaled[idx][2], // Standardized Rata² Penghuni
     color: getClusterColor(item.cluster_label)
   }))
 
@@ -1610,13 +1778,13 @@ const computeKMeans = () => {
       inertia: metrics.inertia || 0
     },
     clusters: clustersData,
-    // Scatter plot data
+    // Scatter plot data (2 features only)
     scatterData: {
       raw: scatterData,
       scaled: scatterDataScaled,
       axes: {
-        raw: { xLabel: 'Kepadatan Penduduk (jiwa/km²)', yLabel: 'Kepadatan Rumah (rumah/km²)', zLabel: 'Rata² Penghuni (org/rumah)' },
-        scaled: { xLabel: 'Kepadatan Penduduk (Z-score)', yLabel: 'Kepadatan Rumah (Z-score)', zLabel: 'Rata² Penghuni (Z-score)' }
+        raw: { xLabel: 'Kepadatan Penduduk (jiwa/km²)', yLabel: 'Kepadatan Rumah (rumah/km²)' },
+        scaled: { xLabel: 'Kepadatan Penduduk (Z-score)', yLabel: 'Kepadatan Rumah (Z-score)' }
       }
     },
     summary: `Silhouette: ${(metrics.silhouette || 0).toFixed(3)} · DB Index: ${(metrics.davies_bouldin || 0).toFixed(3)}`
@@ -1638,7 +1806,6 @@ const computeEvaluation = () => {
           count: items.length,
           avg_kepadatan_penduduk: items.reduce((a, b) => a + Number(b.kepadatan_penduduk), 0) / items.length,
           avg_kepadatan_rumah: items.reduce((a, b) => a + Number(b.kepadatan_rumah || (b.jumlah_rumah / b.luas_km2)), 0) / items.length,
-          avg_rata_rata_penghuni: items.reduce((a, b) => a + Number(b.rata_rata_penghuni || (b.jumlah_penduduk / b.jumlah_rumah)), 0) / items.length,
           kecamatan: items.map(i => i.nama)
         }
       }
@@ -1653,7 +1820,6 @@ const computeEvaluation = () => {
       count: statsSource[label]?.count || 0,
       avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
       avg_house_density: statsSource[label]?.avg_kepadatan_rumah || 0,
-      avg_occupants: statsSource[label]?.avg_rata_rata_penghuni || 0,
       kecamatan: statsSource[label]?.kecamatan || []
     })),
     interpretation: {
@@ -1699,17 +1865,15 @@ const computeSimRawData = (list) => {
 const computeSimFeatureEngineering = (list) => {
   return {
     title: 'Feature Engineering Simulasi - Tahun ' + simulationYear.value,
-    columns: ['Kecamatan', 'Kepadatan Penduduk (jiwa/km²)', 'Kepadatan Rumah (rumah/km²)', 'Rata² Penghuni (org/rumah)'],
+    columns: ['Kecamatan', 'Kepadatan Penduduk (jiwa/km²)', 'Kepadatan Rumah (rumah/km²)'],
     rows: list.map(item => [
       item.nama,
       formatDecimal(item.kepadatan_penduduk),
-      formatDecimal(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0)),
-      formatDecimal(item.rata_rata_penghuni || (item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0))
+      formatDecimal(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0))
     ]),
     formulas: [
       'Kepadatan Penduduk = Jumlah Penduduk / Luas Wilayah',
-      'Kepadatan Rumah = Jumlah Rumah / Luas Wilayah',
-      'Rata-rata Penghuni = Jumlah Penduduk / Jumlah Rumah'
+      'Kepadatan Rumah = Jumlah Rumah / Luas Wilayah'
     ],
     summary: `Rata² kepadatan: ${formatDecimal(list.reduce((a,b)=>a+Number(b.kepadatan_penduduk),0)/list.length)} jiwa/km²`
   }
@@ -1718,26 +1882,23 @@ const computeSimFeatureEngineering = (list) => {
 const computeSimPreprocessing = (list) => {
   const features = list.map(item => [
     Number(item.kepadatan_penduduk),
-    Number(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0)),
-    Number(item.rata_rata_penghuni || (item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0))
+    Number(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0))
   ])
 
-  const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
-  const stds = [0, 1, 2].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
+  const means = [0, 1].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
+  const stds = [0, 1].map(i => Math.sqrt(features.reduce((a, b) => a + Math.pow(b[i] - means[i], 2), 0) / features.length))
 
   const scaled = features.map(row => row.map((val, i) => (val - means[i]) / (stds[i] || 1)))
 
   return {
     title: 'Preprocessing & Standardisasi Simulasi (Z-Score) - Tahun ' + simulationYear.value,
-    columns: ['Kecamatan', 'Kep. Penduduk (asli)', 'Kep. Penduduk (z-score)', 'Kep. Rumah (asli)', 'Kep. Rumah (z-score)', 'Rata² Penghuni (asli)', 'Rata² Penghuni (z-score)'],
+    columns: ['Kecamatan', 'Kep. Penduduk (asli)', 'Kep. Penduduk (z-score)', 'Kep. Rumah (asli)', 'Kep. Rumah (z-score)'],
     rows: list.map((item, idx) => [
       item.nama,
       formatDecimal(features[idx][0]),
       formatDecimal(scaled[idx][0]),
       formatDecimal(features[idx][1]),
-      formatDecimal(scaled[idx][1]),
-      formatDecimal(features[idx][2]),
-      formatDecimal(scaled[idx][2])
+      formatDecimal(scaled[idx][1])
     ]),
     stats: {
       mean: means.map(m => formatDecimal(m)),
@@ -1890,7 +2051,6 @@ const computeSimEvaluation = () => {
         count: items.length,
         avg_kepadatan_penduduk: items.reduce((a, b) => a + Number(b.kepadatan_penduduk), 0) / items.length,
         avg_kepadatan_rumah: items.reduce((a, b) => a + Number(b.kepadatan_rumah), 0) / items.length,
-        avg_rata_rata_penghuni: items.reduce((a, b) => a + Number(b.rata_rata_penghuni), 0) / items.length,
         kecamatan: items.map(i => i.nama)
       }
     }
@@ -1903,7 +2063,6 @@ const computeSimEvaluation = () => {
       count: computedStats[label]?.count || 0,
       avg_density: computedStats[label]?.avg_kepadatan_penduduk || 0,
       avg_house_density: computedStats[label]?.avg_kepadatan_rumah || 0,
-      avg_occupants: computedStats[label]?.avg_rata_rata_penghuni || 0,
       kecamatan: computedStats[label]?.kecamatan || []
     })),
     interpretation: {
@@ -2154,6 +2313,7 @@ const loadData = async (year = selectedYear.value) => {
 
     // Initialize simulation data
     initSimulationData()
+    simulationClusteringResult.value = null
 
     // Calculate cluster counts
     const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
@@ -2230,6 +2390,7 @@ onMounted(() => {
 // Watch simulationYear to reload simulation data
 watch(simulationYear, () => {
   initSimulationData()
+  simulationClusteringResult.value = null
 })
 
 onUnmounted(() => {

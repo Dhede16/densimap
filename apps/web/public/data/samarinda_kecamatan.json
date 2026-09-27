@@ -22,7 +22,14 @@
         "kepadatan_penduduk": 278.37,
         "kepadatan_rumah": 58.19,
         "rata_rata_penghuni": 4.78,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -2673,7 +2680,14 @@
         "kepadatan_penduduk": 5093.03,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.45,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -3696,7 +3710,14 @@
         "kepadatan_penduduk": 5920.3,
         "kepadatan_rumah": 1105.33,
         "rata_rata_penghuni": 5.36,
-        "cluster_label": "Sedang"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -6059,7 +6080,14 @@
         "kepadatan_penduduk": 4071.71,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.52,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -6990,7 +7018,14 @@
         "kepadatan_penduduk": 445.54,
         "kepadatan_rumah": 54.6,
         "rata_rata_penghuni": 8.16,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -13157,7 +13192,14 @@
         "kepadatan_penduduk": 3016.45,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.05,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -14988,7 +15030,14 @@
         "kepadatan_penduduk": 554.98,
         "kepadatan_rumah": 91.68,
         "rata_rata_penghuni": 6.05,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -17431,7 +17480,14 @@
         "kepadatan_penduduk": 3076.43,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.29,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -19418,7 +19474,14 @@
         "kepadatan_penduduk": 2983.54,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 4.02,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -19885,7 +19948,14 @@
         "kepadatan_penduduk": 2478.07,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 6.66,
-        "cluster_label": "Rendah"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -21840,7 +21910,14 @@
         "kepadatan_penduduk": 281.77,
         "kepadatan_rumah": 58.19,
         "rata_rata_penghuni": 4.84,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0122,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -24491,7 +24568,14 @@
         "kepadatan_penduduk": 5127.3,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.51,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0067,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -25514,7 +25598,14 @@
         "kepadatan_penduduk": 5938.16,
         "kepadatan_rumah": 1105.33,
         "rata_rata_penghuni": 5.37,
-        "cluster_label": "Sedang"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.003,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -27877,7 +27968,14 @@
         "kepadatan_penduduk": 4073.81,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.53,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0005,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -28808,7 +28906,14 @@
         "kepadatan_penduduk": 453.06,
         "kepadatan_rumah": 54.6,
         "rata_rata_penghuni": 8.3,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0169,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -34975,7 +35080,14 @@
         "kepadatan_penduduk": 3061.83,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.13,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.015,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -36806,7 +36918,14 @@
         "kepadatan_penduduk": 564.14,
         "kepadatan_rumah": 91.68,
         "rata_rata_penghuni": 6.15,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0165,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -39249,7 +39368,14 @@
         "kepadatan_penduduk": 3115.08,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.36,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0126,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -41236,7 +41362,14 @@
         "kepadatan_penduduk": 2977.7,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 4.01,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.002,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -41703,7 +41836,14 @@
         "kepadatan_penduduk": 2507.5,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 6.74,
-        "cluster_label": "Rendah"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0119,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -43658,7 +43798,14 @@
         "kepadatan_penduduk": 294.63,
         "kepadatan_rumah": 58.19,
         "rata_rata_penghuni": 5.06,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0456,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -46309,7 +46456,14 @@
         "kepadatan_penduduk": 5228.98,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.7,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0198,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -47332,7 +47486,14 @@
         "kepadatan_penduduk": 6017.68,
         "kepadatan_rumah": 1105.33,
         "rata_rata_penghuni": 5.44,
-        "cluster_label": "Sedang"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0134,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -49695,7 +49856,14 @@
         "kepadatan_penduduk": 4084.87,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.54,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0027,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -50626,7 +50794,14 @@
         "kepadatan_penduduk": 475.08,
         "kepadatan_rumah": 54.6,
         "rata_rata_penghuni": 8.7,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0486,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -56793,7 +56968,14 @@
         "kepadatan_penduduk": 3167.29,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.3,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0344,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -58624,7 +58806,14 @@
         "kepadatan_penduduk": 598.39,
         "kepadatan_rumah": 91.68,
         "rata_rata_penghuni": 6.53,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0607,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -61067,7 +61256,14 @@
         "kepadatan_penduduk": 3199.94,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.51,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0272,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -63054,7 +63250,14 @@
         "kepadatan_penduduk": 2951.26,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 3.98,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.0089,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -63521,7 +63724,14 @@
         "kepadatan_penduduk": 2603.29,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 7.0,
-        "cluster_label": "Rendah"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0382,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -65476,7 +65686,14 @@
         "kepadatan_penduduk": 302.37,
         "kepadatan_rumah": 86.44,
         "rata_rata_penghuni": 3.5,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "warning",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "warning",
+          "pct_change_penduduk": 0.0263,
+          "pct_change_rumah": 0.4856
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -68127,7 +68344,14 @@
         "kepadatan_penduduk": 8973.26,
         "kepadatan_rumah": 1059.89,
         "rata_rata_penghuni": 8.47,
-        "cluster_label": "Sedang"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "suspect",
+          "pct_change_penduduk": 0.7161,
+          "pct_change_rumah": 0.9667
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -69150,7 +69374,14 @@
         "kepadatan_penduduk": 4994.26,
         "kepadatan_rumah": 1266.59,
         "rata_rata_penghuni": 3.94,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.1701,
+          "pct_change_rumah": 0.1459
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -71513,7 +71744,14 @@
         "kepadatan_penduduk": 3829.8,
         "kepadatan_rumah": 871.83,
         "rata_rata_penghuni": 4.39,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.0624,
+          "pct_change_rumah": 0.1827
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -72444,7 +72682,14 @@
         "kepadatan_penduduk": 141.07,
         "kepadatan_rumah": 143.57,
         "rata_rata_penghuni": 0.98,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "suspect",
+          "pct_change_penduduk": -0.7031,
+          "pct_change_rumah": 1.6296
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -78611,7 +78856,14 @@
         "kepadatan_penduduk": 1450.49,
         "kepadatan_rumah": 774.19,
         "rata_rata_penghuni": 1.87,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "warning",
+          "pct_change_penduduk": -0.542,
+          "pct_change_rumah": 0.2959
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -80442,7 +80694,14 @@
         "kepadatan_penduduk": 691.09,
         "kepadatan_rumah": 185.84,
         "rata_rata_penghuni": 3.72,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "suspect",
+          "pct_change_penduduk": 0.1549,
+          "pct_change_rumah": 1.0271
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -82885,7 +83144,14 @@
         "kepadatan_penduduk": 2031.5,
         "kepadatan_rumah": 885.6,
         "rata_rata_penghuni": 2.29,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "warning",
+          "rumah_flag": "suspect",
+          "pct_change_penduduk": -0.3651,
+          "pct_change_rumah": 0.5239
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -84872,7 +85138,14 @@
         "kepadatan_penduduk": 11990.2,
         "kepadatan_rumah": 634.08,
         "rata_rata_penghuni": 18.91,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 3.0627,
+          "pct_change_rumah": -0.1457
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -85339,7 +85612,14 @@
         "kepadatan_penduduk": 5331.8,
         "kepadatan_rumah": 675.47,
         "rata_rata_penghuni": 7.89,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "suspect",
+          "pct_change_penduduk": 1.0481,
+          "pct_change_rumah": 0.8162
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -87294,7 +87574,14 @@
         "kepadatan_penduduk": 305.52,
         "kepadatan_rumah": 86.44,
         "rata_rata_penghuni": 3.53,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0104,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -89945,7 +90232,14 @@
         "kepadatan_penduduk": 5290.71,
         "kepadatan_rumah": 1059.89,
         "rata_rata_penghuni": 4.99,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "warning",
+        "data_quality_detail": {
+          "penduduk_flag": "warning",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.4104,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -90968,7 +91262,14 @@
         "kepadatan_penduduk": 6055.79,
         "kepadatan_rumah": 1266.59,
         "rata_rata_penghuni": 4.78,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.2125,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -93331,7 +93632,14 @@
         "kepadatan_penduduk": 4057.1,
         "kepadatan_rumah": 871.83,
         "rata_rata_penghuni": 4.65,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0594,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -94262,7 +94570,14 @@
         "kepadatan_penduduk": 494.47,
         "kepadatan_rumah": 143.57,
         "rata_rata_penghuni": 3.44,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 2.5051,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -100429,7 +100744,14 @@
         "kepadatan_penduduk": 3267.19,
         "kepadatan_rumah": 774.19,
         "rata_rata_penghuni": 4.22,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 1.2525,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -102260,7 +102582,14 @@
         "kepadatan_penduduk": 625.29,
         "kepadatan_rumah": 185.84,
         "rata_rata_penghuni": 3.36,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.0952,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -104703,7 +105032,14 @@
         "kepadatan_penduduk": 3261.94,
         "kepadatan_rumah": 885.6,
         "rata_rata_penghuni": 3.68,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.6057,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -106690,7 +107026,14 @@
         "kepadatan_penduduk": 2914.03,
         "kepadatan_rumah": 634.08,
         "rata_rata_penghuni": 4.6,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.757,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -107157,7 +107500,14 @@
         "kepadatan_penduduk": 2682.28,
         "kepadatan_rumah": 675.47,
         "rata_rata_penghuni": 3.97,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "warning",
+        "data_quality_detail": {
+          "penduduk_flag": "warning",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.4969,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -109112,7 +109462,14 @@
         "kepadatan_penduduk": 316.55,
         "kepadatan_rumah": 86.44,
         "rata_rata_penghuni": 3.66,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.0361,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -111763,7 +112120,14 @@
         "kepadatan_penduduk": 9420.34,
         "kepadatan_rumah": 1059.89,
         "rata_rata_penghuni": 8.89,
-        "cluster_label": "Sedang"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.7805,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -112786,7 +113150,14 @@
         "kepadatan_penduduk": 5135.85,
         "kepadatan_rumah": 1266.59,
         "rata_rata_penghuni": 4.05,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.1519,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -115149,7 +115520,14 @@
         "kepadatan_penduduk": 3904.25,
         "kepadatan_rumah": 871.83,
         "rata_rata_penghuni": 4.48,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.0377,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -116080,7 +116458,14 @@
         "kepadatan_penduduk": 138.79,
         "kepadatan_rumah": 143.57,
         "rata_rata_penghuni": 0.97,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.7193,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -122247,7 +122632,14 @@
         "kepadatan_penduduk": 1513.73,
         "kepadatan_rumah": 774.19,
         "rata_rata_penghuni": 1.96,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.5367,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -124078,7 +124470,14 @@
         "kepadatan_penduduk": 694.36,
         "kepadatan_rumah": 185.84,
         "rata_rata_penghuni": 3.74,
-        "cluster_label": "Rendah"
+        "cluster_label": "Rendah",
+        "data_quality_flag": "clean",
+        "data_quality_detail": {
+          "penduduk_flag": "clean",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 0.1105,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -126521,7 +126920,14 @@
         "kepadatan_penduduk": 2107.96,
         "kepadatan_rumah": 885.6,
         "rata_rata_penghuni": 2.38,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "warning",
+        "data_quality_detail": {
+          "penduduk_flag": "warning",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": -0.3538,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -128508,7 +128914,14 @@
         "kepadatan_penduduk": 12188.4,
         "kepadatan_rumah": 634.08,
         "rata_rata_penghuni": 19.22,
-        "cluster_label": "Tinggi"
+        "cluster_label": "Tinggi",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 3.1827,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -128975,7 +129388,14 @@
         "kepadatan_penduduk": 5554.88,
         "kepadatan_rumah": 675.47,
         "rata_rata_penghuni": 8.22,
-        "cluster_label": "Sedang"
+        "cluster_label": "Sedang",
+        "data_quality_flag": "suspect",
+        "data_quality_detail": {
+          "penduduk_flag": "suspect",
+          "rumah_flag": "clean",
+          "pct_change_penduduk": 1.071,
+          "pct_change_rumah": 0.0
+        }
       },
       "geometry": {
         "type": "Polygon",
@@ -130936,7 +131356,14 @@
             "kepadatan_penduduk": 278.37,
             "kepadatan_rumah": 58.19,
             "rata_rata_penghuni": 4.78,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -133587,7 +134014,14 @@
             "kepadatan_penduduk": 5093.03,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.45,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -134610,7 +135044,14 @@
             "kepadatan_penduduk": 5920.3,
             "kepadatan_rumah": 1105.33,
             "rata_rata_penghuni": 5.36,
-            "cluster_label": "Sedang"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -136973,7 +137414,14 @@
             "kepadatan_penduduk": 4071.71,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.52,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -137904,7 +138352,14 @@
             "kepadatan_penduduk": 445.54,
             "kepadatan_rumah": 54.6,
             "rata_rata_penghuni": 8.16,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -144071,7 +144526,14 @@
             "kepadatan_penduduk": 3016.45,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.05,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -145902,7 +146364,14 @@
             "kepadatan_penduduk": 554.98,
             "kepadatan_rumah": 91.68,
             "rata_rata_penghuni": 6.05,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -148345,7 +148814,14 @@
             "kepadatan_penduduk": 3076.43,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.29,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -150332,7 +150808,14 @@
             "kepadatan_penduduk": 2983.54,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 4.02,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -150799,7 +151282,14 @@
             "kepadatan_penduduk": 2478.07,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 6.66,
-            "cluster_label": "Rendah"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -152759,7 +153249,14 @@
             "kepadatan_penduduk": 281.77,
             "kepadatan_rumah": 58.19,
             "rata_rata_penghuni": 4.84,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0122,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -155410,7 +155907,14 @@
             "kepadatan_penduduk": 5127.3,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.51,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0067,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -156433,7 +156937,14 @@
             "kepadatan_penduduk": 5938.16,
             "kepadatan_rumah": 1105.33,
             "rata_rata_penghuni": 5.37,
-            "cluster_label": "Sedang"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.003,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -158796,7 +159307,14 @@
             "kepadatan_penduduk": 4073.81,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.53,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0005,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -159727,7 +160245,14 @@
             "kepadatan_penduduk": 453.06,
             "kepadatan_rumah": 54.6,
             "rata_rata_penghuni": 8.3,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0169,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -165894,7 +166419,14 @@
             "kepadatan_penduduk": 3061.83,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.13,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.015,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -167725,7 +168257,14 @@
             "kepadatan_penduduk": 564.14,
             "kepadatan_rumah": 91.68,
             "rata_rata_penghuni": 6.15,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0165,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -170168,7 +170707,14 @@
             "kepadatan_penduduk": 3115.08,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.36,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0126,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -172155,7 +172701,14 @@
             "kepadatan_penduduk": 2977.7,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 4.01,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.002,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -172622,7 +173175,14 @@
             "kepadatan_penduduk": 2507.5,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 6.74,
-            "cluster_label": "Rendah"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0119,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -174582,7 +175142,14 @@
             "kepadatan_penduduk": 294.63,
             "kepadatan_rumah": 58.19,
             "rata_rata_penghuni": 5.06,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0456,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -177233,7 +177800,14 @@
             "kepadatan_penduduk": 5228.98,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.7,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0198,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -178256,7 +178830,14 @@
             "kepadatan_penduduk": 6017.68,
             "kepadatan_rumah": 1105.33,
             "rata_rata_penghuni": 5.44,
-            "cluster_label": "Sedang"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0134,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -180619,7 +181200,14 @@
             "kepadatan_penduduk": 4084.87,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.54,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0027,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -181550,7 +182138,14 @@
             "kepadatan_penduduk": 475.08,
             "kepadatan_rumah": 54.6,
             "rata_rata_penghuni": 8.7,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0486,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -187717,7 +188312,14 @@
             "kepadatan_penduduk": 3167.29,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.3,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0344,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -189548,7 +190150,14 @@
             "kepadatan_penduduk": 598.39,
             "kepadatan_rumah": 91.68,
             "rata_rata_penghuni": 6.53,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0607,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -191991,7 +192600,14 @@
             "kepadatan_penduduk": 3199.94,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.51,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0272,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -193978,7 +194594,14 @@
             "kepadatan_penduduk": 2951.26,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 3.98,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.0089,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -194445,7 +195068,14 @@
             "kepadatan_penduduk": 2603.29,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 7.0,
-            "cluster_label": "Rendah"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0382,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -196405,7 +197035,14 @@
             "kepadatan_penduduk": 302.37,
             "kepadatan_rumah": 86.44,
             "rata_rata_penghuni": 3.5,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "warning",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "warning",
+              "pct_change_penduduk": 0.0263,
+              "pct_change_rumah": 0.4856
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -199056,7 +199693,14 @@
             "kepadatan_penduduk": 8973.26,
             "kepadatan_rumah": 1059.89,
             "rata_rata_penghuni": 8.47,
-            "cluster_label": "Sedang"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "suspect",
+              "pct_change_penduduk": 0.7161,
+              "pct_change_rumah": 0.9667
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -200079,7 +200723,14 @@
             "kepadatan_penduduk": 4994.26,
             "kepadatan_rumah": 1266.59,
             "rata_rata_penghuni": 3.94,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.1701,
+              "pct_change_rumah": 0.1459
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -202442,7 +203093,14 @@
             "kepadatan_penduduk": 3829.8,
             "kepadatan_rumah": 871.83,
             "rata_rata_penghuni": 4.39,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.0624,
+              "pct_change_rumah": 0.1827
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -203373,7 +204031,14 @@
             "kepadatan_penduduk": 141.07,
             "kepadatan_rumah": 143.57,
             "rata_rata_penghuni": 0.98,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "suspect",
+              "pct_change_penduduk": -0.7031,
+              "pct_change_rumah": 1.6296
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -209540,7 +210205,14 @@
             "kepadatan_penduduk": 1450.49,
             "kepadatan_rumah": 774.19,
             "rata_rata_penghuni": 1.87,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "warning",
+              "pct_change_penduduk": -0.542,
+              "pct_change_rumah": 0.2959
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -211371,7 +212043,14 @@
             "kepadatan_penduduk": 691.09,
             "kepadatan_rumah": 185.84,
             "rata_rata_penghuni": 3.72,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "suspect",
+              "pct_change_penduduk": 0.1549,
+              "pct_change_rumah": 1.0271
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -213814,7 +214493,14 @@
             "kepadatan_penduduk": 2031.5,
             "kepadatan_rumah": 885.6,
             "rata_rata_penghuni": 2.29,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "warning",
+              "rumah_flag": "suspect",
+              "pct_change_penduduk": -0.3651,
+              "pct_change_rumah": 0.5239
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -215801,7 +216487,14 @@
             "kepadatan_penduduk": 11990.2,
             "kepadatan_rumah": 634.08,
             "rata_rata_penghuni": 18.91,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 3.0627,
+              "pct_change_rumah": -0.1457
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -216268,7 +216961,14 @@
             "kepadatan_penduduk": 5331.8,
             "kepadatan_rumah": 675.47,
             "rata_rata_penghuni": 7.89,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "suspect",
+              "pct_change_penduduk": 1.0481,
+              "pct_change_rumah": 0.8162
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -218228,7 +218928,14 @@
             "kepadatan_penduduk": 305.52,
             "kepadatan_rumah": 86.44,
             "rata_rata_penghuni": 3.53,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0104,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -220879,7 +221586,14 @@
             "kepadatan_penduduk": 5290.71,
             "kepadatan_rumah": 1059.89,
             "rata_rata_penghuni": 4.99,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "warning",
+            "data_quality_detail": {
+              "penduduk_flag": "warning",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.4104,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -221902,7 +222616,14 @@
             "kepadatan_penduduk": 6055.79,
             "kepadatan_rumah": 1266.59,
             "rata_rata_penghuni": 4.78,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.2125,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -224265,7 +224986,14 @@
             "kepadatan_penduduk": 4057.1,
             "kepadatan_rumah": 871.83,
             "rata_rata_penghuni": 4.65,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0594,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -225196,7 +225924,14 @@
             "kepadatan_penduduk": 494.47,
             "kepadatan_rumah": 143.57,
             "rata_rata_penghuni": 3.44,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 2.5051,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -231363,7 +232098,14 @@
             "kepadatan_penduduk": 3267.19,
             "kepadatan_rumah": 774.19,
             "rata_rata_penghuni": 4.22,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 1.2525,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -233194,7 +233936,14 @@
             "kepadatan_penduduk": 625.29,
             "kepadatan_rumah": 185.84,
             "rata_rata_penghuni": 3.36,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.0952,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -235637,7 +236386,14 @@
             "kepadatan_penduduk": 3261.94,
             "kepadatan_rumah": 885.6,
             "rata_rata_penghuni": 3.68,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.6057,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -237624,7 +238380,14 @@
             "kepadatan_penduduk": 2914.03,
             "kepadatan_rumah": 634.08,
             "rata_rata_penghuni": 4.6,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.757,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -238091,7 +238854,14 @@
             "kepadatan_penduduk": 2682.28,
             "kepadatan_rumah": 675.47,
             "rata_rata_penghuni": 3.97,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "warning",
+            "data_quality_detail": {
+              "penduduk_flag": "warning",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.4969,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -240051,7 +240821,14 @@
             "kepadatan_penduduk": 316.55,
             "kepadatan_rumah": 86.44,
             "rata_rata_penghuni": 3.66,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.0361,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -242702,7 +243479,14 @@
             "kepadatan_penduduk": 9420.34,
             "kepadatan_rumah": 1059.89,
             "rata_rata_penghuni": 8.89,
-            "cluster_label": "Sedang"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.7805,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -243725,7 +244509,14 @@
             "kepadatan_penduduk": 5135.85,
             "kepadatan_rumah": 1266.59,
             "rata_rata_penghuni": 4.05,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.1519,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -246088,7 +246879,14 @@
             "kepadatan_penduduk": 3904.25,
             "kepadatan_rumah": 871.83,
             "rata_rata_penghuni": 4.48,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.0377,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -247019,7 +247817,14 @@
             "kepadatan_penduduk": 138.79,
             "kepadatan_rumah": 143.57,
             "rata_rata_penghuni": 0.97,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.7193,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -253186,7 +253991,14 @@
             "kepadatan_penduduk": 1513.73,
             "kepadatan_rumah": 774.19,
             "rata_rata_penghuni": 1.96,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.5367,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -255017,7 +255829,14 @@
             "kepadatan_penduduk": 694.36,
             "kepadatan_rumah": 185.84,
             "rata_rata_penghuni": 3.74,
-            "cluster_label": "Rendah"
+            "cluster_label": "Rendah",
+            "data_quality_flag": "clean",
+            "data_quality_detail": {
+              "penduduk_flag": "clean",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 0.1105,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -257460,7 +258279,14 @@
             "kepadatan_penduduk": 2107.96,
             "kepadatan_rumah": 885.6,
             "rata_rata_penghuni": 2.38,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "warning",
+            "data_quality_detail": {
+              "penduduk_flag": "warning",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": -0.3538,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -259447,7 +260273,14 @@
             "kepadatan_penduduk": 12188.4,
             "kepadatan_rumah": 634.08,
             "rata_rata_penghuni": 19.22,
-            "cluster_label": "Tinggi"
+            "cluster_label": "Tinggi",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 3.1827,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -259914,7 +260747,14 @@
             "kepadatan_penduduk": 5554.88,
             "kepadatan_rumah": 675.47,
             "rata_rata_penghuni": 8.22,
-            "cluster_label": "Sedang"
+            "cluster_label": "Sedang",
+            "data_quality_flag": "suspect",
+            "data_quality_detail": {
+              "penduduk_flag": "suspect",
+              "rumah_flag": "clean",
+              "pct_change_penduduk": 1.071,
+              "pct_change_rumah": 0.0
+            }
           },
           "geometry": {
             "type": "Polygon",
@@ -261862,258 +262702,143 @@
   "metrics": {
     "2020": {
       "hierarchical": {
-        "silhouette": 0.4049,
-        "davies_bouldin": 0.5496,
-        "optimal_k_suggestion": 3,
+        "silhouette": 0.5846,
+        "davies_bouldin": 0.2695,
+        "optimal_k_suggestion": 2,
         "silhouette_by_k": {
-          "2": 0.3702,
-          "3": 0.4049,
-          "4": 0.3557,
-          "5": 0.3235
+          "2": 0.6386,
+          "3": 0.5846,
+          "4": 0.4681,
+          "5": 0.4325
         }
       },
       "kmeans": {
-        "silhouette": 0.4049,
-        "davies_bouldin": 0.5496,
-        "inertia": 8.1428
+        "silhouette": 0.5846,
+        "davies_bouldin": 0.2695,
+        "inertia": 2.2569
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     },
     "2021": {
       "hierarchical": {
-        "silhouette": 0.4047,
-        "davies_bouldin": 0.5494,
-        "optimal_k_suggestion": 3,
+        "silhouette": 0.5859,
+        "davies_bouldin": 0.2681,
+        "optimal_k_suggestion": 2,
         "silhouette_by_k": {
-          "2": 0.3713,
-          "3": 0.4047,
-          "4": 0.3556,
-          "5": 0.322
+          "2": 0.64,
+          "3": 0.5859,
+          "4": 0.4715,
+          "5": 0.4363
         }
       },
       "kmeans": {
-        "silhouette": 0.4047,
-        "davies_bouldin": 0.5494,
-        "inertia": 8.175
+        "silhouette": 0.5859,
+        "davies_bouldin": 0.2681,
+        "inertia": 2.2481
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     },
     "2022": {
       "hierarchical": {
-        "silhouette": 0.4056,
-        "davies_bouldin": 0.5455,
-        "optimal_k_suggestion": 3,
+        "silhouette": 0.589,
+        "davies_bouldin": 0.2661,
+        "optimal_k_suggestion": 2,
         "silhouette_by_k": {
-          "2": 0.3755,
-          "3": 0.4056,
-          "4": 0.3588,
-          "5": 0.3136
+          "2": 0.6421,
+          "3": 0.589,
+          "4": 0.4811,
+          "5": 0.4417
         }
       },
       "kmeans": {
-        "silhouette": 0.4056,
-        "davies_bouldin": 0.5455,
-        "inertia": 8.242
+        "silhouette": 0.589,
+        "davies_bouldin": 0.2661,
+        "inertia": 2.2374
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     },
     "2023": {
       "hierarchical": {
-        "silhouette": 0.4688,
-        "davies_bouldin": 0.4169,
-        "optimal_k_suggestion": 3,
+        "silhouette": 0.5192,
+        "davies_bouldin": 0.6897,
+        "optimal_k_suggestion": 2,
         "silhouette_by_k": {
-          "2": 0.419,
-          "3": 0.4688,
-          "4": 0.4282,
-          "5": 0.3908
+          "2": 0.5472,
+          "3": 0.5192,
+          "4": 0.5051,
+          "5": 0.4544
         }
       },
       "kmeans": {
-        "silhouette": 0.4688,
-        "davies_bouldin": 0.4169,
-        "inertia": 5.9286
+        "silhouette": 0.555,
+        "davies_bouldin": 0.567,
+        "inertia": 3.2245
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     },
     "2024": {
       "hierarchical": {
-        "silhouette": 0.6008,
-        "davies_bouldin": 0.4451,
-        "optimal_k_suggestion": 2,
+        "silhouette": 0.7131,
+        "davies_bouldin": 0.3312,
+        "optimal_k_suggestion": 3,
         "silhouette_by_k": {
-          "2": 0.6104,
-          "3": 0.6008,
-          "4": 0.5276,
-          "5": 0.4573
+          "2": 0.6861,
+          "3": 0.7131,
+          "4": 0.6128,
+          "5": 0.509
         }
       },
       "kmeans": {
-        "silhouette": 0.5693,
-        "davies_bouldin": 0.5353,
-        "inertia": 3.0741
+        "silhouette": 0.7131,
+        "davies_bouldin": 0.3312,
+        "inertia": 0.9399
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     },
     "2025": {
       "hierarchical": {
-        "silhouette": 0.461,
-        "davies_bouldin": 0.4244,
-        "optimal_k_suggestion": 3,
+        "silhouette": 0.5203,
+        "davies_bouldin": 0.6894,
+        "optimal_k_suggestion": 2,
         "silhouette_by_k": {
-          "2": 0.4186,
-          "3": 0.461,
-          "4": 0.4358,
-          "5": 0.3955
+          "2": 0.5478,
+          "3": 0.5203,
+          "4": 0.4969,
+          "5": 0.455
         }
       },
       "kmeans": {
-        "silhouette": 0.461,
-        "davies_bouldin": 0.4244,
-        "inertia": 6.1523
+        "silhouette": 0.561,
+        "davies_bouldin": 0.5568,
+        "inertia": 3.166
       },
       "features_used": [
         "kepadatan_penduduk",
-        "kepadatan_rumah",
-        "rata_rata_penghuni"
+        "kepadatan_rumah"
       ]
     }
   },
   "cluster_stats": {
     "2020": {
       "Rendah": {
-        "count": 4,
-        "avg_kepadatan_penduduk": 939.24,
-        "avg_kepadatan_rumah": 144.09,
-        "avg_rata_rata_penghuni": 6.42,
-        "kecamatan": [
-          "Palaran",
-          "Samarinda Utara",
-          "Sambutan",
-          "Loa Janan Ilir"
-        ]
-      },
-      "Sedang": {
-        "count": 5,
-        "avg_kepadatan_penduduk": 3813.69,
-        "avg_kepadatan_rumah": 752.66,
-        "avg_rata_rata_penghuni": 5.05,
-        "kecamatan": [
-          "Samarinda Ulu",
-          "Samarinda Ilir",
-          "Sungai Kunjang",
-          "Sungai Pinang",
-          "Samarinda Kota"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 5093.03,
-        "avg_kepadatan_rumah": 538.91,
-        "avg_rata_rata_penghuni": 9.45,
-        "kecamatan": [
-          "Samarinda Seberang"
-        ]
-      }
-    },
-    "2021": {
-      "Rendah": {
-        "count": 4,
-        "avg_kepadatan_penduduk": 951.62,
-        "avg_kepadatan_rumah": 144.09,
-        "avg_rata_rata_penghuni": 6.51,
-        "kecamatan": [
-          "Palaran",
-          "Samarinda Utara",
-          "Sambutan",
-          "Loa Janan Ilir"
-        ]
-      },
-      "Sedang": {
-        "count": 5,
-        "avg_kepadatan_penduduk": 3833.31,
-        "avg_kepadatan_rumah": 752.66,
-        "avg_rata_rata_penghuni": 5.08,
-        "kecamatan": [
-          "Samarinda Ulu",
-          "Samarinda Ilir",
-          "Sungai Kunjang",
-          "Sungai Pinang",
-          "Samarinda Kota"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 5127.3,
-        "avg_kepadatan_rumah": 538.91,
-        "avg_rata_rata_penghuni": 9.51,
-        "kecamatan": [
-          "Samarinda Seberang"
-        ]
-      }
-    },
-    "2022": {
-      "Rendah": {
-        "count": 4,
-        "avg_kepadatan_penduduk": 992.85,
-        "avg_kepadatan_rumah": 144.09,
-        "avg_rata_rata_penghuni": 6.82,
-        "kecamatan": [
-          "Palaran",
-          "Samarinda Utara",
-          "Sambutan",
-          "Loa Janan Ilir"
-        ]
-      },
-      "Sedang": {
-        "count": 5,
-        "avg_kepadatan_penduduk": 3884.21,
-        "avg_kepadatan_rumah": 752.66,
-        "avg_rata_rata_penghuni": 5.15,
-        "kecamatan": [
-          "Samarinda Ulu",
-          "Samarinda Ilir",
-          "Sungai Kunjang",
-          "Sungai Pinang",
-          "Samarinda Kota"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 5228.98,
-        "avg_kepadatan_rumah": 538.91,
-        "avg_rata_rata_penghuni": 9.7,
-        "kecamatan": [
-          "Samarinda Seberang"
-        ]
-      }
-    },
-    "2023": {
-      "Rendah": {
         "count": 3,
-        "avg_kepadatan_penduduk": 378.18,
-        "avg_kepadatan_rumah": 138.62,
-        "avg_rata_rata_penghuni": 2.73,
+        "avg_kepadatan_penduduk": 426.29,
+        "avg_kepadatan_rumah": 68.15,
         "kecamatan": [
           "Palaran",
           "Samarinda Utara",
@@ -262122,11 +262847,108 @@
       },
       "Sedang": {
         "count": 6,
-        "avg_kepadatan_penduduk": 4435.18,
-        "avg_kepadatan_rumah": 922.26,
-        "avg_rata_rata_penghuni": 4.81,
+        "avg_kepadatan_penduduk": 3453.21,
+        "avg_kepadatan_rumah": 594.79,
         "kecamatan": [
           "Samarinda Seberang",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 5920.3,
+        "avg_kepadatan_rumah": 1105.33,
+        "kecamatan": [
+          "Samarinda Ulu"
+        ]
+      }
+    },
+    "2021": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 432.99,
+        "avg_kepadatan_rumah": 68.15,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 6,
+        "avg_kepadatan_penduduk": 3477.2,
+        "avg_kepadatan_rumah": 594.79,
+        "kecamatan": [
+          "Samarinda Seberang",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 5938.16,
+        "avg_kepadatan_rumah": 1105.33,
+        "kecamatan": [
+          "Samarinda Ulu"
+        ]
+      }
+    },
+    "2022": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 456.03,
+        "avg_kepadatan_rumah": 68.15,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 6,
+        "avg_kepadatan_penduduk": 3539.27,
+        "avg_kepadatan_rumah": 594.79,
+        "kecamatan": [
+          "Samarinda Seberang",
+          "Samarinda Ilir",
+          "Sungai Kunjang",
+          "Sungai Pinang",
+          "Samarinda Kota",
+          "Loa Janan Ilir"
+        ]
+      },
+      "Tinggi": {
+        "count": 1,
+        "avg_kepadatan_penduduk": 6017.68,
+        "avg_kepadatan_rumah": 1105.33,
+        "kecamatan": [
+          "Samarinda Ulu"
+        ]
+      }
+    },
+    "2023": {
+      "Rendah": {
+        "count": 3,
+        "avg_kepadatan_penduduk": 378.18,
+        "avg_kepadatan_rumah": 138.62,
+        "kecamatan": [
+          "Palaran",
+          "Samarinda Utara",
+          "Sambutan"
+        ]
+      },
+      "Sedang": {
+        "count": 5,
+        "avg_kepadatan_penduduk": 3527.57,
+        "avg_kepadatan_rumah": 894.73,
+        "kecamatan": [
           "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
@@ -262135,11 +262957,11 @@
         ]
       },
       "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 11990.2,
-        "avg_kepadatan_rumah": 634.08,
-        "avg_rata_rata_penghuni": 18.91,
+        "count": 2,
+        "avg_kepadatan_penduduk": 10481.73,
+        "avg_kepadatan_rumah": 846.99,
         "kecamatan": [
+          "Samarinda Seberang",
           "Samarinda Kota"
         ]
       }
@@ -262149,7 +262971,6 @@
         "count": 3,
         "avg_kepadatan_penduduk": 475.09,
         "avg_kepadatan_rumah": 138.62,
-        "avg_rata_rata_penghuni": 3.45,
         "kecamatan": [
           "Palaran",
           "Samarinda Utara",
@@ -262157,11 +262978,11 @@
         ]
       },
       "Sedang": {
-        "count": 4,
-        "avg_kepadatan_penduduk": 3031.36,
-        "avg_kepadatan_rumah": 742.33,
-        "avg_rata_rata_penghuni": 4.12,
+        "count": 5,
+        "avg_kepadatan_penduduk": 3236.51,
+        "avg_kepadatan_rumah": 768.23,
         "kecamatan": [
+          "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
           "Samarinda Kota",
@@ -262169,14 +262990,12 @@
         ]
       },
       "Tinggi": {
-        "count": 3,
-        "avg_kepadatan_penduduk": 5134.53,
-        "avg_kepadatan_rumah": 1066.1,
-        "avg_rata_rata_penghuni": 4.81,
+        "count": 2,
+        "avg_kepadatan_penduduk": 5673.25,
+        "avg_kepadatan_rumah": 1163.24,
         "kecamatan": [
           "Samarinda Seberang",
-          "Samarinda Ulu",
-          "Samarinda Ilir"
+          "Samarinda Ulu"
         ]
       }
     },
@@ -262185,7 +263004,6 @@
         "count": 3,
         "avg_kepadatan_penduduk": 383.24,
         "avg_kepadatan_rumah": 138.62,
-        "avg_rata_rata_penghuni": 2.79,
         "kecamatan": [
           "Palaran",
           "Samarinda Utara",
@@ -262193,12 +263011,10 @@
         ]
       },
       "Sedang": {
-        "count": 6,
-        "avg_kepadatan_penduduk": 4606.17,
-        "avg_kepadatan_rumah": 922.26,
-        "avg_rata_rata_penghuni": 5.0,
+        "count": 5,
+        "avg_kepadatan_penduduk": 3643.33,
+        "avg_kepadatan_rumah": 894.73,
         "kecamatan": [
-          "Samarinda Seberang",
           "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
@@ -262207,11 +263023,11 @@
         ]
       },
       "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 12188.4,
-        "avg_kepadatan_rumah": 634.08,
-        "avg_rata_rata_penghuni": 19.22,
+        "count": 2,
+        "avg_kepadatan_penduduk": 10804.37,
+        "avg_kepadatan_rumah": 846.99,
         "kecamatan": [
+          "Samarinda Seberang",
           "Samarinda Kota"
         ]
       }
@@ -262227,17 +263043,17 @@
       "2025": "Rendah"
     },
     "Samarinda Seberang": {
-      "2020": "Tinggi",
-      "2021": "Tinggi",
-      "2022": "Tinggi",
-      "2023": "Sedang",
-      "2024": "Tinggi",
-      "2025": "Sedang"
-    },
-    "Samarinda Ulu": {
       "2020": "Sedang",
       "2021": "Sedang",
       "2022": "Sedang",
+      "2023": "Tinggi",
+      "2024": "Tinggi",
+      "2025": "Tinggi"
+    },
+    "Samarinda Ulu": {
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
       "2023": "Sedang",
       "2024": "Tinggi",
       "2025": "Sedang"
@@ -262247,7 +263063,7 @@
       "2021": "Sedang",
       "2022": "Sedang",
       "2023": "Sedang",
-      "2024": "Tinggi",
+      "2024": "Sedang",
       "2025": "Sedang"
     },
     "Samarinda Utara": {
@@ -262291,9 +263107,9 @@
       "2025": "Tinggi"
     },
     "Loa Janan Ilir": {
-      "2020": "Rendah",
-      "2021": "Rendah",
-      "2022": "Rendah",
+      "2020": "Sedang",
+      "2021": "Sedang",
+      "2022": "Sedang",
       "2023": "Sedang",
       "2024": "Sedang",
       "2025": "Sedang"

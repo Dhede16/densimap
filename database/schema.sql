@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.kecamatan (
     rata_rata_penghuni NUMERIC(6, 2) NOT NULL,
     geometry JSONB NOT NULL,
     cluster_label VARCHAR(20) NOT NULL,
+    data_quality_flag VARCHAR(20) NOT NULL DEFAULT 'clean',
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     UNIQUE(nama, tahun)
 );

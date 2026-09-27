@@ -54,7 +54,6 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     df['kepadatan_penduduk'] = df['jumlah_penduduk'] / df['luas_km2']
     df['kepadatan_rumah'] = df['jumlah_rumah'] / df['luas_km2']
-    df['rata_rata_penghuni'] = df['jumlah_penduduk'] / df['jumlah_rumah']
     return df
 
 
@@ -74,7 +73,7 @@ def find_optimal_k_hierarchical(X_scaled: np.ndarray, max_k: int = 5) -> tuple:
 
 
 def perform_clustering(df: pd.DataFrame) -> tuple:
-    features = ['kepadatan_penduduk', 'kepadatan_rumah', 'rata_rata_penghuni']
+    features = ['kepadatan_penduduk', 'kepadatan_rumah']
     X = df[features].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)

@@ -90,6 +90,61 @@ def engineer_features(df):
     return df
 
 
+def validate_data_quality(df_penduduk, df_rumah, year, prev_year_data=None):
+    """
+    Validate data quality by checking YoY changes.
+    Returns dict: {kecamatan: {'penduduk_flag': 'clean'|'warning'|'suspect', 'rumah_flag': 'clean'|'warning'|'suspect', 'pct_change_penduduk': float, 'pct_change_rumah': float}}
+    Thresholds: >50% = suspect, >25% = warning, else clean
+    """
+    flags = {}
+    kecamatan_list = list(LUAS_WILAYAH.keys())
+    
+    for name in kecamatan_list:
+        flags[name] = {
+            'penduduk_flag': 'clean',
+            'rumah_flag': 'clean',
+            'pct_change_penduduk': 0.0,
+            'pct_change_rumah': 0.0
+        }
+        
+        if prev_year_data and name in prev_year_data:
+            prev_penduduk = prev_year_data[name]['jumlah_penduduk']
+            prev_rumah = prev_year_data[name]['jumlah_rumah']
+            
+            curr_penduduk = None
+            curr_rumah = None
+            
+            for _, row in df_penduduk.iterrows():
+                clean_name = clean_kecamatan_name(row.iloc[1])
+                if clean_name == name:
+                    curr_penduduk = int(row[year])
+                    break
+            
+            for _, row in df_rumah.iterrows():
+                clean_name = clean_kecamatan_name(row.iloc[1])
+                if clean_name == name:
+                    curr_rumah = int(row[year])
+                    break
+            
+            if curr_penduduk and prev_penduduk > 0:
+                pct = (curr_penduduk - prev_penduduk) / prev_penduduk
+                flags[name]['pct_change_penduduk'] = round(pct, 4)
+                if abs(pct) > 0.5:
+                    flags[name]['penduduk_flag'] = 'suspect'
+                elif abs(pct) > 0.25:
+                    flags[name]['penduduk_flag'] = 'warning'
+            
+            if curr_rumah and prev_rumah > 0:
+                pct = (curr_rumah - prev_rumah) / prev_rumah
+                flags[name]['pct_change_rumah'] = round(pct, 4)
+                if abs(pct) > 0.5:
+                    flags[name]['rumah_flag'] = 'suspect'
+                elif abs(pct) > 0.25:
+                    flags[name]['rumah_flag'] = 'warning'
+    
+    return flags
+
+
 def find_optimal_k_hierarchical(X_scaled, max_k=5):
     """Use hierarchical clustering to suggest optimal k via silhouette analysis."""
     best_k = 3
@@ -106,7 +161,7 @@ def find_optimal_k_hierarchical(X_scaled, max_k=5):
     return best_k, scores
 
 
-def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
+def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache, prev_year_records=None):
     records = []
     penduduk_map = {}
     for _, row in df_penduduk.iterrows():
@@ -120,24 +175,38 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
         if name and name in LUAS_WILAYAH:
             rumah_map[name] = int(row[year])
 
+    # Compute data quality flags by comparing with previous year
+    quality_flags = validate_data_quality(df_penduduk, df_rumah, year, prev_year_records)
+
     for name in LUAS_WILAYAH.keys():
         luas = LUAS_WILAYAH[name]
         penduduk = penduduk_map[name]
         rumah = rumah_map[name]
         geom = boundaries_cache.get(name) or fetch_boundary(name)
+        
+        # Determine overall quality flag
+        flag_info = quality_flags.get(name, {})
+        overall_flag = 'clean'
+        if flag_info.get('penduduk_flag') == 'suspect' or flag_info.get('rumah_flag') == 'suspect':
+            overall_flag = 'suspect'
+        elif flag_info.get('penduduk_flag') == 'warning' or flag_info.get('rumah_flag') == 'warning':
+            overall_flag = 'warning'
+        
         records.append({
             'nama': name,
             'tahun': year,
             'jumlah_penduduk': penduduk,
             'luas_km2': luas,
             'jumlah_rumah': rumah,
-            'geometry': geom
+            'geometry': geom,
+            'data_quality_flag': overall_flag,
+            'data_quality_detail': flag_info
         })
 
     df = pd.DataFrame(records)
     df = engineer_features(df)
 
-    features = ['kepadatan_penduduk', 'kepadatan_rumah', 'rata_rata_penghuni']
+    features = ['kepadatan_penduduk', 'kepadatan_rumah']
     X = df[features].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -176,7 +245,6 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache):
             'count': int(len(subset)),
             'avg_kepadatan_penduduk': round(subset['kepadatan_penduduk'].mean(), 2),
             'avg_kepadatan_rumah': round(subset['kepadatan_rumah'].mean(), 2),
-            'avg_rata_rata_penghuni': round(subset['rata_rata_penghuni'].mean(), 2),
             'kecamatan': subset['nama'].tolist()
         }
 
@@ -227,8 +295,9 @@ def run_pipeline():
     all_cluster_stats = {}
     by_year_geojson = {}
 
+    prev_year_records = None
     for year in YEARS:
-        df_year, metrics, cluster_stats = process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache)
+        df_year, metrics, cluster_stats = process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache, prev_year_records)
         all_dfs[year] = df_year
         all_metrics[str(year)] = metrics
         all_cluster_stats[str(year)] = cluster_stats
@@ -248,11 +317,21 @@ def run_pipeline():
                     "kepadatan_penduduk": round(row['kepadatan_penduduk'], 2),
                     "kepadatan_rumah": round(row['kepadatan_rumah'], 2),
                     "rata_rata_penghuni": round(row['rata_rata_penghuni'], 2),
-                    "cluster_label": row['cluster_label']
+                    "cluster_label": row['cluster_label'],
+                    "data_quality_flag": row.get('data_quality_flag', 'clean'),
+                    "data_quality_detail": row.get('data_quality_detail', {})
                 },
                 "geometry": row['geometry']
             }
             features_geojson.append(feature)
+        
+        # Store records for next year's quality validation
+        prev_year_records = {}
+        for _, row in df_year.iterrows():
+            prev_year_records[row['nama']] = {
+                'jumlah_penduduk': row['jumlah_penduduk'],
+                'jumlah_rumah': row['jumlah_rumah']
+            }
 
         by_year_geojson[str(year)] = {
             "type": "FeatureCollection",
@@ -302,6 +381,7 @@ CREATE TABLE IF NOT EXISTS public.kecamatan (
     rata_rata_penghuni NUMERIC(6, 2) NOT NULL,
     geometry JSONB NOT NULL,
     cluster_label VARCHAR(20) NOT NULL,
+    data_quality_flag VARCHAR(20) NOT NULL DEFAULT 'clean',
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     UNIQUE(nama, tahun)
 );
@@ -325,8 +405,9 @@ USING (true);
         df_year = all_dfs[year]
         for _, row in df_year.iterrows():
             geom_json_str = json.dumps(row['geometry']).replace("'", "''")
-            line = f"""INSERT INTO public.kecamatan (id, nama, tahun, jumlah_penduduk, luas_km2, jumlah_rumah, kepadatan_penduduk, kepadatan_rumah, rata_rata_penghuni, geometry, cluster_label)
-VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {row['luas_km2']}, {row['jumlah_rumah']}, {row['kepadatan_penduduk']}, {row['kepadatan_rumah']}, {row['rata_rata_penghuni']}, '{geom_json_str}'::jsonb, '{row['cluster_label']}');"""
+            quality_flag = row.get('data_quality_flag', 'clean')
+            line = f"""INSERT INTO public.kecamatan (id, nama, tahun, jumlah_penduduk, luas_km2, jumlah_rumah, kepadatan_penduduk, kepadatan_rumah, rata_rata_penghuni, geometry, cluster_label, data_quality_flag)
+VALUES ({row_id}, '{row['nama']}', {row['tahun']}, {row['jumlah_penduduk']}, {row['luas_km2']}, {row['jumlah_rumah']}, {row['kepadatan_penduduk']}, {row['kepadatan_rumah']}, {row['rata_rata_penghuni']}, '{geom_json_str}'::jsonb, '{row['cluster_label']}', '{quality_flag}');"""
             seed_lines.append(line)
             row_id += 1
 

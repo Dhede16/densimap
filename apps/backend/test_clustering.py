@@ -55,7 +55,7 @@ def test_clustering_pipeline():
     with open(geo_path, 'r', encoding='utf-8') as f:
         geo = json.load(f)
         assert geo['type'] == 'FeatureCollection'
-        assert len(geo['features']) == 10
+        assert len(geo['features']) == 60  # 10 kecamatan x 6 tahun
         assert 'by_year' in geo
         for y in years:
             assert str(y) in geo['by_year']
