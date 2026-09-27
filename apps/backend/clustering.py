@@ -267,18 +267,20 @@ def run_pipeline():
     os.makedirs(DB_DIR, exist_ok=True)
 
     # Multi-year GeoJSON with metrics
+    all_features = []
+    for y in YEARS:
+        all_features.extend(by_year_geojson[str(y)]["features"])
+
     output_geojson = {
         "years": YEARS,
         "default_year": 2025,
-        "features": by_year_geojson["2025"]["features"],
+        "features": all_features,
         "type": "FeatureCollection",
         "by_year": by_year_geojson,
         "metrics": all_metrics,
         "cluster_stats": all_cluster_stats,
         "transitions": transitions
     }
-    for y in YEARS:
-        output_geojson[str(y)] = by_year_geojson[str(y)]
 
     with open(OUTPUT_GEOJSON, 'w', encoding='utf-8') as f:
         json.dump(output_geojson, f, indent=2, ensure_ascii=False)

@@ -773,8 +773,8 @@
       <div class="modal-card">
         <div class="modal-header">
           <div>
-            <h2>Data Kepadatan 10 Kecamatan Kota Samarinda</h2>
-            <p>Hasil pengelompokan menggunakan metode Hybrid Hierarchical Clustering & K-Means</p>
+            <h2>Data Wilayah Kecamatan Kota Samarinda</h2>
+            <p>Luas wilayah, jumlah penduduk, dan jumlah rumah per kecamatan</p>
           </div>
           <div class="modal-header-actions">
             <!-- Year Selector inside Modal -->
@@ -814,8 +814,8 @@
               <span class="summary-value">{{ formatNumber(totalRumah) }} unit</span>
             </div>
             <div class="summary-pill">
-              <span class="summary-label">Rata-rata Kepadatan</span>
-              <span class="summary-value">{{ formatDecimal(avgKepadatan) }} jiwa/km²</span>
+              <span class="summary-label">Total Luas Wilayah</span>
+              <span class="summary-value">{{ formatDecimal(totalLuas) }} km²</span>
             </div>
           </div>
 
@@ -825,34 +825,18 @@
                 <tr>
                   <th>No</th>
                   <th>Kecamatan</th>
-                  <th>Tahun</th>
-                  <th>Klaster</th>
-                  <th class="text-right">Penduduk (jiwa)</th>
                   <th class="text-right">Luas (km²)</th>
+                  <th class="text-right">Penduduk (jiwa)</th>
                   <th class="text-right">Rumah (unit)</th>
-                  <th class="text-right">Kepadatan (jiwa/km²)</th>
-                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, idx) in kecamatanList" :key="item.id">
                   <td>{{ idx + 1 }}</td>
                   <td class="font-bold">{{ item.nama }}</td>
-                  <td><span class="year-badge">{{ item.tahun || selectedYear }}</span></td>
-                  <td>
-                    <span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">
-                      {{ item.cluster_label }}
-                    </span>
-                  </td>
-                  <td class="text-right">{{ formatNumber(item.jumlah_penduduk) }}</td>
                   <td class="text-right">{{ formatDecimal(item.luas_km2) }}</td>
+                  <td class="text-right">{{ formatNumber(item.jumlah_penduduk) }}</td>
                   <td class="text-right">{{ formatNumber(item.jumlah_rumah) }}</td>
-                  <td class="text-right font-bold">{{ formatDecimal(item.kepadatan_penduduk) }}</td>
-                  <td>
-                    <button class="row-focus-btn" @click="selectKecamatanFromModal(item)">
-                      Lihat di Peta
-                    </button>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -1954,6 +1938,10 @@ const totalPenduduk = computed(() => {
 
 const totalRumah = computed(() => {
   return kecamatanList.value.reduce((acc, item) => acc + (Number(item.jumlah_rumah) || 0), 0)
+})
+
+const totalLuas = computed(() => {
+  return kecamatanList.value.reduce((acc, item) => acc + (Number(item.luas_km2) || 0), 0)
 })
 
 const avgKepadatan = computed(() => {
@@ -3616,6 +3604,42 @@ onUnmounted(() => {
 .modal-year-select {
   height: 36px;
   background: #FFFFFF;
+}
+
+.year-icon,
+.dropdown-arrow {
+  width: 18px;
+  height: 18px;
+  color: #64748B;
+  flex-shrink: 0;
+}
+
+.year-select-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.year-select-container:focus-within {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 246, 0.15);
+}
+
+.year-select {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  font-family: inherit;
+  cursor: pointer;
+  min-width: 120px;
 }
 
 .modal-summary-bar {
