@@ -490,7 +490,7 @@
       <span>Reset Fokus</span>
     </button>
 
-    <!-- Legend Panel (W-06) -->
+<!-- Legend Panel (W-06) -->
     <aside class="legend-panel">
       <div class="legend-header">
         <h3>Tingkat Kepadatan</h3>
@@ -506,7 +506,7 @@
           <span class="legend-color-box high"></span>
           <div class="legend-desc">
             <span class="label">Tinggi</span>
-            <span class="sublabel">&gt; 5.000 jiwa/km² ({{ clusterCounts['Tinggi'] || 0 }})</span>
+            <span class="sublabel">> 5.000 jiwa/km² ({{ clusterCounts['Tinggi'] || 0 }})</span>
           </div>
         </div>
 
@@ -530,7 +530,7 @@
           <span class="legend-color-box low"></span>
           <div class="legend-desc">
             <span class="label">Rendah</span>
-            <span class="sublabel">&lt; 1.000 jiwa/km² ({{ clusterCounts['Rendah'] || 0 }})</span>
+            <span class="sublabel">< 1.000 jiwa/km² ({{ clusterCounts['Rendah'] || 0 }})</span>
           </div>
         </div>
       </div>
@@ -539,8 +539,8 @@
         <span>Tampilkan Semua Klaster ✕</span>
       </div>
 
-      <!-- Clustering Evaluation Metrics -->
-      <div v-if="clusteringMetrics" class="metrics-section">
+      <!-- Clustering Evaluation Metrics & Characteristics (hidden after simulation applied) -->
+      <div v-if="clusteringMetrics && !simulationApplied" class="metrics-section">
         <div class="metrics-header">
           <h4>Evaluasi Klasterisasi</h4>
           <span class="metrics-badge">K-Means</span>
