@@ -117,7 +117,44 @@ VITE_MAPBOX_TOKEN=your-mapbox-token
 
 Tanpa kredensial Supabase, aplikasi tetap dapat membaca `public/data/samarinda_kecamatan.json`. Tanpa token Mapbox, aplikasi menggunakan CartoDB Positron.
 
-## Menjalankan Pipeline Backend
+## Menjalankan Backend API Server (FastAPI)
+
+Backend API menyediakan endpoint `/api/recluster` untuk menjalankan ulang clustering (Hierarchical + K-Means) saat user menekan tombol **"Terapkan ke Peta"** di panel kanan simulasi.
+
+Prasyarat: Python 3.10+ dengan dependencies di `apps/backend/requirements.txt`.
+
+```bash
+cd apps/backend
+pip install -r requirements.txt
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+Server berjalan di `http://localhost:8000`. Endpoint yang tersedia:
+
+- `POST /api/recluster` - Menerima data editan tabel, mengembalikan label klaster baru + metrik evaluasi
+- `GET /health` - Health check
+
+## Menjalankan Full Stack Development (Frontend + Backend)
+
+Untuk development penuh dengan fitur simulasi & re-clustering:
+
+**Terminal 1 - Backend API:**
+```bash
+cd apps/backend
+pip install -r requirements.txt
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd apps/web
+npm install
+npm run dev
+```
+
+Frontend tersedia di `http://localhost:5173` (atau port lain jika 5173 digunakan). Vite proxy otomatis meneruskan request `/api/*` ke backend di port 8000.
+
+### Menjalankan Pipeline Backend (Batch/Offline)
 
 Pipeline membutuhkan Python dengan library `pandas`, `numpy`, `scikit-learn`, dan pembaca file Excel seperti `openpyxl`.
 
