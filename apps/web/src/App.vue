@@ -424,7 +424,6 @@
               {{ isApplying ? 'Menerapkan...' : 'Terapkan ke Peta' }}
             </button>
             <button class="sim-btn secondary" @click="resetSimulationData">Reset Data</button>
-            <button class="sim-btn outline" @click="exportSimulationCSV">Export CSV</button>
           </div>
 
           <!-- Editable Table -->
@@ -440,7 +439,7 @@
                   <th class="text-right">Kepadatan Penduduk</th>
                   <th class="text-right">Kepadatan Rumah</th>
                   <th class="text-right">Rata² Penghuni</th>
-                  <th>Klaster (Auto)</th>
+                  <th v-if="simulationApplied">Klaster (Hasil Clustering)</th>
                 </tr>
               </thead>
               <tbody>
@@ -453,7 +452,7 @@
                   <td class="text-right derived">{{ formatDecimal(item.kepadatan_penduduk) }}</td>
                   <td class="text-right derived">{{ formatDecimal(item.kepadatan_rumah) }}</td>
                   <td class="text-right derived">{{ formatDecimal(item.rata_rata_penghuni) }}</td>
-                  <td><span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">{{ item.cluster_label }}</span></td>
+                  <td v-if="simulationApplied"><span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">{{ item.cluster_label }}</span></td>
                 </tr>
               </tbody>
             </table>
@@ -722,6 +721,7 @@ const simulationYear = ref(2025)
 const simulationData = ref([])
 const editedRows = ref(new Set())
 const isApplying = ref(false)
+const simulationApplied = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -942,6 +942,7 @@ const onInputChange = (item) => {
 // Reset simulation data to current year's actual data
 const resetSimulationData = () => {
   initSimulationData()
+  simulationApplied.value = false
 }
 
 // Apply simulation to backend for re-clustering
@@ -1024,8 +1025,19 @@ const applySimulationToMap = async () => {
       if (geoJsonLayer) {
         geoJsonLayer.setStyle(polygonStyle)
       }
-      // Refresh simulation data to match
-      initSimulationData()
+      // Update simulation data with actual cluster labels from backend
+      result.clusters.forEach(c => {
+        const idx = simulationData.value.findIndex(s => s.id === c.id)
+        if (idx !== -1) {
+          simulationData.value[idx].cluster_label = c.cluster_label
+          simulationData.value[idx].kepadatan_penduduk = c.kepadatan_penduduk
+          simulationData.value[idx].kepadatan_rumah = c.kepadatan_rumah
+          simulationData.value[idx].rata_rata_penghuni = c.rata_rata_penghuni
+        }
+      })
+      // Mark simulation as applied to show cluster column
+      simulationApplied.value = true
+      editedRows.value.clear()
       alert('Simulasi berhasil diterapkan & clustering diperbarui!')
     } else {
       alert('Gagal: ' + (result.error || 'Unknown error'))
@@ -1036,28 +1048,6 @@ const applySimulationToMap = async () => {
   } finally {
     isApplying.value = false
   }
-}
-
-// Export simulation data as CSV
-const exportSimulationCSV = () => {
-  const headers = ['No', 'Kecamatan', 'Luas (km²)', 'Penduduk', 'Rumah', 'Kepadatan Penduduk', 'Kepadatan Rumah', 'Rata² Penghuni', 'Klaster']
-  const rows = simulationData.value.map((item, idx) => [
-    idx + 1,
-    item.nama,
-    item.luas_km2.toFixed(2),
-    Math.round(item.jumlah_penduduk),
-    Math.round(item.jumlah_rumah),
-    item.kepadatan_penduduk.toFixed(2),
-    item.kepadatan_rumah.toFixed(2),
-    item.rata_rata_penghuni.toFixed(2),
-    item.cluster_label
-  ])
-  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.download = `simulasi-kecamatan-${simulationYear.value}.csv`
-  link.click()
 }
 
 // Toggle left panel with mutual exclusion (right panel closes)
