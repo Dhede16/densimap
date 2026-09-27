@@ -18,6 +18,33 @@ let cachedLocalData = null
 export async function getKecamatanData(year = 2024) {
   const targetYear = Number(year) || 2024
 
+  // Always load local data for metrics (pre-computed by backend pipeline)
+  if (!cachedLocalData) {
+    const res = await fetch('/data/samarinda_kecamatan.json')
+    if (!res.ok) {
+      throw new Error(`Gagal memuat data lokal: ${res.statusText}`)
+    }
+    cachedLocalData = await res.json()
+  }
+
+  // Filter features by year since local data has flat features array with 'tahun' property
+  const filteredFeatures = cachedLocalData.features.filter(f => f.properties.tahun === targetYear)
+
+  const fc = {
+    type: 'FeatureCollection',
+    features: filteredFeatures
+  }
+
+  const localResult = {
+    source: 'local',
+    year: targetYear,
+    featureCollection: fc,
+    metrics: cachedLocalData.metrics?.[String(targetYear)],
+    clusterStats: cachedLocalData.cluster_stats?.[String(targetYear)],
+    transitions: cachedLocalData.transitions,
+  }
+
+  // If Supabase configured, try to get fresh geometries but keep local metrics
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
@@ -27,7 +54,7 @@ export async function getKecamatanData(year = 2024) {
         .order('id', { ascending: true })
 
       if (!error && data && data.length > 0) {
-        const features = data.map((item) => {
+        const supabaseFeatures = data.map((item) => {
           let geom = item.geometry
           if (typeof geom === 'string') {
             try {
@@ -55,41 +82,22 @@ export async function getKecamatanData(year = 2024) {
           }
         })
 
+        // Use Supabase geometries but KEEP local metrics/clusterStats
         return {
+          ...localResult,
           source: 'supabase',
-          year: targetYear,
           featureCollection: {
             type: 'FeatureCollection',
-            features,
+            features: supabaseFeatures,
           },
         }
       }
-      console.warn('Supabase fetch failed or empty, fallback to local GeoJSON:', error)
+      console.warn('Supabase fetch failed or empty, using local GeoJSON:', error)
     } catch (err) {
-      console.warn('Supabase connection exception, fallback to local GeoJSON:', err)
+      console.warn('Supabase connection exception, using local GeoJSON:', err)
     }
   }
 
-  if (!cachedLocalData) {
-    const res = await fetch('/data/samarinda_kecamatan.json')
-    if (!res.ok) {
-      throw new Error(`Gagal memuat data lokal: ${res.statusText}`)
-    }
-    cachedLocalData = await res.json()
-  }
-
-  const fc =
-    cachedLocalData.by_year?.[String(targetYear)] ||
-    cachedLocalData[String(targetYear)] ||
-    cachedLocalData
-
-  return {
-    source: 'local',
-    year: targetYear,
-    featureCollection: fc,
-    metrics: cachedLocalData.metrics?.[String(targetYear)],
-    clusterStats: cachedLocalData.cluster_stats?.[String(targetYear)],
-    transitions: cachedLocalData.transitions,
-  }
+  return localResult
 }
 

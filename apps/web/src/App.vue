@@ -106,7 +106,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span>GOD MODE</span>
+          <span>Simulasi</span>
         </button>
       </div>
     </header>
@@ -1267,12 +1267,12 @@ const initSimulationData = () => {
     id: item.id,
     nama: item.nama,
     tahun: item.tahun || simulationYear.value,
-    luas_km2: Number(item.luas_km2),
-    jumlah_penduduk: Number(item.jumlah_penduduk),
-    jumlah_rumah: Number(item.jumlah_rumah),
-    kepadatan_penduduk: Number(item.kepadatan_penduduk),
-    kepadatan_rumah: Number(item.kepadatan_rumah),
-    rata_rata_penghuni: Number(item.rata_rata_penghuni),
+    luas_km2: Number(item.luas_km2) || 0,
+    jumlah_penduduk: Number(item.jumlah_penduduk) || 0,
+    jumlah_rumah: Number(item.jumlah_rumah) || 0,
+    kepadatan_penduduk: Number(item.kepadatan_penduduk) || (item.luas_km2 > 0 ? item.jumlah_penduduk / item.luas_km2 : 0),
+    kepadatan_rumah: Number(item.kepadatan_rumah) || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0),
+    rata_rata_penghuni: Number(item.rata_rata_penghuni) || (item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0),
     cluster_label: item.cluster_label,
   }))
   editedRows.value.clear()
@@ -1777,8 +1777,8 @@ const computeSimFeatureEngineering = (list) => {
     rows: list.map(item => [
       item.nama,
       formatDecimal(item.kepadatan_penduduk),
-      formatDecimal(item.kepadatan_rumah),
-      formatDecimal(item.rata_rata_penghuni)
+      formatDecimal(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0)),
+      formatDecimal(item.rata_rata_penghuni || (item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0))
     ]),
     formulas: [
       'Kepadatan Penduduk = Jumlah Penduduk / Luas Wilayah',
@@ -1792,8 +1792,8 @@ const computeSimFeatureEngineering = (list) => {
 const computeSimPreprocessing = (list) => {
   const features = list.map(item => [
     Number(item.kepadatan_penduduk),
-    Number(item.kepadatan_rumah),
-    Number(item.rata_rata_penghuni)
+    Number(item.kepadatan_rumah || (item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0)),
+    Number(item.rata_rata_penghuni || (item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0))
   ])
 
   const means = [0, 1, 2].map(i => features.reduce((a, b) => a + b[i], 0) / features.length)
@@ -1822,34 +1822,52 @@ const computeSimPreprocessing = (list) => {
 }
 
 const computeSimHierarchical = () => {
-  // Simple hierarchical clustering simulation for display
-  // In real implementation, this would call backend
-  
-  // Compute simple silhouette-like scores for k=2..5 (mock for display)
-  const silhouetteByK = [
-    { k: 2, score: 0.45 + Math.random() * 0.1 },
-    { k: 3, score: 0.52 + Math.random() * 0.08 },
-    { k: 4, score: 0.38 + Math.random() * 0.1 },
-    { k: 5, score: 0.31 + Math.random() * 0.1 }
-  ]
-  
+  // Try to use actual backend metrics for hierarchical clustering
+  const metrics = clusteringMetrics.value?.hierarchical || {}
+  const byK = metrics.silhouette_by_k || {}
+  const hasBackendData = Object.keys(byK).length > 0
+
+  let silhouetteByK, optimalK, silhouetteScore, daviesBouldin
+
+  if (hasBackendData) {
+    silhouetteByK = Object.entries(byK).map(([k, v]) => ({ k: Number(k), score: v }))
+    optimalK = metrics.optimal_k_suggestion || 3
+    silhouetteScore = metrics.silhouette || 0
+    daviesBouldin = metrics.davies_bouldin || 0
+  } else {
+    // Mock data for display when no backend data
+    silhouetteByK = [
+      { k: 2, score: 0.45 + Math.random() * 0.1 },
+      { k: 3, score: 0.52 + Math.random() * 0.08 },
+      { k: 4, score: 0.38 + Math.random() * 0.1 },
+      { k: 5, score: 0.31 + Math.random() * 0.1 }
+    ]
+    optimalK = 3
+    silhouetteScore = Math.max(...silhouetteByK.map(s => s.score))
+    daviesBouldin = 0.85
+  }
+
   return {
     title: 'Hierarchical Clustering Simulasi (Ward) - Tahun ' + simulationYear.value,
     metrics: {
-      optimal_k: 3,
-      silhouette: Math.max(...silhouetteByK.map(s => s.score)),
-      davies_bouldin: 0.85
+      optimal_k: optimalK,
+      silhouette: silhouetteScore,
+      davies_bouldin: daviesBouldin
     },
-    silhouetteByK: silhouetteByK,
+    silhouetteByK,
     linkage: 'Ward',
     metric: 'Euclidean',
-    summary: `Optimal k: 3 (Silhouette: ${Math.max(...silhouetteByK.map(s => s.score)).toFixed(3)})`
+    summary: `Optimal k: ${optimalK} (Silhouette: ${silhouetteScore.toFixed(3)})`
   }
 }
 
 const computeSimKMeans = () => {
   const list = simulationData.value
   
+  // Try to use actual backend metrics for K-Means
+  const kmMetrics = clusteringMetrics.value?.kmeans || {}
+  const hasBackendMetrics = Object.keys(kmMetrics).length > 0 && kmMetrics.silhouette !== undefined
+
   // Simple K-Means simulation using density thresholds for display
   // In real implementation, this would call backend /api/recluster
   const clustersData = ['Rendah', 'Sedang', 'Tinggi'].map(label => {
@@ -1904,7 +1922,11 @@ const computeSimKMeans = () => {
   return {
     title: 'K-Means Clustering Simulasi - Tahun ' + simulationYear.value,
     params: { n_clusters: 3, random_state: 42, n_init: 20 },
-    metrics: {
+    metrics: hasBackendMetrics ? {
+      silhouette: kmMetrics.silhouette,
+      davies_bouldin: kmMetrics.davies_bouldin,
+      inertia: kmMetrics.inertia
+    } : {
       silhouette: 0.52,
       davies_bouldin: 0.78,
       inertia: 1250.5
