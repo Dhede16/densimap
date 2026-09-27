@@ -766,64 +766,6 @@
       <div v-if="selectedClusterFilter" class="filter-reset-hint" @click="toggleClusterFilter(null)">
         <span>Tampilkan Semua Klaster ✕</span>
       </div>
-
-      <!-- Clustering Evaluation Metrics & Characteristics (hidden after simulation applied at least once) -->
-      <div v-if="clusteringMetrics && !hasAppliedSimulation" class="metrics-section">
-        <div class="metrics-header">
-          <h4>Evaluasi Klasterisasi</h4>
-          <span class="metrics-badge">K-Means</span>
-        </div>
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <span class="metric-label">Silhouette Score</span>
-            <span class="metric-value">{{ clusteringMetrics.kmeans.silhouette.toFixed(3) }}</span>
-            <span class="metric-desc" v-if="clusteringMetrics.kmeans.silhouette >= 0.5">Baik</span>
-            <span class="metric-desc" v-else-if="clusteringMetrics.kmeans.silhouette >= 0.25">Sedang</span>
-            <span class="metric-desc" v-else>Rendah</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-label">Davies-Bouldin</span>
-            <span class="metric-value">{{ clusteringMetrics.kmeans.davies_bouldin.toFixed(3) }}</span>
-            <span class="metric-desc">Lebih rendah = lebih baik</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-label">Inertia</span>
-            <span class="metric-value">{{ clusteringMetrics.kmeans.inertia.toFixed(1) }}</span>
-            <span class="metric-desc">Within-cluster variance</span>
-          </div>
-        </div>
-
-        <div v-if="clusterStats" class="cluster-stats">
-          <h5>Karakteristik Cluster</h5>
-          <div class="cluster-stats-grid">
-            <div
-              v-for="label in ['Rendah', 'Sedang', 'Tinggi']"
-              :key="label"
-              class="cluster-stat-card"
-              :class="'stat-' + label.toLowerCase()"
-            >
-              <div class="stat-header">
-                <span class="stat-label">{{ label }}</span>
-                <span class="stat-count">{{ clusterStats[label]?.count || 0 }} kec</span>
-              </div>
-              <div class="stat-metrics">
-                <div class="stat-row">
-                  <span class="stat-name">Kep. Penduduk</span>
-                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_kepadatan_penduduk || 0) }} jiwa/km²</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-name">Kep. Rumah</span>
-                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_kepadatan_rumah || 0) }} rumah/km²</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-name">Rata² Penghuni</span>
-                  <span class="stat-val">{{ formatDecimal(clusterStats[label]?.avg_rata_rata_penghuni || 0) }} orang/rumah</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </aside>
 
     <!-- Table Modal View -->
