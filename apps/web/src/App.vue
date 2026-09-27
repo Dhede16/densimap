@@ -539,8 +539,8 @@
         <span>Tampilkan Semua Klaster ✕</span>
       </div>
 
-      <!-- Clustering Evaluation Metrics & Characteristics (hidden after simulation applied) -->
-      <div v-if="clusteringMetrics && !simulationApplied" class="metrics-section">
+      <!-- Clustering Evaluation Metrics & Characteristics (hidden after simulation applied at least once) -->
+      <div v-if="clusteringMetrics && !hasAppliedSimulation" class="metrics-section">
         <div class="metrics-header">
           <h4>Evaluasi Klasterisasi</h4>
           <span class="metrics-badge">K-Means</span>
@@ -722,6 +722,7 @@ const simulationData = ref([])
 const editedRows = ref(new Set())
 const isApplying = ref(false)
 const simulationApplied = ref(false)
+const hasAppliedSimulation = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -1037,6 +1038,7 @@ const applySimulationToMap = async () => {
       })
       // Mark simulation as applied to show cluster column
       simulationApplied.value = true
+      hasAppliedSimulation.value = true
       editedRows.value.clear()
       alert('Simulasi berhasil diterapkan & clustering diperbarui!')
     } else {
