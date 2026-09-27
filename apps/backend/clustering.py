@@ -213,7 +213,7 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache, prev_
 
     # Hierarchical: suggest optimal k (default to 3 if unclear)
     optimal_k, h_scores = find_optimal_k_hierarchical(X_scaled, max_k=5)
-    n_clusters = 3  # Fixed per research design, but hierarchical validates
+    n_clusters = optimal_k  # Use optimal k from hierarchical validation
 
     hierarchical = AgglomerativeClustering(n_clusters=n_clusters, metric='euclidean', linkage='ward')
     h_labels = hierarchical.fit_predict(X_scaled)
@@ -226,20 +226,31 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache, prev_
     km_silhouette = silhouette_score(X_scaled, km_labels)
     km_db = davies_bouldin_score(X_scaled, km_labels)
 
-    # Label clusters by mean population density order
+    # Label clusters by mean population density order (dynamic based on n_clusters)
     df['raw_cluster'] = km_labels
     cluster_densities = df.groupby('raw_cluster')['kepadatan_penduduk'].mean().sort_values()
     cluster_order = list(cluster_densities.index)
-    label_map = {
-        cluster_order[0]: 'Rendah',
-        cluster_order[1]: 'Sedang',
-        cluster_order[2]: 'Tinggi'
-    }
+    
+    # Dynamic label mapping
+    if n_clusters == 2:
+        label_map = {
+            cluster_order[0]: 'Rendah',
+            cluster_order[1]: 'Tinggi'
+        }
+    elif n_clusters == 3:
+        label_map = {
+            cluster_order[0]: 'Rendah',
+            cluster_order[1]: 'Sedang',
+            cluster_order[2]: 'Tinggi'
+        }
+    else:
+        label_map = {cluster_order[i]: f'Cluster {i+1}' for i in range(n_clusters)}
+    
     df['cluster_label'] = df['raw_cluster'].map(label_map)
 
-    # Per-cluster stats for interpretation
+    # Per-cluster stats for interpretation (dynamic labels)
     cluster_stats = {}
-    for label in ['Rendah', 'Sedang', 'Tinggi']:
+    for label in sorted(df['cluster_label'].unique()):
         subset = df[df['cluster_label'] == label]
         cluster_stats[label] = {
             'count': int(len(subset)),
@@ -258,7 +269,8 @@ def process_year_clustering(df_penduduk, df_rumah, year, boundaries_cache, prev_
         'kmeans': {
             'silhouette': round(km_silhouette, 4),
             'davies_bouldin': round(km_db, 4),
-            'inertia': round(kmeans.inertia_, 4)
+            'inertia': round(kmeans.inertia_, 4),
+            'n_clusters_used': n_clusters
         },
         'features_used': features
     }
@@ -335,7 +347,8 @@ def run_pipeline():
 
         by_year_geojson[str(year)] = {
             "type": "FeatureCollection",
-            "features": features_geojson
+            "features": features_geojson,
+            "n_clusters": metrics['kmeans']['n_clusters_used']
         }
 
     # Cross-year cluster transitions

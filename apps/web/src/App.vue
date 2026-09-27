@@ -332,7 +332,7 @@
                         </svg>
                       </div>
                       <div class="scatter-legend">
-                        <span v-for="c in ['Rendah', 'Sedang', 'Tinggi']" :key="c" class="legend-item">
+                        <span v-for="c in currentClusterLabels" :key="c" class="legend-item">
                           <span class="legend-color" :style="{ background: getClusterColor(c) }"></span>
                           {{ c }}
                         </span>
@@ -662,7 +662,7 @@
                           </svg>
                         </div>
                         <div class="scatter-legend">
-                          <span v-for="c in ['Rendah', 'Sedang', 'Tinggi']" :key="c" class="legend-item">
+                          <span v-for="c in currentClusterLabels" :key="c" class="legend-item">
                             <span class="legend-color" :style="{ background: getClusterColor(c) }"></span>
                             {{ c }}
                           </span>
@@ -717,7 +717,7 @@
     </button>
 
 <!-- Legend Panel (W-06) -->
-    <aside class="legend-panel">
+<aside class="legend-panel">
       <div class="legend-header">
         <h3>Tingkat Kepadatan</h3>
         <span class="legend-badge">Klaster</span>
@@ -725,38 +725,16 @@
 
       <div class="legend-items">
         <div
+          v-for="label in currentClusterLabels"
+          :key="label"
           class="legend-row"
-          :class="{ active: selectedClusterFilter === 'Tinggi' }"
-          @click="toggleClusterFilter('Tinggi')"
+          :class="{ active: selectedClusterFilter === label }"
+          @click="toggleClusterFilter(label)"
         >
-          <span class="legend-color-box high"></span>
+          <span class="legend-color-box" :style="{ background: getClusterColor(label) }"></span>
           <div class="legend-desc">
-            <span class="label">Tinggi</span>
-            <span class="sublabel">> 5.000 jiwa/km²</span>
-          </div>
-        </div>
-
-        <div
-          class="legend-row"
-          :class="{ active: selectedClusterFilter === 'Sedang' }"
-          @click="toggleClusterFilter('Sedang')"
-        >
-          <span class="legend-color-box mid"></span>
-          <div class="legend-desc">
-            <span class="label">Sedang</span>
-            <span class="sublabel">1.000 - 5.000 jiwa/km²</span>
-          </div>
-        </div>
-
-        <div
-          class="legend-row"
-          :class="{ active: selectedClusterFilter === 'Rendah' }"
-          @click="toggleClusterFilter('Rendah')"
-        >
-          <span class="legend-color-box low"></span>
-          <div class="legend-desc">
-            <span class="label">Rendah</span>
-            <span class="sublabel"> &lt; 1.000 jiwa/km²</span>
+            <span class="label">{{ label }}</span>
+            <span class="sublabel">{{ getClusterSublabel(label) }}</span>
           </div>
         </div>
       </div>
@@ -879,7 +857,6 @@ const hasAppliedSimulation = ref(false)
 const simulationClusteringResult = ref(null)
 
 const kecamatanList = ref([])
-const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
 
 let map = null
 let geoJsonLayer = null
@@ -1198,9 +1175,17 @@ const recalcRow = (item) => {
   item.rata_rata_penghuni = item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0
 
   // Auto-cluster by density threshold (display only)
-  if (item.kepadatan_penduduk > 5000) item.cluster_label = 'Tinggi'
-  else if (item.kepadatan_penduduk >= 1000) item.cluster_label = 'Sedang'
-  else item.cluster_label = 'Rendah'
+  const labels = currentClusterLabels.value
+  if (labels.length === 2) {
+    // k=2: only Rendah and Tinggi
+    if (item.kepadatan_penduduk > 5000) item.cluster_label = 'Tinggi'
+    else item.cluster_label = 'Rendah'
+  } else {
+    // k=3 or more: use standard thresholds
+    if (item.kepadatan_penduduk > 5000) item.cluster_label = 'Tinggi'
+    else if (item.kepadatan_penduduk >= 1000) item.cluster_label = 'Sedang'
+    else item.cluster_label = 'Rendah'
+  }
 }
 
 const onInputChange = (item) => {
@@ -1260,12 +1245,7 @@ const applySimulationToMap = async () => {
         }
       })
 
-      // Recalculate clusterCounts for legend panel
-      const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
-      result.clusters.forEach(c => {
-        if (counts[c.cluster_label] !== undefined) counts[c.cluster_label]++
-      })
-      clusterCounts.value = counts
+      // clusterCounts is now a computed property, no need to manually update
 
       // Update clusteringMetrics from backend response
       if (result.metrics) {
@@ -1815,33 +1795,35 @@ const computeEvaluation = () => {
 
   return {
     title: 'Evaluasi & Interpretasi - Tahun ' + panelYear.value,
-    clusters: order.map(label => ({
+    clusters: currentClusterLabels.value.map(label => ({
       label,
       count: statsSource[label]?.count || 0,
       avg_density: statsSource[label]?.avg_kepadatan_penduduk || 0,
       avg_house_density: statsSource[label]?.avg_kepadatan_rumah || 0,
       kecamatan: statsSource[label]?.kecamatan || []
     })),
-    interpretation: {
-      Rendah: 'Kepadatan < 1.000 jiwa/km² — Wilayah perbukitan/perkebunan',
-      Sedang: 'Kepadatan 1.000–5.000 jiwa/km² — Wilayah transisi/perkotaan',
-      Tinggi: 'Kepadatan > 5.000 jiwa/km² — Pusat kota/permukiman padat'
-    },
-    summary: `${order.map(l => `${l}: ${statsSource[l]?.count || 0} kec`).join(' · ')}`
+    interpretation: Object.fromEntries(currentClusterLabels.value.map(label => [
+      label,
+      label === 'Rendah' ? 'Kepadatan rendah — Wilayah perbukitan/perkebunan' :
+      label === 'Sedang' ? 'Kepadatan menengah — Wilayah transisi/perkotaan' :
+      label === 'Tinggi' ? 'Kepadatan tinggi — Pusat kota/permukiman padat' :
+      `Cluster ${label}`
+    ])),
+    summary: `${currentClusterLabels.value.map(l => `${l}: ${statsSource[l]?.count || 0} kec`).join(' · ')}`
   }
 }
 
 const computeVisualization = (list) => {
+  const colorScheme = {}
+  currentClusterLabels.value.forEach(label => {
+    colorScheme[label] = getClusterColor(label) + ' (' + (label === 'Rendah' ? 'Hijau' : label === 'Sedang' ? 'Amber' : label === 'Tinggi' ? 'Merah' : 'Custom') + ')'
+  })
   return {
     title: 'Visualisasi Peta (GIS) - Tahun ' + panelYear.value,
     basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
     features: list.length,
     geometry_type: 'Polygon / MultiPolygon',
-    color_scheme: {
-      Rendah: '#10B981 (Hijau)',
-      Sedang: '#F59E0B (Amber)',
-      Tinggi: '#EF4444 (Merah)'
-    },
+    color_scheme: colorScheme,
     interactivity: ['Tooltip on hover', 'Popup on click', 'Cluster filter', 'Reset view'],
     summary: `${list.length} polygon kecamatan siap dirender`
   }
@@ -2058,33 +2040,35 @@ const computeSimEvaluation = () => {
 
   return {
     title: 'Evaluasi & Interpretasi Simulasi - Tahun ' + simulationYear.value,
-    clusters: order.map(label => ({
+    clusters: currentClusterLabels.value.map(label => ({
       label,
       count: computedStats[label]?.count || 0,
       avg_density: computedStats[label]?.avg_kepadatan_penduduk || 0,
       avg_house_density: computedStats[label]?.avg_kepadatan_rumah || 0,
       kecamatan: computedStats[label]?.kecamatan || []
     })),
-    interpretation: {
-      Rendah: 'Kepadatan < 1.000 jiwa/km² — Wilayah perbukitan/perkebunan',
-      Sedang: 'Kepadatan 1.000–5.000 jiwa/km² — Wilayah transisi/perkotaan',
-      Tinggi: 'Kepadatan > 5.000 jiwa/km² — Pusat kota/permukiman padat'
-    },
-    summary: `${order.map(l => `${l}: ${computedStats[l]?.count || 0} kec`).join(' · ')}`
+    interpretation: Object.fromEntries(currentClusterLabels.value.map(label => [
+      label,
+      label === 'Rendah' ? 'Kepadatan rendah — Wilayah perbukitan/perkebunan' :
+      label === 'Sedang' ? 'Kepadatan menengah — Wilayah transisi/perkotaan' :
+      label === 'Tinggi' ? 'Kepadatan tinggi — Pusat kota/permukiman padat' :
+      `Cluster ${label}`
+    ])),
+    summary: `${currentClusterLabels.value.map(l => `${l}: ${computedStats[l]?.count || 0} kec`).join(' · ')}`
   }
 }
 
 const computeSimVisualization = () => {
+  const colorScheme = {}
+  currentClusterLabels.value.forEach(label => {
+    colorScheme[label] = getClusterColor(label) + ' (' + (label === 'Rendah' ? 'Hijau' : label === 'Sedang' ? 'Amber' : label === 'Tinggi' ? 'Merah' : 'Custom') + ')'
+  })
   return {
     title: 'Visualisasi Peta (GIS) - Tahun ' + simulationYear.value,
     basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
     features: kecamatanList.value.length,
     geometry_type: 'Polygon / MultiPolygon',
-    color_scheme: {
-      Rendah: '#10B981 (Hijau)',
-      Sedang: '#F59E0B (Amber)',
-      Tinggi: '#EF4444 (Merah)'
-    },
+    color_scheme: colorScheme,
     interactivity: ['Tooltip on hover', 'Popup on click', 'Cluster filter', 'Reset view'],
     summary: `${kecamatanList.value.length} polygon kecamatan siap dirender dengan cluster simulasi`
   }
@@ -2124,25 +2108,107 @@ const avgSimKepadatan = computed(() => {
   return total / simulationData.value.length
 })
 
-// Color scheme based on cluster label
-const getClusterColor = (label) => {
-  switch (label) {
-    case 'Tinggi':
-      return '#EF4444' // Red
-    case 'Sedang':
-      return '#F59E0B' // Amber
-    case 'Rendah':
-      return '#10B981' // Green
-    default:
-      return '#6B7280'
-  }
-}
-
 // Filtered search results
 const filteredKecamatan = computed(() => {
   if (!searchQuery.value.trim()) return kecamatanList.value
   const q = searchQuery.value.toLowerCase().trim()
   return kecamatanList.value.filter((item) => item.nama.toLowerCase().includes(q))
+})
+
+// Dynamic cluster labels for current year (sorted by mean density)
+const currentClusterLabels = computed(() => {
+  if (!kecamatanList.value.length) return ['Rendah', 'Sedang', 'Tinggi']
+  const densityByLabel = {}
+  kecamatanList.value.forEach(item => {
+    const label = item.cluster_label
+    if (!densityByLabel[label]) densityByLabel[label] = { sum: 0, count: 0 }
+    densityByLabel[label].sum += Number(item.kepadatan_penduduk) || 0
+    densityByLabel[label].count += 1
+  })
+  return Object.entries(densityByLabel)
+    .sort((a, b) => (a[1].sum / a[1].count) - (b[1].sum / b[1].count))
+    .map(e => e[0])
+})
+
+// Dynamic color mapping for cluster labels (green -> amber -> red gradient)
+const clusterColorMap = computed(() => {
+  const labels = currentClusterLabels.value
+  const n = labels.length
+  if (n === 0) return {}
+  
+  // Base colors for 3 clusters
+  const baseColors = ['#10B981', '#F59E0B', '#EF4444'] // Green, Amber, Red
+  
+  if (n <= 3) {
+    // For 2 or 3 clusters, use appropriate base colors
+    if (n === 2) {
+      // For k=2: Green (Rendah) and Red (Tinggi)
+      return { [labels[0]]: '#10B981', [labels[1]]: '#EF4444' }
+    }
+    // n === 3: Green, Amber, Red
+    return { [labels[0]]: '#10B981', [labels[1]]: '#F59E0B', [labels[2]]: '#EF4444' }
+  }
+  
+  // For more than 3 clusters, interpolate
+  const map = {}
+  labels.forEach((label, i) => {
+    const ratio = i / (n - 1)
+    if (ratio <= 0.5) {
+      // Green to Amber
+      const t = ratio * 2
+      map[label] = interpolateColor('#10B981', '#F59E0B', t)
+    } else {
+      // Amber to Red
+      const t = (ratio - 0.5) * 2
+      map[label] = interpolateColor('#F59E0B', '#EF4444', t)
+    }
+  })
+  return map
+})
+
+// Color interpolation helper
+const interpolateColor = (color1, color2, t) => {
+  const c1 = hexToRgb(color1)
+  const c2 = hexToRgb(color2)
+  const r = Math.round(c1.r + (c2.r - c1.r) * t)
+  const g = Math.round(c1.g + (c2.g - c1.g) * t)
+  const b = Math.round(c1.b + (c2.b - c1.b) * t)
+  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
+}
+
+const hexToRgb = (hex) => {
+  const clean = hex.replace('#', '')
+  return {
+    r: parseInt(clean.substr(0, 2), 16),
+    g: parseInt(clean.substr(2, 2), 16),
+    b: parseInt(clean.substr(4, 2), 16)
+  }
+}
+
+// Dynamic getClusterColor using computed color map
+const getClusterColor = (label) => {
+  return clusterColorMap.value[label] || '#6B7280'
+}
+
+// Dynamic sublabel for cluster legend (shows density range)
+const getClusterSublabel = (label) => {
+  if (!kecamatanList.value.length) return ''
+  const items = kecamatanList.value.filter(item => item.cluster_label === label)
+  if (!items.length) return ''
+  const densities = items.map(i => Number(i.kepadatan_penduduk) || 0)
+  const min = Math.min(...densities)
+  const max = Math.max(...densities)
+  if (min === max) return `${formatDecimal(min)} jiwa/km²`
+  return `${formatDecimal(min)} - ${formatDecimal(max)} jiwa/km²`
+}
+
+// Dynamic cluster counts
+const clusterCounts = computed(() => {
+  const counts = {}
+  kecamatanList.value.forEach(item => {
+    counts[item.cluster_label] = (counts[item.cluster_label] || 0) + 1
+  })
+  return counts
 })
 
 // Initialize Leaflet Map with Mapbox Light 2D or CartoDB Positron
@@ -2315,14 +2381,7 @@ const loadData = async (year = selectedYear.value) => {
     initSimulationData()
     simulationClusteringResult.value = null
 
-    // Calculate cluster counts
-    const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
-    kecamatanList.value.forEach((item) => {
-      if (counts[item.cluster_label] !== undefined) {
-        counts[item.cluster_label]++
-      }
-    })
-    clusterCounts.value = counts
+    // clusterCounts is now a computed property
 
     // Capture metrics and stats
     clusteringMetrics.value = result.metrics || null

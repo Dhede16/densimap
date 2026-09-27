@@ -2680,7 +2680,7 @@
         "kepadatan_penduduk": 5093.03,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.45,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -6080,7 +6080,7 @@
         "kepadatan_penduduk": 4071.71,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.52,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -13192,7 +13192,7 @@
         "kepadatan_penduduk": 3016.45,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.05,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -17480,7 +17480,7 @@
         "kepadatan_penduduk": 3076.43,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.29,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -19474,7 +19474,7 @@
         "kepadatan_penduduk": 2983.54,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 4.02,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -19948,7 +19948,7 @@
         "kepadatan_penduduk": 2478.07,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 6.66,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -24568,7 +24568,7 @@
         "kepadatan_penduduk": 5127.3,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.51,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -27968,7 +27968,7 @@
         "kepadatan_penduduk": 4073.81,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.53,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -35080,7 +35080,7 @@
         "kepadatan_penduduk": 3061.83,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.13,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -39368,7 +39368,7 @@
         "kepadatan_penduduk": 3115.08,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.36,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -41362,7 +41362,7 @@
         "kepadatan_penduduk": 2977.7,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 4.01,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -41836,7 +41836,7 @@
         "kepadatan_penduduk": 2507.5,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 6.74,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -46456,7 +46456,7 @@
         "kepadatan_penduduk": 5228.98,
         "kepadatan_rumah": 538.91,
         "rata_rata_penghuni": 9.7,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -49856,7 +49856,7 @@
         "kepadatan_penduduk": 4084.87,
         "kepadatan_rumah": 737.14,
         "rata_rata_penghuni": 5.54,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -56968,7 +56968,7 @@
         "kepadatan_penduduk": 3167.29,
         "kepadatan_rumah": 597.4,
         "rata_rata_penghuni": 5.3,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -61256,7 +61256,7 @@
         "kepadatan_penduduk": 3199.94,
         "kepadatan_rumah": 581.15,
         "rata_rata_penghuni": 5.51,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -63250,7 +63250,7 @@
         "kepadatan_penduduk": 2951.26,
         "kepadatan_rumah": 742.27,
         "rata_rata_penghuni": 3.98,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -63724,7 +63724,7 @@
         "kepadatan_penduduk": 2603.29,
         "kepadatan_rumah": 371.91,
         "rata_rata_penghuni": 7.0,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -69374,7 +69374,7 @@
         "kepadatan_penduduk": 4994.26,
         "kepadatan_rumah": 1266.59,
         "rata_rata_penghuni": 3.94,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -71744,7 +71744,7 @@
         "kepadatan_penduduk": 3829.8,
         "kepadatan_rumah": 871.83,
         "rata_rata_penghuni": 4.39,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -78856,7 +78856,7 @@
         "kepadatan_penduduk": 1450.49,
         "kepadatan_rumah": 774.19,
         "rata_rata_penghuni": 1.87,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "suspect",
         "data_quality_detail": {
           "penduduk_flag": "suspect",
@@ -83144,7 +83144,7 @@
         "kepadatan_penduduk": 2031.5,
         "kepadatan_rumah": 885.6,
         "rata_rata_penghuni": 2.29,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "suspect",
         "data_quality_detail": {
           "penduduk_flag": "warning",
@@ -85612,7 +85612,7 @@
         "kepadatan_penduduk": 5331.8,
         "kepadatan_rumah": 675.47,
         "rata_rata_penghuni": 7.89,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "suspect",
         "data_quality_detail": {
           "penduduk_flag": "suspect",
@@ -113150,7 +113150,7 @@
         "kepadatan_penduduk": 5135.85,
         "kepadatan_rumah": 1266.59,
         "rata_rata_penghuni": 4.05,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -115520,7 +115520,7 @@
         "kepadatan_penduduk": 3904.25,
         "kepadatan_rumah": 871.83,
         "rata_rata_penghuni": 4.48,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "clean",
         "data_quality_detail": {
           "penduduk_flag": "clean",
@@ -122632,7 +122632,7 @@
         "kepadatan_penduduk": 1513.73,
         "kepadatan_rumah": 774.19,
         "rata_rata_penghuni": 1.96,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "suspect",
         "data_quality_detail": {
           "penduduk_flag": "suspect",
@@ -126920,7 +126920,7 @@
         "kepadatan_penduduk": 2107.96,
         "kepadatan_rumah": 885.6,
         "rata_rata_penghuni": 2.38,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "warning",
         "data_quality_detail": {
           "penduduk_flag": "warning",
@@ -129388,7 +129388,7 @@
         "kepadatan_penduduk": 5554.88,
         "kepadatan_rumah": 675.47,
         "rata_rata_penghuni": 8.22,
-        "cluster_label": "Sedang",
+        "cluster_label": "Tinggi",
         "data_quality_flag": "suspect",
         "data_quality_detail": {
           "penduduk_flag": "suspect",
@@ -134014,7 +134014,7 @@
             "kepadatan_penduduk": 5093.03,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.45,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -137414,7 +137414,7 @@
             "kepadatan_penduduk": 4071.71,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.52,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -144526,7 +144526,7 @@
             "kepadatan_penduduk": 3016.45,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.05,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -148814,7 +148814,7 @@
             "kepadatan_penduduk": 3076.43,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.29,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -150808,7 +150808,7 @@
             "kepadatan_penduduk": 2983.54,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 4.02,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -151282,7 +151282,7 @@
             "kepadatan_penduduk": 2478.07,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 6.66,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -153231,7 +153231,8 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 2
     },
     "2021": {
       "type": "FeatureCollection",
@@ -155907,7 +155908,7 @@
             "kepadatan_penduduk": 5127.3,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.51,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -159307,7 +159308,7 @@
             "kepadatan_penduduk": 4073.81,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.53,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -166419,7 +166420,7 @@
             "kepadatan_penduduk": 3061.83,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.13,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -170707,7 +170708,7 @@
             "kepadatan_penduduk": 3115.08,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.36,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -172701,7 +172702,7 @@
             "kepadatan_penduduk": 2977.7,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 4.01,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -173175,7 +173176,7 @@
             "kepadatan_penduduk": 2507.5,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 6.74,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -175124,7 +175125,8 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 2
     },
     "2022": {
       "type": "FeatureCollection",
@@ -177800,7 +177802,7 @@
             "kepadatan_penduduk": 5228.98,
             "kepadatan_rumah": 538.91,
             "rata_rata_penghuni": 9.7,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -181200,7 +181202,7 @@
             "kepadatan_penduduk": 4084.87,
             "kepadatan_rumah": 737.14,
             "rata_rata_penghuni": 5.54,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -188312,7 +188314,7 @@
             "kepadatan_penduduk": 3167.29,
             "kepadatan_rumah": 597.4,
             "rata_rata_penghuni": 5.3,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -192600,7 +192602,7 @@
             "kepadatan_penduduk": 3199.94,
             "kepadatan_rumah": 581.15,
             "rata_rata_penghuni": 5.51,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -194594,7 +194596,7 @@
             "kepadatan_penduduk": 2951.26,
             "kepadatan_rumah": 742.27,
             "rata_rata_penghuni": 3.98,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -195068,7 +195070,7 @@
             "kepadatan_penduduk": 2603.29,
             "kepadatan_rumah": 371.91,
             "rata_rata_penghuni": 7.0,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -197017,7 +197019,8 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 2
     },
     "2023": {
       "type": "FeatureCollection",
@@ -200723,7 +200726,7 @@
             "kepadatan_penduduk": 4994.26,
             "kepadatan_rumah": 1266.59,
             "rata_rata_penghuni": 3.94,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -203093,7 +203096,7 @@
             "kepadatan_penduduk": 3829.8,
             "kepadatan_rumah": 871.83,
             "rata_rata_penghuni": 4.39,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -210205,7 +210208,7 @@
             "kepadatan_penduduk": 1450.49,
             "kepadatan_rumah": 774.19,
             "rata_rata_penghuni": 1.87,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "suspect",
             "data_quality_detail": {
               "penduduk_flag": "suspect",
@@ -214493,7 +214496,7 @@
             "kepadatan_penduduk": 2031.5,
             "kepadatan_rumah": 885.6,
             "rata_rata_penghuni": 2.29,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "suspect",
             "data_quality_detail": {
               "penduduk_flag": "warning",
@@ -216961,7 +216964,7 @@
             "kepadatan_penduduk": 5331.8,
             "kepadatan_rumah": 675.47,
             "rata_rata_penghuni": 7.89,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "suspect",
             "data_quality_detail": {
               "penduduk_flag": "suspect",
@@ -218910,7 +218913,8 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 2
     },
     "2024": {
       "type": "FeatureCollection",
@@ -240803,7 +240807,8 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 3
     },
     "2025": {
       "type": "FeatureCollection",
@@ -244509,7 +244514,7 @@
             "kepadatan_penduduk": 5135.85,
             "kepadatan_rumah": 1266.59,
             "rata_rata_penghuni": 4.05,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -246879,7 +246884,7 @@
             "kepadatan_penduduk": 3904.25,
             "kepadatan_rumah": 871.83,
             "rata_rata_penghuni": 4.48,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "clean",
             "data_quality_detail": {
               "penduduk_flag": "clean",
@@ -253991,7 +253996,7 @@
             "kepadatan_penduduk": 1513.73,
             "kepadatan_rumah": 774.19,
             "rata_rata_penghuni": 1.96,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "suspect",
             "data_quality_detail": {
               "penduduk_flag": "suspect",
@@ -258279,7 +258284,7 @@
             "kepadatan_penduduk": 2107.96,
             "kepadatan_rumah": 885.6,
             "rata_rata_penghuni": 2.38,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "warning",
             "data_quality_detail": {
               "penduduk_flag": "warning",
@@ -260747,7 +260752,7 @@
             "kepadatan_penduduk": 5554.88,
             "kepadatan_rumah": 675.47,
             "rata_rata_penghuni": 8.22,
-            "cluster_label": "Sedang",
+            "cluster_label": "Tinggi",
             "data_quality_flag": "suspect",
             "data_quality_detail": {
               "penduduk_flag": "suspect",
@@ -262696,14 +262701,15 @@
             ]
           }
         }
-      ]
+      ],
+      "n_clusters": 2
     }
   },
   "metrics": {
     "2020": {
       "hierarchical": {
-        "silhouette": 0.5846,
-        "davies_bouldin": 0.2695,
+        "silhouette": 0.6386,
+        "davies_bouldin": 0.3289,
         "optimal_k_suggestion": 2,
         "silhouette_by_k": {
           "2": 0.6386,
@@ -262713,9 +262719,10 @@
         }
       },
       "kmeans": {
-        "silhouette": 0.5846,
-        "davies_bouldin": 0.2695,
-        "inertia": 2.2569
+        "silhouette": 0.6386,
+        "davies_bouldin": 0.3289,
+        "inertia": 5.8796,
+        "n_clusters_used": 2
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262724,8 +262731,8 @@
     },
     "2021": {
       "hierarchical": {
-        "silhouette": 0.5859,
-        "davies_bouldin": 0.2681,
+        "silhouette": 0.64,
+        "davies_bouldin": 0.3279,
         "optimal_k_suggestion": 2,
         "silhouette_by_k": {
           "2": 0.64,
@@ -262735,9 +262742,10 @@
         }
       },
       "kmeans": {
-        "silhouette": 0.5859,
-        "davies_bouldin": 0.2681,
-        "inertia": 2.2481
+        "silhouette": 0.64,
+        "davies_bouldin": 0.3279,
+        "inertia": 5.8539,
+        "n_clusters_used": 2
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262746,8 +262754,8 @@
     },
     "2022": {
       "hierarchical": {
-        "silhouette": 0.589,
-        "davies_bouldin": 0.2661,
+        "silhouette": 0.6421,
+        "davies_bouldin": 0.3277,
         "optimal_k_suggestion": 2,
         "silhouette_by_k": {
           "2": 0.6421,
@@ -262757,9 +262765,10 @@
         }
       },
       "kmeans": {
-        "silhouette": 0.589,
-        "davies_bouldin": 0.2661,
-        "inertia": 2.2374
+        "silhouette": 0.6421,
+        "davies_bouldin": 0.3277,
+        "inertia": 5.8323,
+        "n_clusters_used": 2
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262768,8 +262777,8 @@
     },
     "2023": {
       "hierarchical": {
-        "silhouette": 0.5192,
-        "davies_bouldin": 0.6897,
+        "silhouette": 0.5472,
+        "davies_bouldin": 0.4656,
         "optimal_k_suggestion": 2,
         "silhouette_by_k": {
           "2": 0.5472,
@@ -262779,9 +262788,10 @@
         }
       },
       "kmeans": {
-        "silhouette": 0.555,
-        "davies_bouldin": 0.567,
-        "inertia": 3.2245
+        "silhouette": 0.5472,
+        "davies_bouldin": 0.4656,
+        "inertia": 8.1379,
+        "n_clusters_used": 2
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262803,7 +262813,8 @@
       "kmeans": {
         "silhouette": 0.7131,
         "davies_bouldin": 0.3312,
-        "inertia": 0.9399
+        "inertia": 0.9399,
+        "n_clusters_used": 3
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262812,8 +262823,8 @@
     },
     "2025": {
       "hierarchical": {
-        "silhouette": 0.5203,
-        "davies_bouldin": 0.6894,
+        "silhouette": 0.5478,
+        "davies_bouldin": 0.4655,
         "optimal_k_suggestion": 2,
         "silhouette_by_k": {
           "2": 0.5478,
@@ -262823,9 +262834,10 @@
         }
       },
       "kmeans": {
-        "silhouette": 0.561,
-        "davies_bouldin": 0.5568,
-        "inertia": 3.166
+        "silhouette": 0.5478,
+        "davies_bouldin": 0.4655,
+        "inertia": 8.0978,
+        "n_clusters_used": 2
       },
       "features_used": [
         "kepadatan_penduduk",
@@ -262845,25 +262857,18 @@
           "Sambutan"
         ]
       },
-      "Sedang": {
-        "count": 6,
-        "avg_kepadatan_penduduk": 3453.21,
-        "avg_kepadatan_rumah": 594.79,
+      "Tinggi": {
+        "count": 7,
+        "avg_kepadatan_penduduk": 3805.65,
+        "avg_kepadatan_rumah": 667.73,
         "kecamatan": [
           "Samarinda Seberang",
+          "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
           "Samarinda Kota",
           "Loa Janan Ilir"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 5920.3,
-        "avg_kepadatan_rumah": 1105.33,
-        "kecamatan": [
-          "Samarinda Ulu"
         ]
       }
     },
@@ -262878,25 +262883,18 @@
           "Sambutan"
         ]
       },
-      "Sedang": {
-        "count": 6,
-        "avg_kepadatan_penduduk": 3477.2,
-        "avg_kepadatan_rumah": 594.79,
+      "Tinggi": {
+        "count": 7,
+        "avg_kepadatan_penduduk": 3828.77,
+        "avg_kepadatan_rumah": 667.73,
         "kecamatan": [
           "Samarinda Seberang",
+          "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
           "Samarinda Kota",
           "Loa Janan Ilir"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 5938.16,
-        "avg_kepadatan_rumah": 1105.33,
-        "kecamatan": [
-          "Samarinda Ulu"
         ]
       }
     },
@@ -262911,25 +262909,18 @@
           "Sambutan"
         ]
       },
-      "Sedang": {
-        "count": 6,
-        "avg_kepadatan_penduduk": 3539.27,
-        "avg_kepadatan_rumah": 594.79,
+      "Tinggi": {
+        "count": 7,
+        "avg_kepadatan_penduduk": 3893.33,
+        "avg_kepadatan_rumah": 667.73,
         "kecamatan": [
           "Samarinda Seberang",
+          "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
           "Samarinda Kota",
           "Loa Janan Ilir"
-        ]
-      },
-      "Tinggi": {
-        "count": 1,
-        "avg_kepadatan_penduduk": 6017.68,
-        "avg_kepadatan_rumah": 1105.33,
-        "kecamatan": [
-          "Samarinda Ulu"
         ]
       }
     },
@@ -262944,25 +262935,18 @@
           "Sambutan"
         ]
       },
-      "Sedang": {
-        "count": 5,
-        "avg_kepadatan_penduduk": 3527.57,
-        "avg_kepadatan_rumah": 894.73,
+      "Tinggi": {
+        "count": 7,
+        "avg_kepadatan_penduduk": 5514.47,
+        "avg_kepadatan_rumah": 881.09,
         "kecamatan": [
+          "Samarinda Seberang",
           "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
+          "Samarinda Kota",
           "Loa Janan Ilir"
-        ]
-      },
-      "Tinggi": {
-        "count": 2,
-        "avg_kepadatan_penduduk": 10481.73,
-        "avg_kepadatan_rumah": 846.99,
-        "kecamatan": [
-          "Samarinda Seberang",
-          "Samarinda Kota"
         ]
       }
     },
@@ -263010,25 +262994,18 @@
           "Sambutan"
         ]
       },
-      "Sedang": {
-        "count": 5,
-        "avg_kepadatan_penduduk": 3643.33,
-        "avg_kepadatan_rumah": 894.73,
+      "Tinggi": {
+        "count": 7,
+        "avg_kepadatan_penduduk": 5689.34,
+        "avg_kepadatan_rumah": 881.09,
         "kecamatan": [
+          "Samarinda Seberang",
           "Samarinda Ulu",
           "Samarinda Ilir",
           "Sungai Kunjang",
           "Sungai Pinang",
+          "Samarinda Kota",
           "Loa Janan Ilir"
-        ]
-      },
-      "Tinggi": {
-        "count": 2,
-        "avg_kepadatan_penduduk": 10804.37,
-        "avg_kepadatan_rumah": 846.99,
-        "kecamatan": [
-          "Samarinda Seberang",
-          "Samarinda Kota"
         ]
       }
     }
@@ -263043,9 +263020,9 @@
       "2025": "Rendah"
     },
     "Samarinda Seberang": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
       "2023": "Tinggi",
       "2024": "Tinggi",
       "2025": "Tinggi"
@@ -263054,17 +263031,17 @@
       "2020": "Tinggi",
       "2021": "Tinggi",
       "2022": "Tinggi",
-      "2023": "Sedang",
+      "2023": "Tinggi",
       "2024": "Tinggi",
-      "2025": "Sedang"
+      "2025": "Tinggi"
     },
     "Samarinda Ilir": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
-      "2023": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
+      "2023": "Tinggi",
       "2024": "Sedang",
-      "2025": "Sedang"
+      "2025": "Tinggi"
     },
     "Samarinda Utara": {
       "2020": "Rendah",
@@ -263075,12 +263052,12 @@
       "2025": "Rendah"
     },
     "Sungai Kunjang": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
-      "2023": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
+      "2023": "Tinggi",
       "2024": "Sedang",
-      "2025": "Sedang"
+      "2025": "Tinggi"
     },
     "Sambutan": {
       "2020": "Rendah",
@@ -263091,28 +263068,28 @@
       "2025": "Rendah"
     },
     "Sungai Pinang": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
-      "2023": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
+      "2023": "Tinggi",
       "2024": "Sedang",
-      "2025": "Sedang"
+      "2025": "Tinggi"
     },
     "Samarinda Kota": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
       "2023": "Tinggi",
       "2024": "Sedang",
       "2025": "Tinggi"
     },
     "Loa Janan Ilir": {
-      "2020": "Sedang",
-      "2021": "Sedang",
-      "2022": "Sedang",
-      "2023": "Sedang",
+      "2020": "Tinggi",
+      "2021": "Tinggi",
+      "2022": "Tinggi",
+      "2023": "Tinggi",
       "2024": "Sedang",
-      "2025": "Sedang"
+      "2025": "Tinggi"
     }
   }
 }
