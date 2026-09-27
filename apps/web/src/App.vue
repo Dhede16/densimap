@@ -420,9 +420,6 @@
 
           <!-- Action Buttons -->
           <div class="simulation-actions">
-            <button class="sim-btn primary" @click="applySimulationToMap" :disabled="isApplying">
-              {{ isApplying ? 'Menerapkan...' : 'Terapkan ke Peta' }}
-            </button>
             <button class="sim-btn secondary" @click="resetSimulationData">Reset Data</button>
           </div>
 
@@ -688,22 +685,6 @@
                           <span class="metric-val">{{ typeof val === 'number' ? val.toFixed(3) : val }}</span>
                         </div>
                       </div>
-                    </div>
-
-                    <!-- Comparison table for sim-comparison -->
-                    <div v-if="rightStepResults[step.id].columns && rightStepResults[step.id].rows && step.id === 'sim-comparison'" class="result-table-container">
-                      <table class="result-table">
-                        <thead>
-                          <tr>
-                            <th v-for="(col, ci) in rightStepResults[step.id].columns" :key="ci">{{ col }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(row, ri) in rightStepResults[step.id].rows" :key="ri" :class="{ 'cluster-changed': row[3] === '✓ Ya' }">
-                            <td v-for="(cell, cj) in row" :key="cj">{{ cell }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                 </div>
@@ -1221,15 +1202,15 @@ const rightPipelineSteps = [
     shortDesc: 'Kualitas cluster & penamaan Rendah/Sedang/Tinggi'
   },
   {
-    id: 'sim-comparison',
-    title: '7. Perbandingan Hasil (Asli vs Simulasi)',
-    desc: 'Membandingkan cluster asli vs simulasi, melihat perubahan klaster per kecamatan',
-    shortDesc: 'Delta klaster, shift kepadatan, analisis perubahan'
+    id: 'sim-visualization',
+    title: '7. Visualisasi Peta (GIS)',
+    desc: 'Menerapkan simulasi ke peta, render GeoJSON ke Leaflet, warna per cluster, tooltip & popup',
+    shortDesc: 'Basemap Mapbox/CartoDB + 10 polygons dengan cluster baru'
   }
 ]
 
 const stepOrder = ['raw-data', 'feature-engineering', 'preprocessing', 'hierarchical', 'kmeans', 'evaluation', 'visualization']
-const rightStepOrder = ['sim-raw-data', 'sim-feature-engineering', 'sim-preprocessing', 'sim-hierarchical', 'sim-kmeans', 'sim-evaluation', 'sim-comparison']
+const rightStepOrder = ['sim-raw-data', 'sim-feature-engineering', 'sim-preprocessing', 'sim-hierarchical', 'sim-kmeans', 'sim-evaluation', 'sim-visualization']
 
 // Active step state (Left Panel)
 const activeStepId = ref(null)
@@ -1521,8 +1502,9 @@ const runRightStep = async (stepId) => {
     case 'sim-evaluation':
       result = computeSimEvaluation()
       break
-    case 'sim-comparison':
-      result = computeSimComparison()
+    case 'sim-visualization':
+      await applySimulationToMap()
+      result = computeSimVisualization()
       break
   }
 
@@ -1985,48 +1967,19 @@ const computeSimEvaluation = () => {
   }
 }
 
-const computeSimComparison = () => {
-  const simList = simulationData.value
-  const origList = kecamatanList.value
-  
-  // Compare original vs simulation clusters
-  const comparison = simList.map(simItem => {
-    const origItem = origList.find(o => o.id === simItem.id)
-    if (!origItem) return null
-    
-    const clusterChanged = origItem.cluster_label !== simItem.cluster_label
-    const densityDiff = Number(simItem.kepadatan_penduduk) - Number(origItem.kepadatan_penduduk)
-    const densityPct = origItem.kepadatan_penduduk ? ((densityDiff / Number(origItem.kepadatan_penduduk)) * 100).toFixed(1) : 0
-    
-    return {
-      nama: simItem.nama,
-      cluster_asli: origItem.cluster_label,
-      cluster_simulasi: simItem.cluster_label,
-      cluster_changed: clusterChanged,
-      kepadatan_asli: formatDecimal(origItem.kepadatan_penduduk),
-      kepadatan_simulasi: formatDecimal(simItem.kepadatan_penduduk),
-      selisih_kepadatan: formatDecimal(densityDiff),
-      perubahan_persen: densityPct + '%'
-    }
-  }).filter(Boolean)
-
-  const changedCount = comparison.filter(c => c.cluster_changed).length
-  const totalCount = comparison.length
-
+const computeSimVisualization = () => {
   return {
-    title: 'Perbandingan Hasil (Asli vs Simulasi) - Tahun ' + simulationYear.value,
-    columns: ['Kecamatan', 'Klaster Asli', 'Klaster Simulasi', 'Berubah', 'Kepadatan Asli', 'Kepadatan Simulasi', 'Selisih', 'Perubahan (%)'],
-    rows: comparison.map(item => [
-      item.nama,
-      item.cluster_asli,
-      item.cluster_simulasi,
-      item.cluster_changed ? '✓ Ya' : '✗ Tidak',
-      item.kepadatan_asli,
-      item.kepadatan_simulasi,
-      item.selisih_kepadatan,
-      item.perubahan_persen
-    ]),
-    summary: `${changedCount} dari ${totalCount} kecamatan berubah klaster`
+    title: 'Visualisasi Peta (GIS) - Tahun ' + simulationYear.value,
+    basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
+    features: kecamatanList.value.length,
+    geometry_type: 'Polygon / MultiPolygon',
+    color_scheme: {
+      Rendah: '#10B981 (Hijau)',
+      Sedang: '#F59E0B (Amber)',
+      Tinggi: '#EF4444 (Merah)'
+    },
+    interactivity: ['Tooltip on hover', 'Popup on click', 'Cluster filter', 'Reset view'],
+    summary: `${kecamatanList.value.length} polygon kecamatan siap dirender dengan cluster simulasi`
   }
 }
 
