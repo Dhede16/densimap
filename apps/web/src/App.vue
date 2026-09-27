@@ -965,11 +965,24 @@ const applySimulationToMap = async () => {
 
     const result = await res.json()
     if (result.success && result.clusters) {
-      // Update main data with new cluster labels
+      // Update main data with new cluster labels and calculated densities
       result.clusters.forEach(c => {
         const idx = kecamatanList.value.findIndex(k => k.id === c.id)
         if (idx !== -1) {
           kecamatanList.value[idx].cluster_label = c.cluster_label
+          kecamatanList.value[idx].kepadatan_penduduk = c.kepadatan_penduduk
+          kecamatanList.value[idx].kepadatan_rumah = c.kepadatan_rumah
+          kecamatanList.value[idx].rata_rata_penghuni = c.rata_rata_penghuni
+        }
+        // Update GeoJSON layer feature properties
+        const layer = layerMap.get(c.id)
+        if (layer && layer.feature && layer.feature.properties) {
+          layer.feature.properties.cluster_label = c.cluster_label
+          layer.feature.properties.kepadatan_penduduk = c.kepadatan_penduduk
+          layer.feature.properties.kepadatan_rumah = c.kepadatan_rumah
+          layer.feature.properties.rata_rata_penghuni = c.rata_rata_penghuni
+          layer.feature.properties.jumlah_penduduk = Math.round(c.kepadatan_penduduk * (layer.feature.properties.luas_km2 || 1))
+          layer.feature.properties.jumlah_rumah = Math.round(c.kepadatan_rumah * (layer.feature.properties.luas_km2 || 1))
         }
       })
       // Re-render map with new clusters
