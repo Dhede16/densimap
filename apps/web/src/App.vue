@@ -399,18 +399,72 @@
       </div>
     </aside>
 
-    <!-- Right Sliding Panel (GOD MODE) -->
+    <!-- Right Sliding Panel (Simulasi & Eksperimen) -->
     <aside
       class="right-panel"
       :class="{ open: isRightPanelOpen }"
     >
       <div class="right-panel-content">
         <div class="right-panel-header">
-          <h3>GOD MODE Panel</h3>
-          <p class="panel-subtitle">Panel kosong untuk keperluan khusus</p>
+          <h3>Simulasi & Eksperimen</h3>
+          <button class="panel-close-btn" @click="toggleRightPanel" :title="isRightPanelOpen ? 'Tutup Panel' : 'Buka Panel'">✕</button>
         </div>
         <div class="right-panel-body">
-          <!-- Empty content as requested -->
+          <!-- Year Selector -->
+          <div class="simulation-year-selector">
+            <label>Tahun Simulasi:</label>
+            <select v-model="simulationYear" @change="resetSimulationData" class="simulation-year-select">
+              <option v-for="year in availableYears" :key="year" :value="year">{{ year }}</option>
+            </select>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="simulation-actions">
+            <button class="sim-btn primary" @click="applySimulationToMap" :disabled="isApplying">
+              {{ isApplying ? 'Menerapkan...' : 'Terapkan ke Peta' }}
+            </button>
+            <button class="sim-btn secondary" @click="resetSimulationData">Reset Data</button>
+            <button class="sim-btn outline" @click="exportSimulationCSV">Export CSV</button>
+          </div>
+
+          <!-- Editable Table -->
+          <div class="simulation-table-container">
+            <table class="simulation-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Kecamatan</th>
+                  <th class="text-right">Luas (km²)</th>
+                  <th class="text-right">Penduduk (jiwa)</th>
+                  <th class="text-right">Rumah (unit)</th>
+                  <th class="text-right">Kepadatan Penduduk</th>
+                  <th class="text-right">Kepadatan Rumah</th>
+                  <th class="text-right">Rata² Penghuni</th>
+                  <th>Klaster (Auto)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, idx) in simulationData" :key="item.id" :class="{ edited: editedRows.has(item.id) }">
+                  <td>{{ idx + 1 }}</td>
+                  <td class="font-bold">{{ item.nama }}</td>
+                  <td><input type="number" step="0.01" min="0" v-model.number="item.luas_km2" @change="onInputChange(item)" class="sim-input" /></td>
+                  <td><input type="number" step="1" min="0" v-model.number="item.jumlah_penduduk" @change="onInputChange(item)" class="sim-input" /></td>
+                  <td><input type="number" step="1" min="0" v-model.number="item.jumlah_rumah" @change="onInputChange(item)" class="sim-input" /></td>
+                  <td class="text-right derived">{{ formatDecimal(item.kepadatan_penduduk) }}</td>
+                  <td class="text-right derived">{{ formatDecimal(item.kepadatan_rumah) }}</td>
+                  <td class="text-right derived">{{ formatDecimal(item.rata_rata_penghuni) }}</td>
+                  <td><span class="cluster-pill" :class="'pill-' + item.cluster_label.toLowerCase()">{{ item.cluster_label }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Summary Stats -->
+          <div class="simulation-summary">
+            <div class="summary-pill"><span class="summary-label">Total Penduduk</span><span class="summary-value">{{ formatNumber(totalSimPenduduk) }}</span></div>
+            <div class="summary-pill"><span class="summary-label">Total Rumah</span><span class="summary-value">{{ formatNumber(totalSimRumah) }}</span></div>
+            <div class="summary-pill"><span class="summary-label">Rata² Kepadatan</span><span class="summary-value">{{ formatDecimal(avgSimKepadatan) }} jiwa/km²</span></div>
+          </div>
         </div>
       </div>
     </aside>
@@ -641,7 +695,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import L from 'leaflet'
 import { getKecamatanData } from './services/supabase'
 
@@ -660,9 +714,14 @@ const clusteringMetrics = ref(null)
 const clusterStats = ref(null)
 const clusterTransitions = ref({})
 const panelYear = ref(2025)
-const chartTab = ref('counts')
 const isGodModeActive = ref(false)
 const isRightPanelOpen = ref(false)
+
+// Simulation state (Right Panel)
+const simulationYear = ref(2025)
+const simulationData = ref([])
+const editedRows = ref(new Set())
+const isApplying = ref(false)
 
 const kecamatanList = ref([])
 const clusterCounts = ref({ Rendah: 0, Sedang: 0, Tinggi: 0 })
@@ -834,12 +893,6 @@ const toggleGodMode = () => {
   }
 }
 
-// Close right panel (can be called from outside)
-const closeRightPanel = () => {
-  isRightPanelOpen.value = false
-  isGodModeActive.value = false
-}
-
 // Toggle right panel with mutual exclusion (left panel closes)
 const toggleRightPanel = () => {
   if (!isRightPanelOpen.value) {
@@ -850,6 +903,113 @@ const toggleRightPanel = () => {
     isRightPanelOpen.value = false
     isGodModeActive.value = false
   }
+}
+
+// Initialize simulation data from current kecamatanList
+const initSimulationData = () => {
+  simulationData.value = kecamatanList.value.map(item => ({
+    id: item.id,
+    nama: item.nama,
+    tahun: item.tahun || simulationYear.value,
+    luas_km2: Number(item.luas_km2),
+    jumlah_penduduk: Number(item.jumlah_penduduk),
+    jumlah_rumah: Number(item.jumlah_rumah),
+    kepadatan_penduduk: Number(item.kepadatan_penduduk),
+    kepadatan_rumah: Number(item.kepadatan_rumah),
+    rata_rata_penghuni: Number(item.rata_rata_penghuni),
+    cluster_label: item.cluster_label,
+  }))
+  editedRows.value.clear()
+}
+
+// Recalculate derived fields for a row
+const recalcRow = (item) => {
+  item.kepadatan_penduduk = item.luas_km2 > 0 ? item.jumlah_penduduk / item.luas_km2 : 0
+  item.kepadatan_rumah = item.luas_km2 > 0 ? item.jumlah_rumah / item.luas_km2 : 0
+  item.rata_rata_penghuni = item.jumlah_rumah > 0 ? item.jumlah_penduduk / item.jumlah_rumah : 0
+
+  // Auto-cluster by density threshold (display only)
+  if (item.kepadatan_penduduk > 5000) item.cluster_label = 'Tinggi'
+  else if (item.kepadatan_penduduk >= 1000) item.cluster_label = 'Sedang'
+  else item.cluster_label = 'Rendah'
+}
+
+const onInputChange = (item) => {
+  recalcRow(item)
+  editedRows.value.add(item.id)
+}
+
+// Reset simulation data to current year's actual data
+const resetSimulationData = () => {
+  initSimulationData()
+}
+
+// Apply simulation to backend for re-clustering
+const applySimulationToMap = async () => {
+  isApplying.value = true
+  try {
+    const payload = simulationData.value.map(item => ({
+      id: item.id,
+      nama: item.nama,
+      tahun: simulationYear.value,
+      jumlah_penduduk: Math.round(item.jumlah_penduduk),
+      luas_km2: Number(item.luas_km2.toFixed(2)),
+      jumlah_rumah: Math.round(item.jumlah_rumah),
+    }))
+
+    const res = await fetch('/api/recluster', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year: simulationYear.value, data: payload })
+    })
+
+    const result = await res.json()
+    if (result.success && result.clusters) {
+      // Update main data with new cluster labels
+      result.clusters.forEach(c => {
+        const idx = kecamatanList.value.findIndex(k => k.id === c.id)
+        if (idx !== -1) {
+          kecamatanList.value[idx].cluster_label = c.cluster_label
+        }
+      })
+      // Re-render map with new clusters
+      if (geoJsonLayer) {
+        geoJsonLayer.setStyle(polygonStyle)
+      }
+      // Refresh simulation data to match
+      initSimulationData()
+      alert('Simulasi berhasil diterapkan & clustering diperbarui!')
+    } else {
+      alert('Gagal: ' + (result.error || 'Unknown error'))
+    }
+  } catch (err) {
+    console.error('Recluster failed:', err)
+    alert('Error menghubungi backend: ' + err.message)
+  } finally {
+    isApplying.value = false
+  }
+}
+
+// Export simulation data as CSV
+const exportSimulationCSV = () => {
+  const headers = ['No', 'Kecamatan', 'Luas (km²)', 'Penduduk', 'Rumah', 'Kepadatan Penduduk', 'Kepadatan Rumah', 'Rata² Penghuni', 'Klaster']
+  const rows = simulationData.value.map((item, idx) => [
+    idx + 1,
+    item.nama,
+    item.luas_km2.toFixed(2),
+    Math.round(item.jumlah_penduduk),
+    Math.round(item.jumlah_rumah),
+    item.kepadatan_penduduk.toFixed(2),
+    item.kepadatan_rumah.toFixed(2),
+    item.rata_rata_penghuni.toFixed(2),
+    item.cluster_label
+  ])
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = `simulasi-kecamatan-${simulationYear.value}.csv`
+  link.click()
 }
 
 // Toggle left panel with mutual exclusion (right panel closes)
@@ -865,6 +1025,7 @@ const toggleLeftPanel = () => {
 
 // Panel year change handler
 const onPanelYearChange = async () => {
+  simulationYear.value = panelYear.value
   await loadData(panelYear.value)
   activeStepId.value = null
   stepResults.value = {}
@@ -1158,6 +1319,21 @@ const avgKepadatan = computed(() => {
   return total / kecamatanList.value.length
 })
 
+// Simulation computed stats
+const totalSimPenduduk = computed(() => {
+  return simulationData.value.reduce((acc, item) => acc + (Number(item.jumlah_penduduk) || 0), 0)
+})
+
+const totalSimRumah = computed(() => {
+  return simulationData.value.reduce((acc, item) => acc + (Number(item.jumlah_rumah) || 0), 0)
+})
+
+const avgSimKepadatan = computed(() => {
+  if (!simulationData.value.length) return 0
+  const total = simulationData.value.reduce((acc, item) => acc + (Number(item.kepadatan_penduduk) || 0), 0)
+  return total / simulationData.value.length
+})
+
 // Color scheme based on cluster label
 const getClusterColor = (label) => {
   switch (label) {
@@ -1328,6 +1504,7 @@ const renderGeoJson = (geojson) => {
 // Handle Year selection change
 const onYearChange = () => {
   panelYear.value = selectedYear.value
+  simulationYear.value = selectedYear.value
   loadData(selectedYear.value)
 }
 
@@ -1343,6 +1520,9 @@ const loadData = async (year = selectedYear.value) => {
 
     // Extract list
     kecamatanList.value = fc.features.map((f) => f.properties)
+
+    // Initialize simulation data
+    initSimulationData()
 
     // Calculate cluster counts
     const counts = { Rendah: 0, Sedang: 0, Tinggi: 0 }
@@ -1412,7 +1592,13 @@ const handleClickOutside = (e) => {
 onMounted(() => {
   initMap()
   loadData()
+  initSimulationData()
   document.addEventListener('click', handleClickOutside)
+})
+
+// Watch simulationYear to reload simulation data
+watch(simulationYear, () => {
+  initSimulationData()
 })
 
 onUnmounted(() => {
@@ -2203,6 +2389,195 @@ onUnmounted(() => {
 .right-panel-body p {
   margin: 0 0 12px 0;
   font-size: 14px;
+}
+
+/* Simulation Panel Styles */
+.simulation-year-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+}
+
+.simulation-year-selector label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.simulation-year-select {
+  padding: 8px 12px;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+.simulation-year-select:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.simulation-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sim-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+.sim-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.sim-btn.primary {
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+.sim-btn.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1D4ED8, #2563EB);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
+.sim-btn.secondary {
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #E2E8F0;
+}
+.sim-btn.secondary:hover:not(:disabled) {
+  background: #E2E8F0;
+}
+.sim-btn.outline {
+  background: transparent;
+  color: #2563EB;
+  border: 1px solid #BFDBFE;
+}
+.sim-btn.outline:hover:not(:disabled) {
+  background: #EFF6FF;
+}
+
+.simulation-table-container {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+}
+
+.simulation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.simulation-table th {
+  position: sticky;
+  top: 0;
+  background: #F8FAFC;
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #475569;
+  border-bottom: 2px solid #E2E8F0;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.simulation-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+  vertical-align: middle;
+}
+
+.simulation-table tr:last-child td {
+  border-bottom: none;
+}
+
+.simulation-table tr:hover td {
+  background: #F8FAFC;
+}
+
+.simulation-table tr.edited td {
+  background: #FFFBE6;
+  border-left: 3px solid #F59E0B;
+}
+
+.sim-input {
+  width: 100%;
+  max-width: 100px;
+  padding: 6px 8px;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-family: inherit;
+  color: #0F172A;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.sim-input:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 130, 246, 0.15);
+}
+
+.derived {
+  background: #F1F5F9 !important;
+  color: #64748B;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+}
+
+.simulation-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.simulation-summary .summary-pill {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+}
+
+.simulation-summary .summary-label {
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.simulation-summary .summary-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
 }
 
 /* Panel Year Selector */
