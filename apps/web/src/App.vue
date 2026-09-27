@@ -1,9 +1,9 @@
 <template>
-  <div class="densimap-wrapper" :class="{ 'panel-open': isLeftPanelOpen }">
+  <div class="densimap-wrapper" :class="{ 'panel-open': isLeftPanelOpen, 'panel-open-right': isRightPanelOpen }">
     <!-- Left Panel Toggle Button (fixed on left edge) -->
     <button
       class="panel-toggle-btn"
-      @click="isLeftPanelOpen = !isLeftPanelOpen"
+      @click="toggleLeftPanel"
       :title="isLeftPanelOpen ? 'Tutup Panel' : 'Buka Panel'"
       :aria-label="isLeftPanelOpen ? 'Close panel' : 'Open panel'"
     >
@@ -85,9 +85,9 @@
         <!-- Start Button - Opens Left Panel -->
         <button
           class="start-btn"
-          @click="isLeftPanelOpen = true"
-          :disabled="isLeftPanelOpen"
-          :title="isLeftPanelOpen ? 'Panel sudah terbuka' : 'Mulai / Buka Panel'"
+          @click="toggleLeftPanel"
+          :disabled="isLeftPanelOpen || isRightPanelOpen"
+          :title="isLeftPanelOpen ? 'Panel sudah terbuka' : (isRightPanelOpen ? 'Tutup panel kanan terlebih dahulu' : 'Mulai / Buka Panel')"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -100,8 +100,8 @@
           class="god-mode-btn"
           @click="toggleGodMode"
           :class="{ active: isGodModeActive }"
-          :disabled="isRightPanelOpen"
-          :title="isRightPanelOpen ? 'Panel GOD MODE sudah terbuka' : 'Aktifkan GOD MODE'"
+          :disabled="isRightPanelOpen || isLeftPanelOpen"
+          :title="isRightPanelOpen ? 'Panel GOD MODE sudah terbuka' : (isLeftPanelOpen ? 'Tutup panel kiri terlebih dahulu' : 'Aktifkan GOD MODE')"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -419,6 +419,19 @@
         </div>
       </div>
     </aside>
+
+    <!-- Right Panel Toggle Button (fixed on right edge) -->
+    <button
+      class="panel-toggle-btn-right"
+      @click="toggleRightPanel"
+      :title="isRightPanelOpen ? 'Tutup Panel' : 'Buka Panel'"
+      :aria-label="isRightPanelOpen ? 'Close panel' : 'Open panel'"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+        <path v-if="isRightPanelOpen" d="M9 18l6-6-6-6" />
+        <path v-else d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
 
     <!-- Floating Reset View Button -->
     <button class="reset-view-btn" @click="resetMapBounds" title="Kembalikan Tampilan Peta Samarinda">
@@ -822,6 +835,7 @@ const toggleGodMode = () => {
   if (!isRightPanelOpen.value) {
     isRightPanelOpen.value = true
     isGodModeActive.value = true
+    isLeftPanelOpen.value = false
   }
 }
 
@@ -829,6 +843,29 @@ const toggleGodMode = () => {
 const closeRightPanel = () => {
   isRightPanelOpen.value = false
   isGodModeActive.value = false
+}
+
+// Toggle right panel with mutual exclusion (left panel closes)
+const toggleRightPanel = () => {
+  if (!isRightPanelOpen.value) {
+    isRightPanelOpen.value = true
+    isGodModeActive.value = true
+    isLeftPanelOpen.value = false
+  } else {
+    isRightPanelOpen.value = false
+    isGodModeActive.value = false
+  }
+}
+
+// Toggle left panel with mutual exclusion (right panel closes)
+const toggleLeftPanel = () => {
+  if (!isLeftPanelOpen.value) {
+    isLeftPanelOpen.value = true
+    isRightPanelOpen.value = false
+    isGodModeActive.value = false
+  } else {
+    isLeftPanelOpen.value = false
+  }
 }
 
 // Panel year change handler
@@ -1603,6 +1640,42 @@ onUnmounted(() => {
 /* Since we can't use :has() reliably, use a class on body or wrapper */
 .densimap-wrapper.panel-open .panel-toggle-btn {
   left: calc(min(50vw, 480px));
+}
+
+/* Right Panel Toggle Button - Vertical rectangle on right edge (mirror of left) */
+.panel-toggle-btn-right {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1100;
+  width: 44px;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid #E2E8F0;
+  border-right: none;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-float);
+}
+.panel-toggle-btn-right:hover {
+  background: #FFFFFF;
+  box-shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.18), 0 6px 16px -4px rgba(15, 23, 42, 0.1);
+  width: 48px;
+}
+.panel-toggle-btn-right svg {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When right panel is open, button moves to panel's left edge */
+.densimap-wrapper.panel-open-right .panel-toggle-btn-right {
+  right: calc(min(50vw, 480px));
 }
 
 /* Buttons and Badges */
