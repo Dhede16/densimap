@@ -872,6 +872,9 @@ const layerMap = new Map()
 // Cakupan peta: seluruh Kalimantan Timur (offline PMTiles)
 const KALTIM_BOUNDS = L.latLngBounds([-2.5, 113.5], [4.5, 119.5])
 
+// Cakupan peta: Kota Samarinda (fokus awal - exact extent)
+const SAMARINDA_BOUNDS = L.latLngBounds([-0.717, 117.054], [-0.314, 117.298])
+
 // Format helpers
 const formatNumber = (val) => new Intl.NumberFormat('id-ID').format(val)
 const formatDecimal = (val) => new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val)
@@ -2387,7 +2390,7 @@ const selectKecamatan = (item) => {
 const resetMapBounds = () => {
   if (map) {
     map.closePopup()
-    map.fitBounds(KALTIM_BOUNDS, { padding: [30, 30] })
+map.fitBounds(SAMARINDA_BOUNDS, { padding: [5, 5] })
   }
 }
 
