@@ -2,7 +2,7 @@
 
 DensiMap Samarinda adalah aplikasi pemetaan kepadatan penduduk pada 10 kecamatan di Kota Samarinda. Aplikasi ini menggabungkan data jumlah penduduk, jumlah rumah, luas wilayah, dan batas geografis kecamatan untuk menampilkan tingkat kepadatan dalam bentuk peta interaktif.
 
-Data dapat dibaca dari Supabase. Jika Supabase belum dikonfigurasi atau tidak dapat diakses, frontend menggunakan data GeoJSON lokal sebagai fallback.
+Data dibaca sepenuhnya dari file GeoJSON lokal (`public/data/samarinda_kecamatan.json`) yang di-generate oleh pipeline backend.
 
 ## Fitur Utama
 
@@ -13,7 +13,7 @@ Data dapat dibaca dari Supabase. Jika Supabase belum dikonfigurasi atau tidak da
 - Filter klaster melalui legend.
 - Tabel ringkasan seluruh kecamatan.
 - Pilihan data tahunan dari 2020 sampai 2025.
-- Dukungan Mapbox Light sebagai basemap, dengan CartoDB Positron sebagai fallback.
+- Basemap vektor offline (Protomaps PMTiles, cakupan Kalimantan Timur) — peta tetap tampil tanpa koneksi internet.
 
 ## Peran Machine Learning
 
@@ -24,11 +24,11 @@ Pipeline machine learning berada di `apps/backend/clustering.py`. Prosesnya berj
 
 	 `kepadatan_penduduk = jumlah_penduduk / luas_km2`
 
-3. Menggunakan dua fitur, yaitu `kepadatan_penduduk` dan `luas_km2`.
+3. Menggunakan tiga fitur: `kepadatan_penduduk`, `kepadatan_rumah`, dan `rata_rata_penghuni`.
 4. Menstandardisasi fitur menggunakan `StandardScaler`.
 5. Menjalankan Hierarchical Clustering dan K-Means dengan 3 klaster.
 6. Mengubah nomor klaster menjadi label yang mudah dipahami: `Rendah`, `Sedang`, dan `Tinggi`.
-7. Menyimpan hasil ke GeoJSON dan seed SQL untuk digunakan oleh aplikasi web.
+7. Menyimpan hasil ke GeoJSON (`public/data/samarinda_kecamatan.json`) untuk digunakan oleh aplikasi web.
 
 ### 1. Hierarchical Clustering
 
@@ -58,7 +58,7 @@ Data mentah
 	-> Standardisasi fitur
 	-> Hierarchical Clustering (pembanding dan evaluasi)
 	-> K-Means (menentukan label akhir)
-	-> GeoJSON / database
+	-> GeoJSON
 	-> Peta interaktif
 ```
 
@@ -80,13 +80,11 @@ apps/
 	backend/
 		clustering.py       # Pipeline pengolahan data dan clustering
 		test_clustering.py  # Pengujian pipeline
-		database/           # Schema dan seed database
 	web/
 		src/App.vue         # Antarmuka peta interaktif
-		src/services/       # Akses Supabase dan fallback GeoJSON
+		src/services/       # Akses data GeoJSON lokal
 		public/data/        # Data GeoJSON lokal
 data/                   # Data input dan batas wilayah
-database/               # Schema dan seed SQL utama
 ```
 
 ## Menjalankan Frontend
@@ -107,17 +105,52 @@ npm run build
 
 ### Environment Variable Frontend
 
-Buat file `.env` di dalam `apps/web` jika ingin menggunakan layanan eksternal:
+Opsi konfigurasi di `apps/web/.env`:
 
 ```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-VITE_MAPBOX_TOKEN=your-mapbox-token
+VITE_API_BASE=http://localhost:8000
 ```
 
-Tanpa kredensial Supabase, aplikasi tetap dapat membaca `public/data/samarinda_kecamatan.json`. Tanpa token Mapbox, aplikasi menggunakan CartoDB Positron.
+Basemap menggunakan file offline `apps/web/public/tiles/kaltim.pmtiles` (vektor Protomaps untuk Kalimantan Timur), sehingga tidak memerlukan token atau koneksi ke tile server eksternal. Aplikasi selalu membaca `public/data/samarinda_kecamatan.json`.
 
-## Menjalankan Pipeline Backend
+## Menjalankan Backend API Server (FastAPI)
+
+Backend API menyediakan endpoint `/api/recluster` untuk menjalankan ulang clustering (Hierarchical + K-Means) saat user menekan tombol **"Terapkan ke Peta"** di panel kanan simulasi.
+
+Prasyarat: Python 3.10+ dengan dependencies di `apps/backend/requirements.txt`.
+
+```bash
+cd apps/backend
+pip install -r requirements.txt
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+Server berjalan di `http://localhost:8000`. Endpoint yang tersedia:
+
+- `POST /api/recluster` - Menerima data editan tabel, mengembalikan label klaster baru + metrik evaluasi
+- `GET /health` - Health check
+
+## Menjalankan Full Stack Development (Frontend + Backend)
+
+Untuk development penuh dengan fitur simulasi & re-clustering:
+
+**Terminal 1 - Backend API:**
+```bash
+cd apps/backend
+pip install -r requirements.txt
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd apps/web
+npm install
+npm run dev
+```
+
+Frontend tersedia di `http://localhost:5173` (atau port lain jika 5173 digunakan). Vite proxy otomatis meneruskan request `/api/*` ke backend di port 8000.
+
+### Menjalankan Pipeline Backend (Batch/Offline)
 
 Pipeline membutuhkan Python dengan library `pandas`, `numpy`, `scikit-learn`, dan pembaca file Excel seperti `openpyxl`.
 
@@ -125,11 +158,7 @@ Pipeline membutuhkan Python dengan library `pandas`, `numpy`, `scikit-learn`, da
 python apps/backend/clustering.py
 ```
 
-Pipeline membaca data Excel dari folder `data`, memproses tahun 2020-2025, lalu menghasilkan data GeoJSON serta file SQL.
-
-Setelah proses clustering selesai, pipeline juga otomatis melakukan upsert 60 baris hasil (10 kecamatan x 6 tahun) ke Supabase. Buat file `apps/backend/.env` berdasarkan `apps/backend/.env.example` dan isi `SUPABASE_URL` serta `SUPABASE_SERVICE_ROLE_KEY`. Jangan gunakan atau commit service role key di frontend.
-
-Schema tabel tetap perlu dijalankan satu kali di Supabase SQL Editor menggunakan `database/schema.sql`. Setelah itu, `seed.sql` tidak perlu dijalankan manual lagi. File tersebut tetap dibuat sebagai backup SQL.
+Pipeline membaca data Excel dari folder `data`, memproses tahun 2020-2025, lalu menghasilkan data GeoJSON (`public/data/samarinda_kecamatan.json`) serta file SQL di folder `database/` sebagai backup.
 
 Pengujian pipeline:
 
@@ -141,7 +170,6 @@ python apps/backend/test_clustering.py
 
 - Vue 3 dan Vite
 - Leaflet
-- Supabase
 - Python
 - Pandas dan NumPy
 - Scikit-learn

@@ -2,20 +2,25 @@
 
 ---
 
-## 1. Kepadatan Penduduk (Feature Engineering)
+## 1. Feature Engineering (2 Fitur)
 
 ```python
 kepadatan_penduduk = jumlah_penduduk / luas_km2
+kepadatan_rumah = jumlah_rumah / luas_km2
 ```
 
-- **Unit**: jiwa/km²
-- **Digunakan sebagai**: Feature utama clustering (`X[:, 0]`)
+| Fitur | Rumus | Unit | Peran |
+|-------|-------|------|-------|
+| `kepadatan_penduduk` | `jumlah_penduduk / luas_km2` | jiwa/km² | Feature utama (`X[:, 0]`) |
+| `kepadatan_rumah` | `jumlah_rumah / luas_km2` | rumah/km² | Feature sekunder (`X[:, 1]`) |
+
+> **Catatan**: `rata_rata_penghuni = penduduk/rumah` **dihapus** karena multikolineer sempurna dengan rasio dua kepadatan di atas (tidak tambah informasi, bikin cluster tidak stabil).
 
 ---
 
 ## 2. StandardScaler (Feature Scaling)
 
-Untuk setiap fitur $j$ (kepadatan, luas):
+Untuk setiap fitur $j$ (kepadatan_penduduk, kepadatan_rumah):
 
 $$
 z_{ij} = \frac{x_{ij} - \mu_j}{\sigma_j}
@@ -157,11 +162,11 @@ df['cluster_label'] = df['raw_cluster'].map(label_map)
 | Parameter | Nilai | Lokasi |
 |-----------|-------|--------|
 | `n_clusters` | 3 | Hardcoded (domain: Rendah/Sedang/Tinggi) |
-| Features | `['kepadatan_penduduk', 'luas_km2']` | `clustering.py:102` |
-| Scaler | `StandardScaler()` | `clustering.py:104-105` |
-| Hierarchical linkage | `'ward'` | `clustering.py:108` |
-| K-Means `n_init` | 20 | `clustering.py:113` |
-| K-Means `random_state` | 42 | `clustering.py:113` |
+| Features | `['kepadatan_penduduk', 'kepadatan_rumah']` | `clustering.py:140` |
+| Scaler | `StandardScaler()` | `clustering.py:142-143` |
+| Hierarchical linkage | `'ward'` | `clustering.py:149` |
+| K-Means `n_init` | 20 | `clustering.py:155` |
+| K-Means `random_state` | 42 | `clustering.py:155` |
 | Target Silhouette (PRD) | > 0.58 | `clustering.py:101` comment |
 | Toleransi Delta | < 0.05 | `explain.md` |
 | Toleransi DB Index | < 0.5 | `explain.md` |
