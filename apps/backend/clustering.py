@@ -318,9 +318,9 @@ def run_pipeline():
         for idx, row in df_year.iterrows():
             feature = {
                 "type": "Feature",
-                "id": int(idx) + 1,
+                "id": int(idx) + 1, # type: ignore
                 "properties": {
-                    "id": int(idx) + 1,
+                    "id": int(idx) + 1,  # type: ignore
                     "nama": row['nama'],
                     "tahun": row['tahun'],
                     "jumlah_penduduk": row['jumlah_penduduk'],

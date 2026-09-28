@@ -43,6 +43,11 @@ body, html, #app {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Samakan warna latar peta dengan warna laut basemap di luar cakupan extract */
+.leaflet-container {
+  background: #80DEEA;
+}
+
 /* Custom Leaflet Popup Styling */
 .leaflet-popup-content-wrapper {
   padding: 0 !important;

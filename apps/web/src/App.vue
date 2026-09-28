@@ -708,7 +708,7 @@
     </button>
 
     <!-- Floating Reset View Button -->
-    <button class="reset-view-btn" @click="resetMapBounds" title="Kembalikan Tampilan Peta Samarinda">
+    <button class="reset-view-btn" @click="resetMapBounds" title="Kembalikan Tampilan Peta Kalimantan Timur">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
         <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
         <path d="M3 3v5h5"></path>
@@ -741,6 +741,10 @@
 
       <div v-if="selectedClusterFilter" class="filter-reset-hint" @click="toggleClusterFilter(null)">
         <span>Tampilkan Semua Klaster ✕</span>
+      </div>
+
+      <div class="map-attribution">
+        Data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL)<span>·</span>Basemap offline <a href="https://protomaps.com" target="_blank" rel="noopener">Protomaps</a>
       </div>
     </aside>
 
@@ -826,7 +830,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import L from 'leaflet'
+import { leafletLayer } from 'protomaps-leaflet'
 import { getKecamatanData } from './services/geojson'
+
+// protomaps-leaflet expects Leaflet as a global (it extends L.GridLayer)
+window.L = L
 
 // Reactive state
 const availableYears = [2020, 2021, 2022, 2023, 2024, 2025]
@@ -835,7 +843,6 @@ const searchQuery = ref('')
 const isSearchOpen = ref(false)
 const searchContainerRef = ref(null)
 const dataSource = ref('local')
-const mapboxActive = ref(false)
 const showTableModal = ref(false)
 const selectedClusterFilter = ref(null)
 const isLeftPanelOpen = ref(false)
@@ -860,8 +867,10 @@ const kecamatanList = ref([])
 
 let map = null
 let geoJsonLayer = null
-let defaultBounds = null
 const layerMap = new Map()
+
+// Cakupan peta: seluruh Kalimantan Timur (offline PMTiles)
+const KALTIM_BOUNDS = L.latLngBounds([-2.5, 113.5], [4.5, 119.5])
 
 // Format helpers
 const formatNumber = (val) => new Intl.NumberFormat('id-ID').format(val)
@@ -1049,7 +1058,7 @@ const pipelineSteps = [
     id: 'visualization',
     title: '7. Visualisasi Peta (GIS)',
     desc: 'Render GeoJSON ke Leaflet, warna per cluster, tooltip & popup',
-    shortDesc: 'Basemap Mapbox/CartoDB + 10 polygons'
+    shortDesc: 'Basemap offline PMTiles + 10 polygons'
   }
 ]
 
@@ -1095,7 +1104,7 @@ const rightPipelineSteps = [
     id: 'sim-visualization',
     title: '7. Visualisasi Peta (GIS)',
     desc: 'Menerapkan simulasi ke peta, render GeoJSON ke Leaflet, warna per cluster, tooltip & popup',
-    shortDesc: 'Basemap Mapbox/CartoDB + 10 polygons dengan cluster baru'
+    shortDesc: 'Basemap offline PMTiles + 10 polygons dengan cluster baru'
   }
 ]
 
@@ -1244,8 +1253,6 @@ const applySimulationToMap = async () => {
           layer.feature.properties.jumlah_rumah = Math.round(c.kepadatan_rumah * (layer.feature.properties.luas_km2 || 1))
         }
       })
-
-      // clusterCounts is now a computed property, no need to manually update
 
       // Update clusteringMetrics from backend response
       if (result.metrics) {
@@ -1820,7 +1827,7 @@ const computeVisualization = (list) => {
   })
   return {
     title: 'Visualisasi Peta (GIS) - Tahun ' + panelYear.value,
-    basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
+    basemap: 'Protomaps Vector (offline, Kalimantan Timur)',
     features: list.length,
     geometry_type: 'Polygon / MultiPolygon',
     color_scheme: colorScheme,
@@ -2065,7 +2072,7 @@ const computeSimVisualization = () => {
   })
   return {
     title: 'Visualisasi Peta (GIS) - Tahun ' + simulationYear.value,
-    basemap: 'Mapbox Outdoors-v12 / CartoDB Positron',
+    basemap: 'Protomaps Vector (offline, Kalimantan Timur)',
     features: kecamatanList.value.length,
     geometry_type: 'Polygon / MultiPolygon',
     color_scheme: colorScheme,
@@ -2085,12 +2092,6 @@ const totalRumah = computed(() => {
 
 const totalLuas = computed(() => {
   return kecamatanList.value.reduce((acc, item) => acc + (Number(item.luas_km2) || 0), 0)
-})
-
-const avgKepadatan = computed(() => {
-  if (!kecamatanList.value.length) return 0
-  const total = kecamatanList.value.reduce((acc, item) => acc + (Number(item.kepadatan_penduduk) || 0), 0)
-  return total / kecamatanList.value.length
 })
 
 // Simulation computed stats
@@ -2135,9 +2136,6 @@ const clusterColorMap = computed(() => {
   const labels = currentClusterLabels.value
   const n = labels.length
   if (n === 0) return {}
-  
-  // Base colors for 3 clusters
-  const baseColors = ['#10B981', '#F59E0B', '#EF4444'] // Green, Amber, Red
   
   if (n <= 3) {
     // For 2 or 3 clusters, use appropriate base colors
@@ -2202,45 +2200,30 @@ const getClusterSublabel = (label) => {
   return `${formatDecimal(min)} - ${formatDecimal(max)} jiwa/km²`
 }
 
-// Dynamic cluster counts
-const clusterCounts = computed(() => {
-  const counts = {}
-  kecamatanList.value.forEach(item => {
-    counts[item.cluster_label] = (counts[item.cluster_label] || 0) + 1
-  })
-  return counts
-})
-
-// Initialize Leaflet Map with Mapbox Light 2D or CartoDB Positron
+// Initialize Leaflet Map with offline Protomaps vector basemap (Kaltim PMTiles)
 const initMap = () => {
-  // Koordinat pusat Samarinda (-0.502, 117.153)
   map = L.map('map-view', {
-    center: [-0.502, 117.153],
-    zoom: 11,
     zoomControl: false,
     attributionControl: false,
+    maxBounds: KALTIM_BOUNDS,
+    maxBoundsViscosity: 0.75,
+    minZoom: 4,
+    maxZoom: 16,
   })
 
   // Leaflet Zoom Control (+ / -) di kanan bawah
   L.control.zoom({ position: 'bottomright' }).addTo(map)
 
-  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN
-  if (mapboxToken) {
-    mapboxActive.value = true
-    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/{z}/{x}/{y}?access_token=${mapboxToken}`, {
-      tileSize: 512,
-      zoomOffset: -1,
-      maxZoom: 18,
-      attribution: '© <a href="https://www.mapbox.com/">Mapbox</a> © <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-    }).addTo(map)
-  } else {
-    mapboxActive.value = false
-    // Elegant CartoDB Positron 2D Light basemap
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    }).addTo(map)
-  }
+  leafletLayer({
+    url: '/tiles/kaltim.pmtiles',
+    flavor: 'light',
+    lang: 'id',
+    noWrap: true,
+    bounds: KALTIM_BOUNDS,
+    maxDataZoom: 14,
+  }).addTo(map)
+
+  map.fitBounds(KALTIM_BOUNDS, { padding: [30, 30] })
 }
 
 // Style function for polygon
@@ -2352,9 +2335,6 @@ const renderGeoJson = (geojson) => {
       layer.bindPopup(popupHtml, { maxWidth: 320, minWidth: 280, className: 'densimap-popup' })
     },
   }).addTo(map)
-
-  defaultBounds = geoJsonLayer.getBounds()
-  map.fitBounds(defaultBounds, { padding: [30, 30] })
 }
 
 // Handle Year selection change
@@ -2381,8 +2361,6 @@ const loadData = async (year = selectedYear.value) => {
     initSimulationData()
     simulationClusteringResult.value = null
 
-    // clusterCounts is now a computed property
-
     // Capture metrics and stats
     clusteringMetrics.value = result.metrics || null
     clusterStats.value = result.clusterStats || null
@@ -2405,17 +2383,11 @@ const selectKecamatan = (item) => {
   }
 }
 
-// Select from table modal
-const selectKecamatanFromModal = (item) => {
-  showTableModal.value = false
-  selectKecamatan(item)
-}
-
-// Reset map bounds to entire Samarinda
+// Reset map bounds to entire Kalimantan Timur
 const resetMapBounds = () => {
-  if (map && defaultBounds) {
+  if (map) {
     map.closePopup()
-    map.fitBounds(defaultBounds, { padding: [30, 30] })
+    map.fitBounds(KALTIM_BOUNDS, { padding: [30, 30] })
   }
 }
 
@@ -3080,15 +3052,6 @@ onUnmounted(() => {
 }
 .map-attribution span {
   margin: 0 4px;
-}
-
-.legend-footer {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid #F1F5F9;
-  font-size: 10px;
-  color: #94A3B8;
-  text-align: right;
 }
 
 /* Left Sliding Panel */

@@ -13,7 +13,7 @@ Data dibaca sepenuhnya dari file GeoJSON lokal (`public/data/samarinda_kecamatan
 - Filter klaster melalui legend.
 - Tabel ringkasan seluruh kecamatan.
 - Pilihan data tahunan dari 2020 sampai 2025.
-- Dukungan Mapbox Light sebagai basemap, dengan CartoDB Positron sebagai fallback.
+- Basemap vektor offline (Protomaps PMTiles, cakupan Kalimantan Timur) — peta tetap tampil tanpa koneksi internet.
 
 ## Peran Machine Learning
 
@@ -105,14 +105,13 @@ npm run build
 
 ### Environment Variable Frontend
 
-Buat file `.env` di dalam `apps/web` jika ingin menggunakan Mapbox:
+Opsi konfigurasi di `apps/web/.env`:
 
 ```env
-VITE_MAPBOX_TOKEN=your-mapbox-token
 VITE_API_BASE=http://localhost:8000
 ```
 
-Tanpa token Mapbox, aplikasi menggunakan CartoDB Positron. Aplikasi selalu membaca `public/data/samarinda_kecamatan.json`.
+Basemap menggunakan file offline `apps/web/public/tiles/kaltim.pmtiles` (vektor Protomaps untuk Kalimantan Timur), sehingga tidak memerlukan token atau koneksi ke tile server eksternal. Aplikasi selalu membaca `public/data/samarinda_kecamatan.json`.
 
 ## Menjalankan Backend API Server (FastAPI)
 
